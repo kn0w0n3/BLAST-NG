@@ -12,7 +12,7 @@ Window {
     width: 1055
     height: 600
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("BLAST-NG")
 
     Rectangle {
         id: rectangle
@@ -39,7 +39,7 @@ Window {
         Rectangle {
             id: rectangle1
             x: 126
-            y: 49
+            y: 45
             width: 811
             height: 301
             color: "#000000"
@@ -55,6 +55,18 @@ Window {
             height: 23
             color: "#000000"
             border.color: "#ffffff"
+
+            TextEdit {
+                id: textEdit4
+                x: 2
+                y: 2
+                width: 807
+                height: 18
+                color: "#ffffff"
+                text: qsTr("")
+                font.pixelSize: 15
+                clip: true
+            }
         }
 
 
@@ -68,7 +80,7 @@ Window {
             text: qsTr("Start")
 
             background: Rectangle {
-                color: "#161e20"
+                color: "#000000"
                 radius: 50
             }
             layer.effect: DropShadow {
@@ -94,7 +106,7 @@ Window {
             visible: true
             text: qsTr("Select File")
             background: Rectangle {
-                color: "#161e20"
+                color: "#000000"
                 radius: 50
             }
             layer.effect: DropShadow {
@@ -121,7 +133,7 @@ Window {
             text: qsTr("Build Database")
             palette.buttonText: "#ffffff"
             background: Rectangle {
-                color: "#161e20"
+                color: "#000000"
                 radius: 50
             }
             layer.effect: DropShadow {
@@ -147,7 +159,7 @@ Window {
             text: qsTr("Help")
             palette.buttonText: "#ffffff"
             background: Rectangle {
-                color: "#161e20"
+                color: "#000000"
                 radius: 50
             }
             layer.effect: DropShadow {
@@ -170,7 +182,7 @@ Window {
             width: 116
             height: 21
             visible: true
-            model: [" Select DB", " DB One", " DB Two", " DB Three"]
+            model: ["         ", " DB One", " DB Two", " DB Three"]
 
             delegate: ItemDelegate {
                 width: control.width
@@ -265,7 +277,7 @@ Window {
             width: 150
             height: 21
             visible: true
-            model: [" Select Methods", " BLASTn", " BLASTp", " BLASTx", " tBLASTn", " tBLASTx"]
+            model: ["               ", " BLASTn", " BLASTp", " BLASTx", " tBLASTn", " tBLASTx"]
 
             delegate: ItemDelegate {
                 width: control2.width
@@ -365,22 +377,11 @@ Window {
         }
 
         Label {
-            id: label1
-            x: 260
-            y: 356
-            width: 106
-            height: 22
-            visible: true
-            color: "#ffffff"
-            text: qsTr("Select  Method")
-        }
-
-        Label {
             id: label2
-            x: 435
-            y: 358
+            x: 433
+            y: 356
             width: 60
-            height: 19
+            height: 22
             visible: true
             color: "#ffffff"
             text: qsTr("Threads")
@@ -389,27 +390,32 @@ Window {
         Rectangle {
             id: rectangle3
             x: 433
-            y: 380
+            y: 378
             width: 62
-            height: 18
+            height: 21
             color: "#000000"
             border.color: "#ffffff"
 
             TextEdit {
                 id: textEdit
-                width: 62
+                x: 2
+                y: 2
+                width: 58
                 height: 18
-                text: qsTr("Text Edit")
-                font.pixelSize: 12
+                color: "#ffffff"
+                text: qsTr("")
+                font.pixelSize: 15
+                clip: true
+                cursorVisible: false
             }
         }
 
         Label {
             id: label3
-            x: 521
-            y: 359
+            x: 515
+            y: 356
             width: 60
-            height: 19
+            height: 22
             visible: true
             color: "#ffffff"
             text: qsTr("E-Value")
@@ -418,55 +424,65 @@ Window {
         Rectangle {
             id: rectangle4
             x: 514
-            y: 380
+            y: 378
             width: 62
-            height: 18
+            height: 21
             visible: true
             color: "#000000"
             border.color: "#ffffff"
             TextEdit {
                 id: textEdit1
-                width: 62
+                x: 2
+                y: 2
+                width: 58
                 height: 18
-                text: qsTr("Text Edit")
-                font.pixelSize: 12
+                color: "#ffffff"
+                text: qsTr("")
+                font.pixelSize: 15
+                clip: true
+                cursorVisible: false
             }
         }
 
         Label {
             id: label4
-            x: 598
-            y: 359
-            width: 60
+            x: 596
+            y: 356
+            width: 96
             height: 19
             visible: true
             color: "#ffffff"
-            text: qsTr("Outfmt")
+            text: qsTr("Result Format")
         }
 
         Rectangle {
             id: rectangle5
             x: 597
-            y: 380
-            width: 62
-            height: 18
+            y: 378
+            width: 96
+            height: 21
             color: "#000000"
             border.color: "#ffffff"
             TextEdit {
                 id: textEdit2
-                width: 62
+                x: 2
+                y: 2
+                width: 92
                 height: 18
-                text: qsTr("Text Edit")
-                font.pixelSize: 12
+                color: "#ffffff"
+                text: qsTr("")
+                font.pixelSize: 15
+                clip: true
+                cursorVisible: false
             }
         }
 
         Label {
             id: label5
-            x: 681
-            y: 358
+            x: 715
+            y: 356
             width: 77
-            height: 19
+            height: 22
             visible: true
             color: "#ffffff"
             text: qsTr("Other cmd")
@@ -474,19 +490,35 @@ Window {
 
         Rectangle {
             id: rectangle6
-            x: 681
-            y: 380
-            width: 256
-            height: 18
+            x: 715
+            y: 378
+            width: 222
+            height: 21
             color: "#000000"
             border.color: "#ffffff"
             TextEdit {
                 id: textEdit3
-                width: 256
+                x: 2
+                y: 2
+                width: 218
                 height: 18
-                text: qsTr("Text Edit")
-                font.pixelSize: 12
+                color: "#ffffff"
+                text: qsTr("")
+                font.pixelSize: 15
+                clip: true
+                cursorVisible: false
             }
+        }
+
+        Label {
+            id: label1
+            x: 260
+            y: 356
+            width: 106
+            height: 22
+            visible: true
+            color: "#ffffff"
+            text: qsTr("Select  Method")
         }
     }
 }
