@@ -14,6 +14,18 @@ Window {
     visible: true
     title: qsTr("BLAST-NG")
 
+    //Main Controller Connections
+    Connections {
+        target: mainController
+
+        onSelectedFileDataToQml:{
+            fileContentsText.text = _fileContents
+            //Make the log data text in the terminal window auto scroll
+
+           scrollView.ScrollBar.vertical.position = 1.0 - scrollView.ScrollBar.vertical.size
+        }
+    }
+
     Rectangle {
         id: rectangle
         x: 0
@@ -44,6 +56,31 @@ Window {
             height: 301
             color: "#000000"
             border.color: "#ffffff"
+
+            ScrollView {
+                id: scrollView
+                x: 3
+                y: 3
+                width: 805
+                height: 295
+                clip: false
+                ScrollBar.vertical.policy: ScrollBar.AsNeeded
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+
+                ScrollBar.vertical.position: 0
+                TextArea {
+                    id: fileContentsText
+                    x: -10
+                    y: -6
+                    visible: true
+                    wrapMode: Text.Wrap
+                    clip: true
+                    color: "#FFFFFF"
+                    placeholderText: qsTr("")
+
+                }
+                //ScrollBar.vertical.position: ScrollBar.setPosition(100)
+            }
         }
 
 
@@ -121,6 +158,11 @@ Window {
             }
             palette.buttonText: "#FFFFFF"
             layer.enabled: true
+
+            onClicked: {
+                //Select a file
+                mainController.selectAFile()
+            }
         }
 
         Button {
