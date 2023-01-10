@@ -7,7 +7,8 @@ QT += widgets
 
 SOURCES += \
         main.cpp \
-        maincontroller.cpp
+        maincontroller.cpp \
+        readfiledatathread.cpp
 
 RESOURCES += qml.qrc \
     images.qrc
@@ -24,4 +25,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    maincontroller.h
+    maincontroller.h \
+    readfiledatathread.h

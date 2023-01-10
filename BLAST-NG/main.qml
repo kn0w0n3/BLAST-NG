@@ -19,10 +19,15 @@ Window {
         target: mainController
 
         onSelectedFileDataToQml:{
-            fileContentsText.text = _fileContents
+            fileContentsText.text += _fileContents + "\n"
+            //fileContentsText.text = _fileContents
+
             //Make the log data text in the terminal window auto scroll
 
-           scrollView.ScrollBar.vertical.position = 1.0 - scrollView.ScrollBar.vertical.size
+           //scrollView.ScrollBar.vertical.position = 1.0 - scrollView.ScrollBar.vertical.size
+        }
+        onThreadStateToQml:{
+                threadStateLabel.text = _threadState
         }
     }
 
@@ -70,8 +75,6 @@ Window {
                 ScrollBar.vertical.position: 0
                 TextArea {
                     id: fileContentsText
-                    x: -10
-                    y: -6
                     visible: true
                     wrapMode: Text.Wrap
                     clip: true
@@ -562,5 +565,22 @@ Window {
             color: "#ffffff"
             text: qsTr("Select  Method")
         }
+
+        Label {
+            id: threadStateLabel
+            x: 126
+            y: 20
+            width: 155
+            height: 19
+            color: "#ffffff"
+            text: qsTr("")
+            font.pointSize: 11
+        }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;formeditorZoom:0.8999999761581421}
+}
+##^##*/
