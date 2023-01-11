@@ -22,8 +22,6 @@ signals:
     void loadDataStarted(QString);
     void loadDataStoped(QString);
 
-
-
 public slots:
     void selectFile();
 
@@ -33,10 +31,9 @@ private:
     QString fileName;
     QString filePath;
     QString fileSize;
-
     QString incomingFileData;
-    QFile fileLocation;
 
+    QFile fileLocation;
 };
 
 #endif // READFILEDATATHREAD_H

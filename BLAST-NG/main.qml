@@ -20,19 +20,327 @@ Window {
 
         onSelectedFileDataToQml:{
             fileContentsText.text += _fileContents + "\n"
-            //fileContentsText.text = _fileContents
-
             //Make the log data text in the terminal window auto scroll
-
-           //scrollView.ScrollBar.vertical.position = 1.0 - scrollView.ScrollBar.vertical.size
+            //scrollView.ScrollBar.vertical.position = 1.0 - scrollView.ScrollBar.vertical.size
         }
         onThreadStateToQml:{
-                threadStateLabel.text = _threadState
+            threadStateLabel.text = _threadState
+        }
+        onDirectionsTextToQml:{
+
+            fileContentsText.text = directionsText
+        }
+        onDbDirectionsTxtToQml:{
+            fileContentsText1.text = dbdirectionsTxt
         }
     }
 
     Rectangle {
-        id: rectangle
+        id: buildDatabaseWin
+        width: 1055
+        height: 600
+        color: "#000000"
+        visible: false
+
+        Rectangle {
+            id: rectangle
+            x: 240
+            y: 65
+            width: 575
+            height: 292
+            color: "#000000"
+            border.color: "#ffffff"
+
+            ScrollView {
+                id: scrollView1
+                x: 3
+                y: 3
+                width: 572
+                height: 289
+                TextArea {
+                    id: fileContentsText1
+                    x: -10
+                    y: -6
+                    width: 572
+                    height: 287
+                    color: "#ffffff"
+                    text: ""
+                    wrapMode: Text.Wrap
+                    clip: true
+                    placeholderText: qsTr("")
+                    visible: true
+                }
+                clip: false
+                ScrollBar.vertical.position: 0
+            }
+        }
+
+        Button {
+            id: backBtn
+            x: 14
+            y: 15
+            width: 91
+            height: 36
+            text: qsTr("Back")
+            palette.buttonText: "#ffffff"
+            layer.enabled: true
+            visible: true
+            layer.effect: DropShadow {
+                width: 69
+                color: "#ffffff"
+                radius: 8
+                verticalOffset: 2
+                samples: 17
+                horizontalOffset: 2
+                transparentBorder: true
+                spread: 0
+            }
+            background: Rectangle {
+                color: "#000000"
+                radius: 50
+            }
+            onClicked: {
+                buildDatabaseWin.visible = false
+                mainWindow.visible = true
+
+            }
+        }
+
+        ComboBox {
+            id: controlDb
+            x: 452
+            y: 412
+            width: 152
+            height: 21
+            visible: true
+            model: ["         ", " Nucleic Acid Sequence", " Protein Sequence"]
+
+            delegate: ItemDelegate {
+                width: controlDb.width
+                contentItem: Text {
+                    text: controlDb.textRole
+                          ? (Array.isArray(controlDb.model) ? modelData[controlDb.textRole] : model[controlDb.textRole])
+                          : modelData
+                    color: "#000000" //Change the text color of the model data in the drop down box.
+                    font: controlDb.font
+                    elide: Text.ElideRight
+                    verticalAlignment: Text.AlignVCenter
+                }
+                highlighted: controlDb.highlightedIndex === index
+            }
+
+            indicator: Canvas {
+                id: canvasDb
+                x: controlDb.width - width - controlDb.rightPadding
+                y: controlDb.topPadding + (controlDb.availableHeight - height) / 2
+                width: 12
+                height: 8
+                contextType: "2d"
+
+                Connections {
+                    target: controlDb
+                    function onPressedChanged() { canvasDb.requestPaint(); }
+                }
+
+                //This will change the color of the triangle indicator.
+                onPaint: {
+                    context.reset();
+                    context.moveTo(0, 0);
+                    context.lineTo(width, 0);
+                    context.lineTo(width / 2, height);
+                    context.closePath();
+                    context.fillStyle = controlDb.pressed ? "#FFFFFF" : "#FFFFFF";
+                    context.fill();
+                }
+            }
+            //The second color is the main color. The first item is what color the changes to once clicked.
+            //This will change the text color of main text in the box.
+            contentItem: Text {
+                leftPadding: 0
+                rightPadding: controlDb.indicator.width + controlDb.spacing
+
+                text: controlDb.displayText
+                font: controlDb.font
+                color: controlDb.pressed ? "#FFFFFF" : "#FFFFFF"
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+            }
+
+            //This will change the main box background color, border color,  and the border color when pressed.
+            //The second color is the main color. The first item is what color the changes to once clicked.
+            background: Rectangle {
+                implicitWidth: 120
+                implicitHeight: 40
+                color: "#000000"
+                border.color: controlDb.pressed ? "#FFFFFF" : "#FFFFFF"
+                border.width: controlDb.visualFocus ? 2 : 1
+                radius: 2
+            }
+
+            popup: Popup {
+                y: controlDb.height - 1
+                width: controlDb.width
+                implicitHeight: contentItem.implicitHeight
+                padding: 1
+
+                contentItem: ListView {
+                    clip: true
+                    implicitHeight: contentHeight
+                    model: controlDb.popup.visible ? controlDb.delegateModel : null
+                    currentIndex: controlDb.highlightedIndex
+
+                    ScrollIndicator.vertical: ScrollIndicator { }
+                }
+
+                //This will change the color of the drop down Rectangle
+                background: Rectangle {
+                    border.color: "#FFFFFF"
+                    color: "#FFFFFF"
+                    radius: 5
+                }
+            }
+        }
+
+        Button {
+            id: button5
+            x: 240
+            y: 393
+            width: 125
+            height: 40
+            text: qsTr("Select File")
+            palette.buttonText: "#ffffff"
+            layer.enabled: true
+            visible: true
+            layer.effect: DropShadow {
+                width: 69
+                color: "#ffffff"
+                radius: 8
+                verticalOffset: 2
+                samples: 17
+                horizontalOffset: 2
+                transparentBorder: true
+                spread: 0
+            }
+            background: Rectangle {
+                color: "#000000"
+                radius: 50
+            }
+        }
+
+        Rectangle {
+            id: rectangle7
+            x: 647
+            y: 412
+            width: 168
+            height: 21
+            color: "#000000"
+            TextEdit {
+                id: textEdit5
+                x: 2
+                y: 2
+                width: 165
+                height: 19
+                color: "#ffffff"
+                text: qsTr("")
+                cursorVisible: false
+                clip: true
+                font.pixelSize: 15
+            }
+            border.color: "#ffffff"
+        }
+
+        Label {
+            id: label6
+            x: 647
+            y: 384
+            width: 168
+            height: 22
+            color: "#ffffff"
+            text: qsTr("Database Name")
+            font.pointSize: 11
+        }
+
+        Label {
+            id: label7
+            x: 452
+            y: 384
+            width: 152
+            height: 22
+            color: "#ffffff"
+            text: qsTr("Select Database Type")
+            font.pointSize: 12
+        }
+
+        Button {
+            id: buildDbBtn
+            x: 465
+            y: 508
+            width: 125
+            height: 40
+            text: qsTr("Build Database")
+            palette.buttonText: "#ffffff"
+            layer.enabled: true
+            visible: true
+            layer.effect: DropShadow {
+                width: 69
+                color: "#ffffff"
+                radius: 8
+                verticalOffset: 2
+                samples: 17
+                horizontalOffset: 2
+                transparentBorder: true
+                spread: 0
+            }
+            background: Rectangle {
+                color: "#000000"
+                radius: 50
+            }
+        }
+
+        Image {
+            id: image1
+            x: 442
+            y: 21
+            width: 172
+            height: 25
+            source: "images/add_db_text.png"
+            fillMode: Image.PreserveAspectFit
+        }
+
+        Button {
+            id: dbHelpBtn
+            x: 690
+            y: 508
+            width: 125
+            height: 40
+            text: qsTr("Help")
+            palette.buttonText: "#ffffff"
+            layer.enabled: true
+            visible: true
+            layer.effect: DropShadow {
+                width: 69
+                color: "#ffffff"
+                radius: 8
+                verticalOffset: 2
+                samples: 17
+                horizontalOffset: 2
+                transparentBorder: true
+                spread: 0
+            }
+            background: Rectangle {
+                color: "#000000"
+                radius: 50
+            }
+            onClicked: {
+                if(fileContentsText1.getText(0,1) === ""){
+                    mainController.getDbInstructions()
+                }
+            }
+        }
+    }
+
+    Rectangle {
+        id: mainWindow
         x: 0
         y: 0
         width: 1055
@@ -79,6 +387,7 @@ Window {
                     wrapMode: Text.Wrap
                     clip: true
                     color: "#FFFFFF"
+                    text: ""
                     placeholderText: qsTr("")
 
                 }
@@ -101,7 +410,7 @@ Window {
                 x: 2
                 y: 2
                 width: 807
-                height: 18
+                height: 19
                 color: "#ffffff"
                 text: qsTr("")
                 font.pixelSize: 15
@@ -111,7 +420,7 @@ Window {
 
 
         Button {
-            id: button
+            id: startBtn
             x: 125
             y: 454
             width: 125
@@ -138,7 +447,7 @@ Window {
         }
 
         Button {
-            id: button1
+            id: selectFileBtn
             x: 352
             y: 454
             width: 125
@@ -169,13 +478,13 @@ Window {
         }
 
         Button {
-            id: button2
+            id: addDbBtn
             x: 591
             y: 454
             width: 125
             height: 40
             visible: true
-            text: qsTr("Build Database")
+            text: qsTr("Add Database")
             palette.buttonText: "#ffffff"
             background: Rectangle {
                 color: "#000000"
@@ -192,10 +501,15 @@ Window {
                 samples: 17
             }
             layer.enabled: true
+
+            onClicked: {
+                mainWindow.visible = false
+                buildDatabaseWin.visible = true
+            }
         }
 
         Button {
-            id: button3
+            id: helpBtn
             x: 812
             y: 454
             width: 125
@@ -218,6 +532,12 @@ Window {
                 samples: 17
             }
             layer.enabled: true
+
+            onClicked: {
+                if(fileContentsText.getText(0,1) === ""){
+                    mainController.getMainInstructions()
+                }
+            }
         }
 
         ComboBox {
@@ -579,8 +899,10 @@ Window {
     }
 }
 
+
+
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.8999999761581421}
+    D{i:0;formeditorZoom:0.75}
 }
 ##^##*/

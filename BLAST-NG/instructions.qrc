@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>intructions/main_instructions.txt</file>
+        <file>intructions/build_db_instructions.txt</file>
+    </qresource>
+</RCC>

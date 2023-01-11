@@ -10,10 +10,8 @@ void MainController::selectAFile(){
     connect(readFileDataThread, &ReadFileDataThread::fileData, this, &MainController::processIncomingFileData);
     connect(readFileDataThread, &ReadFileDataThread::loadDataStarted, this, &MainController::relayThreadState);
     connect(readFileDataThread, &ReadFileDataThread::loadDataStoped, this, &MainController::relayThreadState);
-        //connect(singleFileScanThread, &SingleScan::scannedFileNumS, this, &MainController::handleScanOpsInfo);
-        connect(readFileDataThread, &ReadFileDataThread::finished, readFileDataThread, &QObject::deleteLater);
-        readFileDataThread->start();
-
+    connect(readFileDataThread, &ReadFileDataThread::finished, readFileDataThread, &QObject::deleteLater);
+    readFileDataThread->start();
 
     /*
     qDebug() << "In file read funtion";
@@ -42,7 +40,6 @@ void MainController::selectAFile(){
         QThread::msleep(100);
     }
     */
-
 }
 
 void MainController::processIncomingFileData(QString textData){ 
@@ -53,6 +50,32 @@ void MainController::processIncomingFileData(QString textData){
 
 void MainController::relayThreadState(QString threadState){
     emit threadStateToQml(threadState);
+}
+
+void MainController::getMainInstructions(void){
+    QFile file(":/intructions/main_instructions.txt");
+    if(!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(0, "error", file.errorString());
+    }
+    QTextStream in(&file);
+    while(!in.atEnd()) {
+        instrctionsText = in.readAll();
+    }
+    file.close();
+    emit directionsTextToQml(instrctionsText);
+}
+
+void MainController::getDbInstructions(void){
+    QFile file(":/intructions/build_db_instructions.txt");
+    if(!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(0, "error", file.errorString());
+    }
+    QTextStream in(&file);
+    while(!in.atEnd()) {
+        instrctionsText = in.readAll();
+    }
+    file.close();
+    emit dbDirectionsTxtToQml(instrctionsText);
 }
 
 
