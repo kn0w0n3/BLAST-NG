@@ -1,5 +1,9 @@
 QT += quick
+QT += core gui
 QT += widgets
+QT += multimedia multimediawidgets
+
+CONFIG += c++11
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -12,7 +16,8 @@ SOURCES += \
 
 RESOURCES += qml.qrc \
     images.qrc \
-    instructions.qrc
+    instructions.qrc \
+    video.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =

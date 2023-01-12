@@ -6,15 +6,20 @@ import QtQuick.Controls 2.12
 //import QtQuick.Controls.Styles 1.4
 //import QtQml.Models 2.12
 import QtGraphicalEffects 1.12
+import QtMultimedia 5.15
+import QtQuick.Layouts 1.12
 
 
 Window {
     width: 1055
     height: 600
+    maximumHeight: 600
+    maximumWidth: 1055
     visible: true
     title: qsTr("BLAST-NG")
 
     //Main Controller Connections
+
     Connections {
         target: mainController
 
@@ -35,12 +40,41 @@ Window {
         }
     }
 
+
     Rectangle {
         id: buildDatabaseWin
         width: 1055
         height: 600
         color: "#000000"
         visible: false
+
+
+        Image {
+            id: image3
+            width: 1055
+            height: 600
+            source: "images/stat_bg.png"
+            fillMode: Image.PreserveAspectFit
+        }
+
+        Video {
+            id: video1
+            x: -5
+            y: 0
+            width: 1055
+            height: 600
+            anchors.fill: parent
+            source: "/video/bgv2.mp4"
+            clip: false
+            focus: true
+            fillMode: VideoOutput.PreserveAspectCrop
+            autoPlay: false
+            autoLoad: true
+            loops: MediaPlayer.Infinite
+            anchors.leftMargin: -5
+            anchors.bottomMargin: -5
+            visible: true
+        }
 
         Rectangle {
             id: rectangle
@@ -337,7 +371,11 @@ Window {
                 }
             }
         }
+
+
+
     }
+
 
     Rectangle {
         id: mainWindow
@@ -351,11 +389,44 @@ Window {
 
 
         Image {
+            id: image2
+            x: 0
+            y: 0
+            width: 1060
+            height: 605
+            source: "images/stat_bg.png"
+            fillMode: Image.PreserveAspectFit
+        }
+
+        Video {
+            id: video
+            x: -5
+            y: 0
+            width : 1055
+            height : 600
+            visible: true
+            autoLoad: true
+            anchors.leftMargin: -5
+            anchors.bottomMargin: -5
+            autoPlay: false
+            source: "/video/bgv2.mp4"
+
+            fillMode: VideoOutput.PreserveAspectCrop
+            clip: false
+            anchors.fill: parent
+            loops: MediaPlayer.Infinite
+            focus: true
+        }
+
+
+
+        Image {
             id: image
             x: 455
             y: 8
             width: 156
             height: 25
+            visible: true
             source: "images/logo.png"
             fillMode: Image.PreserveAspectFit
         }
@@ -368,6 +439,7 @@ Window {
             width: 811
             height: 301
             color: "#000000"
+            visible: true
             border.color: "#ffffff"
 
             ScrollView {
@@ -403,6 +475,7 @@ Window {
             width: 811
             height: 23
             color: "#000000"
+            visible: true
             border.color: "#ffffff"
 
             TextEdit {
@@ -444,6 +517,10 @@ Window {
             }
             palette.buttonText: "#FFFFFF"
             layer.enabled: true
+            onClicked: {
+                video.play()
+                video1.play()
+            }
         }
 
         Button {
@@ -759,6 +836,7 @@ Window {
             width: 62
             height: 21
             color: "#000000"
+            visible: true
             border.color: "#ffffff"
 
             TextEdit {
@@ -827,6 +905,7 @@ Window {
             width: 96
             height: 21
             color: "#000000"
+            visible: true
             border.color: "#ffffff"
             TextEdit {
                 id: textEdit2
@@ -860,6 +939,7 @@ Window {
             width: 222
             height: 21
             color: "#000000"
+            visible: true
             border.color: "#ffffff"
             TextEdit {
                 id: textEdit3
@@ -894,15 +974,17 @@ Window {
             height: 19
             color: "#ffffff"
             text: qsTr("")
+            visible: true
             font.pointSize: 11
         }
+
+
+
     }
+
+
 }
 
 
 
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:0.75}
-}
-##^##*/
+
