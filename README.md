@@ -1,4 +1,5 @@
 # BLAST-NG
 Bioinformatics tool for searching sequence similarities  
 
-![blast_gui_1-8-2023](https://user-images.githubusercontent.com/22214754/211258101-c856f1fc-fbac-47e4-91ee-11a7b70f8c1d.gif)    
+![blastng_1-11-23](https://user-images.githubusercontent.com/22214754/212001090-55aa9ff2-ceb1-4195-a041-f752f3dad558.gif)  
+    
