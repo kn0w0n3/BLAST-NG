@@ -12,6 +12,7 @@ Based on Qt 5.14.2 (MSVC 2017, 32 bit)
 Built on Jun 16 2020 01:19:17  
 From revision 48e46132e3  
 Kit 5.15.2 MinGW 64-bit  
+https://www.qt.io/  
     
 # **Resources:**  
 ![ncbi-logo](https://user-images.githubusercontent.com/22214754/204448800-2b846e5b-2c68-4c4e-8687-43aac8ac752e.png)      
