@@ -3,7 +3,7 @@ Bioinformatics tool for searching sequence similarities
 
 Find regions of local similarity between proteins or nucleotide sequences. Compare nucleotide or protein sequences to sequence in a database and calculates the statistical significance of the matches.  
 
-![blastng_1-11-23](https://user-images.githubusercontent.com/22214754/212001090-55aa9ff2-ceb1-4195-a041-f752f3dad558.gif)  
+![blast_gui_1-16-2023](https://user-images.githubusercontent.com/22214754/212784828-1fc2c6fa-73b8-4a39-a9d3-1915c8a0b7b6.gif)    
 
 # **IDE:**       
 ![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
