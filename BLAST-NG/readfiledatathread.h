@@ -32,7 +32,6 @@ private:
     QString filePath;
     QString fileSize;
     QString incomingFileData;
-
     QFile fileLocation;
 };
 

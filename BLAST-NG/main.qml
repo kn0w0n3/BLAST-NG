@@ -1,14 +1,9 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
-
 import QtQuick.Controls 2.12
-//import QtQuick.Controls.Material 2.12
-//import QtQuick.Controls.Styles 1.4
-//import QtQml.Models 2.12
 import QtGraphicalEffects 1.12
 import QtMultimedia 5.15
 import QtQuick.Layouts 1.12
-
 
 Window {
     width: 1055
@@ -19,12 +14,11 @@ Window {
     title: qsTr("BLAST-NG")
 
     //Main Controller Connections
-
     Connections {
         target: mainController
 
         onSelectedFileDataToQml:{
-            fileContentsText.text += _fileContents + "\n"
+            blastOutputText.text += _fileContents + "\n"
             //Make the log data text in the terminal window auto scroll
             //scrollView.ScrollBar.vertical.position = 1.0 - scrollView.ScrollBar.vertical.size
         }
@@ -32,14 +26,21 @@ Window {
             threadStateLabel.text = _threadState
         }
         onDirectionsTextToQml:{
-
-            fileContentsText.text = directionsText
+            blastOutputText.text = directionsText
         }
         onDbDirectionsTxtToQml:{
-            fileContentsText1.text = dbdirectionsTxt
+            buildDbOutputText.text = dbdirectionsTxt
+        }
+        onBuildDbOutputToQml:{
+            buildDbOutputText.text = buildDbText
+        }
+        onDbNameTxtToQml:{
+            model.append({text: dbName})
+        }
+        onBlastPData2Qml:{
+            blastOutputText.text += blastPText
         }
     }
-
 
     Rectangle {
         id: buildDatabaseWin
@@ -48,32 +49,29 @@ Window {
         color: "#000000"
         visible: false
 
+        MouseArea {
+            id: buildDbWinMouseArea
+            width: 1055
+            height: 600
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+            onClicked: {
+                if (mouse.button === Qt.RightButton){
+                    //contextMenuDbWin.popup()
+                }
+                else if(mouse.button === Qt.LeftButton){                              
+                    dbNameTxtEdit.deselect()
+                    buildDbOutputText.deselect()
+                }
+            }           
+        }
 
         Image {
             id: image3
-            width: 1055
-            height: 600
-            source: "images/stat_bg.png"
+            width: 1061
+            height: 605
+            source: "images/bg_9.png"
             fillMode: Image.PreserveAspectFit
-        }
-
-        Video {
-            id: video1
-            x: -5
-            y: 0
-            width: 1055
-            height: 600
-            anchors.fill: parent
-            source: "/video/bgv2.mp4"
-            clip: false
-            focus: true
-            fillMode: VideoOutput.PreserveAspectCrop
-            autoPlay: false
-            autoLoad: true
-            loops: MediaPlayer.Infinite
-            anchors.leftMargin: -5
-            anchors.bottomMargin: -5
-            visible: true
         }
 
         Rectangle {
@@ -91,8 +89,9 @@ Window {
                 y: 3
                 width: 572
                 height: 289
+
                 TextArea {
-                    id: fileContentsText1
+                    id: buildDbOutputText
                     x: -10
                     y: -6
                     width: 572
@@ -103,6 +102,9 @@ Window {
                     clip: true
                     placeholderText: qsTr("")
                     visible: true
+                    selectByMouse: true
+                    selectionColor: "#ffffff"
+                    //persistentSelection: true
                 }
                 clip: false
                 ScrollBar.vertical.position: 0
@@ -236,7 +238,7 @@ Window {
         }
 
         Button {
-            id: button5
+            id: ad_selectFileBtn
             x: 240
             y: 393
             width: 125
@@ -259,6 +261,9 @@ Window {
                 color: "#000000"
                 radius: 50
             }
+            onClicked: {
+                mainController.selectAFile()
+            }
         }
 
         Rectangle {
@@ -268,18 +273,24 @@ Window {
             width: 168
             height: 21
             color: "#000000"
+
             TextEdit {
-                id: textEdit5
+                id: dbNameTxtEdit
                 x: 2
                 y: 2
                 width: 165
                 height: 19
                 color: "#ffffff"
                 text: qsTr("")
+                selectedTextColor: "#000000"
+                selectionColor: "#ffffff"
                 cursorVisible: false
                 clip: true
                 font.pixelSize: 15
+                selectByMouse:  true
+                //persistentSelection: true
             }
+
             border.color: "#ffffff"
         }
 
@@ -329,6 +340,20 @@ Window {
                 color: "#000000"
                 radius: 50
             }
+            onClicked: {
+                var curText = dbNameTxtEdit.getText(0,dbNameTxtEdit.length)
+                if(controlDb.currentText.trim() === ""){
+                    buildDbOutputText.text = "Select a database type before proceeding"
+
+                }else{
+                    if(controlDb.currentText.trim() === "Protein Sequence"){
+                        mainController.buildDatabase("prot", curText)
+
+                    }else{
+                        mainController.buildDatabase("nucl", curText)
+                    }
+                }
+            }
         }
 
         Image {
@@ -366,16 +391,13 @@ Window {
                 radius: 50
             }
             onClicked: {
-                if(fileContentsText1.getText(0,1) === ""){
+                if(buildDbOutputText.getText(0,1) === ""){
                     mainController.getDbInstructions()
                 }
             }
         }
 
-
-
     }
-
 
     Rectangle {
         id: mainWindow
@@ -387,6 +409,30 @@ Window {
         color: "#000000"
         border.color: "#000000"
 
+        MouseArea {
+            id: mainWinMouseArea
+            x: 0
+            y: 1
+            width: 1055
+            height: 600
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+            onClicked: {
+                if (mouse.button === Qt.RightButton){
+                    //contextMenuM.popup()
+                }
+                else if(mouse.button === Qt.LeftButton){
+                    threadsTxtInput.deselect()
+                    eValueTxtInput.deselect()
+                    resultFmtTxtInput.deselect()
+                    otherCmdTxtInput.deselect()
+                    seqTxtInput.deselect()
+                    blastOutputText.deselect()
+                    dbNameTxtEdit.deselect()
+                    buildDbOutputText.deselect()                   
+                }
+            }          
+        }
 
         Image {
             id: image2
@@ -394,31 +440,9 @@ Window {
             y: 0
             width: 1060
             height: 605
-            source: "images/stat_bg.png"
+            source: "images/bg_9.png"
             fillMode: Image.PreserveAspectFit
         }
-
-        Video {
-            id: video
-            x: -5
-            y: 0
-            width : 1055
-            height : 600
-            visible: true
-            autoLoad: true
-            anchors.leftMargin: -5
-            anchors.bottomMargin: -5
-            autoPlay: false
-            source: "/video/bgv2.mp4"
-
-            fillMode: VideoOutput.PreserveAspectCrop
-            clip: false
-            anchors.fill: parent
-            loops: MediaPlayer.Infinite
-            focus: true
-        }
-
-
 
         Image {
             id: image
@@ -430,7 +454,6 @@ Window {
             source: "images/logo.png"
             fillMode: Image.PreserveAspectFit
         }
-
 
         Rectangle {
             id: rectangle1
@@ -454,47 +477,52 @@ Window {
 
                 ScrollBar.vertical.position: 0
                 TextArea {
-                    id: fileContentsText
+                    id: blastOutputText
                     visible: true
                     wrapMode: Text.Wrap
                     clip: true
                     color: "#FFFFFF"
                     text: ""
                     placeholderText: qsTr("")
-
+                    selectByMouse: true
+                    selectionColor: "#ffffff"
+                    //persistentSelection: true
                 }
                 //ScrollBar.vertical.position: ScrollBar.setPosition(100)
             }
         }
 
-
         Rectangle {
             id: rectangle2
-            x: 126
-            y: 410
-            width: 811
+            x: 125
+            y: 413
+            width: 812
             height: 23
             color: "#000000"
             visible: true
             border.color: "#ffffff"
 
+
             TextEdit {
-                id: textEdit4
-                x: 2
-                y: 2
+                id: seqTxtInput
+                x: 3
+                y: 1
                 width: 807
                 height: 19
                 color: "#ffffff"
                 text: qsTr("")
+                selectedTextColor: "#000000"
+                selectionColor: "#ffffff"
                 font.pixelSize: 15
                 clip: true
+                selectByMouse: true
+                //persistentSelection: true
             }
         }
 
-
         Button {
             id: startBtn
-            x: 125
+            x: 574
             y: 454
             width: 125
             height: 40
@@ -517,15 +545,29 @@ Window {
             }
             palette.buttonText: "#FFFFFF"
             layer.enabled: true
+
             onClicked: {
-                video.play()
-                video1.play()
+                //video.play()
+                //video1.play()
+                if(selectMethodDropDown.currentText.trim() === "BLASTp"){
+                    console.log("Text is Equal to BLASTp")
+                    //console.log(dbSelectDropDown.currentText)
+                    //console.log(resultFmtTxtInput.getText(0,resultFmtTxtInput.length))
+                    //console.log(dbSelectDropDown.currentText, resultFmtTxtInput.getText(), eValueTxtInput.getText(), threadsTxtInput.getText(), otherCmdTxtInput.getText(), seqTxtInput.getText())
+                    mainController.startBlastP(dbSelectDropDown.currentText,
+                                               resultFmtTxtInput.getText(0,resultFmtTxtInput.length),
+                                               eValueTxtInput.getText(0, eValueTxtInput.length),
+                                               threadsTxtInput.getText(0,threadsTxtInput.length),
+                                               otherCmdTxtInput.getText(0, otherCmdTxtInput.length),
+                                               seqTxtInput.getText(0, otherCmdTxtInput.length))
+
+                }
             }
         }
 
         Button {
             id: selectFileBtn
-            x: 352
+            x: 348
             y: 454
             width: 125
             height: 40
@@ -550,13 +592,14 @@ Window {
 
             onClicked: {
                 //Select a file
-                mainController.selectAFile()
+                //var num = 3;
+                mainController.selectAFile2()
             }
         }
 
         Button {
             id: addDbBtn
-            x: 591
+            x: 125
             y: 454
             width: 125
             height: 40
@@ -611,45 +654,54 @@ Window {
             layer.enabled: true
 
             onClicked: {
-                if(fileContentsText.getText(0,1) === ""){
+                if(blastOutputText.getText(0,1) === ""){
                     mainController.getMainInstructions()
                 }
             }
         }
 
         ComboBox {
-            id: control
+            id: dbSelectDropDown
             x: 125
             y: 378
             width: 116
             height: 21
             visible: true
-            model: ["         ", " DB One", " DB Two", " DB Three"]
+            editable: false
+            //model: ["         ", " DB One", " DB Two", " DB Three"]
+            model: ListModel{
+                id: model
+                ListElement {text: ""}
+            }
+            onAccepted: {
+                if (find(editText) === -1)
+                    model.append({text: editText})
+            }
 
             delegate: ItemDelegate {
-                width: control.width
+                width: dbSelectDropDown.width
                 contentItem: Text {
-                    text: control.textRole
-                          ? (Array.isArray(control.model) ? modelData[control.textRole] : model[control.textRole])
+                    text: dbSelectDropDown.textRole
+                          ? (Array.isArray(dbSelectDropDown.model) ? modelData[dbSelectDropDown.textRole] : model[dbSelectDropDown.textRole])
                           : modelData
                     color: "#000000" //Change the text color of the model data in the drop down box.
-                    font: control.font
+                    font: dbSelectDropDown.font
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
                 }
-                highlighted: control.highlightedIndex === index
+                highlighted: dbSelectDropDown.highlightedIndex === index
             }
 
             indicator: Canvas {
                 id: canvas
-                x: control.width - width - control.rightPadding
-                y: control.topPadding + (control.availableHeight - height) / 2
+                x: dbSelectDropDown.width - width - dbSelectDropDown.rightPadding
+                y: dbSelectDropDown.topPadding + (dbSelectDropDown.availableHeight - height) / 2
                 width: 12
                 height: 8
                 contextType: "2d"
 
                 Connections {
-                    target: control
+                    target: dbSelectDropDown
                     function onPressedChanged() { canvas.requestPaint(); }
                 }
 
@@ -660,7 +712,7 @@ Window {
                     context.lineTo(width, 0);
                     context.lineTo(width / 2, height);
                     context.closePath();
-                    context.fillStyle = control.pressed ? "#FFFFFF" : "#FFFFFF";
+                    context.fillStyle = dbSelectDropDown.pressed ? "#FFFFFF" : "#FFFFFF";
                     context.fill();
                 }
             }
@@ -668,11 +720,11 @@ Window {
             //This will change the text color of main text in the box.
             contentItem: Text {
                 leftPadding: 0
-                rightPadding: control.indicator.width + control.spacing
+                rightPadding: dbSelectDropDown.indicator.width + dbSelectDropDown.spacing
 
-                text: control.displayText
-                font: control.font
-                color: control.pressed ? "#FFFFFF" : "#FFFFFF"
+                text: dbSelectDropDown.displayText
+                font: dbSelectDropDown.font
+                color: dbSelectDropDown.pressed ? "#FFFFFF" : "#FFFFFF"
                 verticalAlignment: Text.AlignVCenter
                 elide: Text.ElideRight
             }
@@ -683,22 +735,22 @@ Window {
                 implicitWidth: 120
                 implicitHeight: 40
                 color: "#000000"
-                border.color: control.pressed ? "#FFFFFF" : "#FFFFFF"
-                border.width: control.visualFocus ? 2 : 1
+                border.color: dbSelectDropDown.pressed ? "#FFFFFF" : "#FFFFFF"
+                border.width: dbSelectDropDown.visualFocus ? 2 : 1
                 radius: 2
             }
 
             popup: Popup {
-                y: control.height - 1
-                width: control.width
+                y: dbSelectDropDown.height - 1
+                width: dbSelectDropDown.width
                 implicitHeight: contentItem.implicitHeight
                 padding: 1
 
                 contentItem: ListView {
                     clip: true
                     implicitHeight: contentHeight
-                    model: control.popup.visible ? control.delegateModel : null
-                    currentIndex: control.highlightedIndex
+                    model: dbSelectDropDown.popup.visible ? dbSelectDropDown.delegateModel : null
+                    currentIndex: dbSelectDropDown.highlightedIndex
 
                     ScrollIndicator.vertical: ScrollIndicator { }
                 }
@@ -713,38 +765,39 @@ Window {
         }
 
         ComboBox {
-            id: control2
+            id: selectMethodDropDown
             x: 260
             y: 378
             width: 150
             height: 21
+            editable: false
             visible: true
             model: ["               ", " BLASTn", " BLASTp", " BLASTx", " tBLASTn", " tBLASTx"]
 
             delegate: ItemDelegate {
-                width: control2.width
+                width: selectMethodDropDown.width
                 contentItem: Text {
-                    text: control2.textRole
-                          ? (Array.isArray(control2.model) ? modelData[control2.textRole] : model[control2.textRole])
+                    text: selectMethodDropDown.textRole
+                          ? (Array.isArray(selectMethodDropDown.model) ? modelData[selectMethodDropDown.textRole] : model[selectMethodDropDown.textRole])
                           : modelData
                     color: "#000000" //Change the text color of the model data in the drop down box.
-                    font: control2.font
+                    font: selectMethodDropDown.font
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
                 }
-                highlighted: control2.highlightedIndex === index
+                highlighted: selectMethodDropDown.highlightedIndex === index
             }
 
             indicator: Canvas {
                 id: canvas2
-                x: control2.width - width - control2.rightPadding
-                y: control2.topPadding + (control2.availableHeight - height) / 2
+                x: selectMethodDropDown.width - width - selectMethodDropDown.rightPadding
+                y: selectMethodDropDown.topPadding + (selectMethodDropDown.availableHeight - height) / 2
                 width: 12
                 height: 8
                 contextType: "2d"
 
                 Connections {
-                    target: control2
+                    target: selectMethodDropDown
                     function onPressedChanged() { canvas.requestPaint(); }
                 }
 
@@ -755,7 +808,7 @@ Window {
                     context.lineTo(width, 0);
                     context.lineTo(width / 2, height);
                     context.closePath();
-                    context.fillStyle = control2.pressed ? "#FFFFFF" : "#FFFFFF";
+                    context.fillStyle = selectMethodDropDown.pressed ? "#FFFFFF" : "#FFFFFF";
                     context.fill();
                 }
             }
@@ -763,11 +816,11 @@ Window {
             //This will change the text color of main text in the box.
             contentItem: Text {
                 leftPadding: 0
-                rightPadding: control2.indicator.width + control2.spacing
+                rightPadding: selectMethodDropDown.indicator.width + selectMethodDropDown.spacing
 
-                text: control2.displayText
-                font: control2.font
-                color: control2.pressed ? "#FFFFFF" : "#FFFFFF"
+                text: selectMethodDropDown.displayText
+                font: selectMethodDropDown.font
+                color: selectMethodDropDown.pressed ? "#FFFFFF" : "#FFFFFF"
                 verticalAlignment: Text.AlignVCenter
                 elide: Text.ElideRight
             }
@@ -778,22 +831,22 @@ Window {
                 implicitWidth: 120
                 implicitHeight: 40
                 color: "#000000"
-                border.color: control2.pressed ? "#FFFFFF" : "#FFFFFF"
-                border.width: control2.visualFocus ? 2 : 1
+                border.color: selectMethodDropDown.pressed ? "#FFFFFF" : "#FFFFFF"
+                border.width: selectMethodDropDown.visualFocus ? 2 : 1
                 radius: 2
             }
 
             popup: Popup {
-                y: control2.height - 1
-                width: control2.width
+                y: selectMethodDropDown.height - 1
+                width: selectMethodDropDown.width
                 implicitHeight: contentItem.implicitHeight
                 padding: 1
 
                 contentItem: ListView {
                     clip: true
                     implicitHeight: contentHeight
-                    model: control2.popup.visible ? control2.delegateModel : null
-                    currentIndex: control2.highlightedIndex
+                    model: selectMethodDropDown.popup.visible ? selectMethodDropDown.delegateModel : null
+                    currentIndex: selectMethodDropDown.highlightedIndex
 
                     ScrollIndicator.vertical: ScrollIndicator { }
                 }
@@ -840,16 +893,21 @@ Window {
             border.color: "#ffffff"
 
             TextEdit {
-                id: textEdit
-                x: 2
-                y: 2
-                width: 58
+                id: threadsTxtInput
+                x: 3
+                y: 1
+                width: 57
                 height: 18
                 color: "#ffffff"
-                text: qsTr("")
+                text: qsTr("4")
+                selectedTextColor: "#000000"
+                selectionColor: "#ffffff"
+                readOnly: false
                 font.pixelSize: 15
                 clip: true
                 cursorVisible: false
+                selectByMouse: true
+
             }
         }
 
@@ -873,17 +931,21 @@ Window {
             visible: true
             color: "#000000"
             border.color: "#ffffff"
+
             TextEdit {
-                id: textEdit1
-                x: 2
-                y: 2
-                width: 58
+                id: eValueTxtInput
+                x: 3
+                y: 1
+                width: 57
                 height: 18
                 color: "#ffffff"
-                text: qsTr("")
+                text: qsTr("0.00001")
+                selectionColor: "#ffffff"
+                selectedTextColor: "#000000"
                 font.pixelSize: 15
                 clip: true
                 cursorVisible: false
+                selectByMouse: true
             }
         }
 
@@ -895,7 +957,7 @@ Window {
             height: 19
             visible: true
             color: "#ffffff"
-            text: qsTr("Result Format")
+            text: qsTr("Output Format")
         }
 
         Rectangle {
@@ -907,18 +969,24 @@ Window {
             color: "#000000"
             visible: true
             border.color: "#ffffff"
+
             TextEdit {
-                id: textEdit2
-                x: 2
-                y: 2
-                width: 92
+                id: resultFmtTxtInput
+                x: 3
+                y: 1
+                width: 91
                 height: 18
                 color: "#ffffff"
                 text: qsTr("")
+                selectedTextColor: "#000000"
+                selectionColor: "#ffffff"
                 font.pixelSize: 15
                 clip: true
                 cursorVisible: false
+                selectByMouse: true
+                //persistentSelection: true
             }
+
         }
 
         Label {
@@ -941,17 +1009,22 @@ Window {
             color: "#000000"
             visible: true
             border.color: "#ffffff"
+
             TextEdit {
-                id: textEdit3
-                x: 2
-                y: 2
-                width: 218
+                id: otherCmdTxtInput
+                x: 3
+                y: 1
+                width: 217
                 height: 18
                 color: "#ffffff"
                 text: qsTr("")
+                selectedTextColor: "#000000"
+                selectionColor: "#ffffff"
                 font.pixelSize: 15
                 clip: true
                 cursorVisible: false
+                selectByMouse: true
+                //persistentSelection: true
             }
         }
 
@@ -976,15 +1049,13 @@ Window {
             text: qsTr("")
             visible: true
             font.pointSize: 11
+
         }
-
-
-
     }
-
-
+    //Get paths when the program starts
+    Component.onCompleted: {
+       mainController.getMyDocumentsPath()
+     }
 }
-
-
 
 
