@@ -549,18 +549,25 @@ Window {
             onClicked: {
                 //video.play()
                 //video1.play()
-                if(selectMethodDropDown.currentText.trim() === "BLASTp"){
-                    console.log("Text is Equal to BLASTp")
-                    //console.log(dbSelectDropDown.currentText)
-                    //console.log(resultFmtTxtInput.getText(0,resultFmtTxtInput.length))
-                    //console.log(dbSelectDropDown.currentText, resultFmtTxtInput.getText(), eValueTxtInput.getText(), threadsTxtInput.getText(), otherCmdTxtInput.getText(), seqTxtInput.getText())
+                if(selectMethodDropDown.currentText.trim() === "BLASTp"){                                                     
                     mainController.startBlastP(dbSelectDropDown.currentText,
                                                resultFmtTxtInput.getText(0,resultFmtTxtInput.length),
                                                eValueTxtInput.getText(0, eValueTxtInput.length),
                                                threadsTxtInput.getText(0,threadsTxtInput.length),
                                                otherCmdTxtInput.getText(0, otherCmdTxtInput.length),
                                                seqTxtInput.getText(0, otherCmdTxtInput.length))
-
+                }
+                else if(selectMethodDropDown.currentText.trim() === "BLASTn"){
+                    mainController.startBlastN()
+                }
+                else if(selectMethodDropDown.currentText.trim() === "BLASTx"){
+                    mainController.startBlastX()
+                }
+                else if(selectMethodDropDown.currentText.trim() === "tBLASTn"){
+                    mainController.startTBlastN()
+                }
+                else if(selectMethodDropDown.currentText.trim() === "tBLASTx"){
+                    mainController.startTBlastX()
                 }
             }
         }

@@ -130,6 +130,86 @@ void MainController::startBlastP(QString selectedDb, QString outFormat, QString 
     emit blastPData2Qml(outputAsString);
 }
 
+void MainController::startBlastN(){
+    qDebug() << "In BLASTN function.";
+    /*
+    QProcess proc;
+    QStringList args;
+
+    //This path needs to be where the NCBI blast programs are located. The db.fasta and seq.fasta files do not need to be in here
+    //args<< "Set-Location -Path " + ncbiToolsPath + ";"
+    //<< "./blastp -db " + uniqueDirForDb + "\\" + selectedDb.trimmed() + " -query " + seqFullFilePath ;
+
+    proc.start("powershell", args);
+    proc.waitForFinished();
+    QByteArray output = proc.readAll();
+
+    QString outputAsString = QString(output.trimmed());
+    QByteArray errorOutput = proc.readAllStandardError();
+    QByteArray outputStandard = proc.readAllStandardOutput();
+*/
+}
+
+void MainController::startBlastX(){
+    qDebug() << "In BLASTX function..";
+    /*
+    QProcess proc;
+    QStringList args;
+
+    //This path needs to be where the NCBI blast programs are located. The db.fasta and seq.fasta files do not need to be in here
+    //args<< "Set-Location -Path " + ncbiToolsPath + ";"
+    //<< "./blastp -db " + uniqueDirForDb + "\\" + selectedDb.trimmed() + " -query " + seqFullFilePath ;
+
+    proc.start("powershell", args);
+    proc.waitForFinished();
+    QByteArray output = proc.readAll();
+
+    QString outputAsString = QString(output.trimmed());
+    QByteArray errorOutput = proc.readAllStandardError();
+    QByteArray outputStandard = proc.readAllStandardOutput();
+*/
+}
+
+void MainController::startTBlastN(){
+    qDebug() << "In tBLASTn function...";
+    /*
+    QProcess proc;
+    QStringList args;
+
+    //This path needs to be where the NCBI blast programs are located. The db.fasta and seq.fasta files do not need to be in here
+    //args<< "Set-Location -Path " + ncbiToolsPath + ";"
+    //<< "./blastp -db " + uniqueDirForDb + "\\" + selectedDb.trimmed() + " -query " + seqFullFilePath ;
+
+    proc.start("powershell", args);
+    proc.waitForFinished();
+    QByteArray output = proc.readAll();
+
+    QString outputAsString = QString(output.trimmed());
+    QByteArray errorOutput = proc.readAllStandardError();
+    QByteArray outputStandard = proc.readAllStandardOutput();
+*/
+}
+
+void MainController::startTBlastX(){
+    qDebug() << "In tBLASTx function....";
+    /*
+    QProcess proc;
+    QStringList args;
+
+    //This path needs to be where the NCBI blast programs are located. The db.fasta and seq.fasta files do not need to be in here
+    //args<< "Set-Location -Path " + ncbiToolsPath + ";"
+    //<< "./blastp -db " + uniqueDirForDb + "\\" + selectedDb.trimmed() + " -query " + seqFullFilePath ;
+
+    proc.start("powershell", args);
+    proc.waitForFinished();
+    QByteArray output = proc.readAll();
+
+    QString outputAsString = QString(output.trimmed());
+    QByteArray errorOutput = proc.readAllStandardError();
+    QByteArray outputStandard = proc.readAllStandardOutput();
+*/
+}
+
 //Get and store the path of NCBI tools and MyDocuments folder
 //The BLAST-NG, NCBI, and databases folder should be created upon installation of BLAST-NG
 void MainController::getMyDocumentsPath(){
@@ -147,7 +227,6 @@ void MainController::getMyDocumentsPath(){
     ncbiToolsPath = myDocumentsPath + "BLAST-NG\\NCBI\\";
     QByteArray errorOutput = proc.readAllStandardError();
     QByteArray outputStandard = proc.readAllStandardOutput();
-
 }
 
 

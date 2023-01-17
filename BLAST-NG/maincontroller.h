@@ -40,6 +40,11 @@ public slots:
     void getDbInstructions(void);
     void buildDatabase(QString, QString);
     void startBlastP(QString, QString, QString, QString, QString, QString);
+    void startBlastN();
+    void startBlastX();
+    void startTBlastN();
+    void startTBlastX();
+
     void getMyDocumentsPath();
 
 private:
