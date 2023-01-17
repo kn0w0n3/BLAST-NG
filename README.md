@@ -13,3 +13,6 @@ Built on Jun 16 2020 01:19:17
 From revision 48e46132e3  
 Kit 5.15.2 MinGW 64-bit  
     
+# **Resources:**  
+https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download  
+https://www.ncbi.nlm.nih.gov/books/NBK569839/  
