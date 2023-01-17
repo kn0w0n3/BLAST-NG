@@ -14,5 +14,8 @@ From revision 48e46132e3
 Kit 5.15.2 MinGW 64-bit  
     
 # **Resources:**  
+![ncbi-logo](https://user-images.githubusercontent.com/22214754/204448800-2b846e5b-2c68-4c4e-8687-43aac8ac752e.png)      
+https://www.ncbi.nlm.nih.gov/    
+https://www.ncbi.nlm.nih.gov/home/develop/  
 https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download  
 https://www.ncbi.nlm.nih.gov/books/NBK569839/  
