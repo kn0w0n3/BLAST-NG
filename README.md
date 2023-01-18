@@ -6,6 +6,13 @@ The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity 
 
 ![blast_gui_1-16-2023](https://user-images.githubusercontent.com/22214754/212784828-1fc2c6fa-73b8-4a39-a9d3-1915c8a0b7b6.gif)    
 
+# **Benefits:**  
+
+"*" Increase productivity by spending less time typing in the terminal  
+"*" Intuitive design for users with little or no background in computer science  
+"*" Output files are stored and organized in a centralized directory 
+"*" Databases locations are automatically stored and populated in the list of available databases
+
 # **IDE:**       
 ![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
 Qt Creator 4.12.3  
