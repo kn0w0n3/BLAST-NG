@@ -9,6 +9,7 @@ The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity 
 # **Benefits:**  
 
 * Increase productivity by spending less time typing in the terminal  
+* Output files are time stamped and organized to reduce the risk of redundant searches 
 * Intuitive design for users with little or no background in computer science  
 * Output files are stored and organized in a centralized directory 
 * Databases locations are automatically stored and populated in the list of available databases
