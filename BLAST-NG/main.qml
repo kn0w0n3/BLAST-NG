@@ -18,13 +18,12 @@ Window {
         target: mainController
 
         onSelectedFileDataToQml:{
-            blastOutputText.text += _fileContents + "\n"
+            blastOutputText.text = _fileContents
+            //blastOutputText.getText(0,blastOutputText.length) +
             //Make the log data text in the terminal window auto scroll
             //scrollView.ScrollBar.vertical.position = 1.0 - scrollView.ScrollBar.vertical.size
         }
-        onThreadStateToQml:{
-            threadStateLabel.text = _threadState
-        }
+
         onDirectionsTextToQml:{
             blastOutputText.text = directionsText
         }
@@ -32,7 +31,7 @@ Window {
             buildDbOutputText.text = dbdirectionsTxt
         }
         onBuildDbOutputToQml:{
-            buildDbOutputText.text = buildDbText
+            buildDbOutputText.text += buildDbText
         }
         onDbNameTxtToQml:{
             model.append({text: dbName})
@@ -396,7 +395,6 @@ Window {
                 }
             }
         }
-
     }
 
     Rectangle {
@@ -494,8 +492,8 @@ Window {
 
         Rectangle {
             id: rectangle2
-            x: 125
-            y: 413
+            x: 127
+            y: 433
             width: 812
             height: 23
             color: "#000000"
@@ -522,8 +520,8 @@ Window {
 
         Button {
             id: startBtn
-            x: 574
-            y: 454
+            x: 570
+            y: 482
             width: 125
             height: 40
             visible: true
@@ -551,9 +549,9 @@ Window {
                 //video1.play()
                 if(selectMethodDropDown.currentText.trim() === "BLASTp"){                                                     
                     mainController.startBlastP(dbSelectDropDown.currentText,
-                                               resultFmtTxtInput.getText(0,resultFmtTxtInput.length),
+                                               resultFmtTxtInput.getText(0, resultFmtTxtInput.length),
                                                eValueTxtInput.getText(0, eValueTxtInput.length),
-                                               threadsTxtInput.getText(0,threadsTxtInput.length),
+                                               threadsTxtInput.getText(0, threadsTxtInput.length),
                                                otherCmdTxtInput.getText(0, otherCmdTxtInput.length),
                                                seqTxtInput.getText(0, otherCmdTxtInput.length))
                 }
@@ -574,8 +572,8 @@ Window {
 
         Button {
             id: selectFileBtn
-            x: 348
-            y: 454
+            x: 335
+            y: 482
             width: 125
             height: 40
             visible: true
@@ -607,7 +605,7 @@ Window {
         Button {
             id: addDbBtn
             x: 125
-            y: 454
+            y: 482
             width: 125
             height: 40
             visible: true
@@ -638,7 +636,7 @@ Window {
         Button {
             id: helpBtn
             x: 812
-            y: 454
+            y: 482
             width: 125
             height: 40
             visible: true
@@ -869,10 +867,10 @@ Window {
 
         Label {
             id: label
-            x: 125
-            y: 356
+            x: 126
+            y: 361
             width: 113
-            height: 22
+            height: 18
             visible: true
             color: "#ffffff"
             text: qsTr("Select Database")
@@ -881,9 +879,9 @@ Window {
         Label {
             id: label2
             x: 433
-            y: 356
+            y: 361
             width: 60
-            height: 22
+            height: 19
             visible: true
             color: "#ffffff"
             text: qsTr("Threads")
@@ -906,7 +904,7 @@ Window {
                 width: 57
                 height: 18
                 color: "#ffffff"
-                text: qsTr("4")
+                text: qsTr("")
                 selectedTextColor: "#000000"
                 selectionColor: "#ffffff"
                 readOnly: false
@@ -921,9 +919,9 @@ Window {
         Label {
             id: label3
             x: 515
-            y: 356
+            y: 361
             width: 60
-            height: 22
+            height: 19
             visible: true
             color: "#ffffff"
             text: qsTr("E-Value")
@@ -946,7 +944,7 @@ Window {
                 width: 57
                 height: 18
                 color: "#ffffff"
-                text: qsTr("0.00001")
+                text: qsTr("")
                 selectionColor: "#ffffff"
                 selectedTextColor: "#000000"
                 font.pixelSize: 15
@@ -958,8 +956,8 @@ Window {
 
         Label {
             id: label4
-            x: 596
-            y: 356
+            x: 599
+            y: 361
             width: 96
             height: 19
             visible: true
@@ -998,10 +996,10 @@ Window {
 
         Label {
             id: label5
-            x: 715
-            y: 356
+            x: 717
+            y: 361
             width: 77
-            height: 22
+            height: 19
             visible: true
             color: "#ffffff"
             text: qsTr("Other cmd")
@@ -1037,10 +1035,10 @@ Window {
 
         Label {
             id: label1
-            x: 260
-            y: 356
+            x: 262
+            y: 361
             width: 106
-            height: 22
+            height: 19
             visible: true
             color: "#ffffff"
             text: qsTr("Select  Method")
@@ -1058,10 +1056,22 @@ Window {
             font.pointSize: 11
 
         }
+
+        Label {
+            id: label8
+            x: 127
+            y: 415
+            width: 142
+            height: 19
+            color: "#ffffff"
+            text: qsTr("Enter sequence or select file")
+            visible: true
+        }
     }
     //Get paths when the program starts
     Component.onCompleted: {
        mainController.getMyDocumentsPath()
+        //Check for saved databases and populate the combobox
      }
 }
 

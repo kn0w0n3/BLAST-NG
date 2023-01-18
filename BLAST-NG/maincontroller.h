@@ -12,9 +12,9 @@
 #include <QProcess>
 #include <QDebug>
 #include <QMessageBox>
-#include "readfiledatathread.h"
-#include <cstdlib>
-#include <QCoreApplication>
+#include <QDirIterator>
+#include <QString>
+#include <QDateTime>
 
 class MainController:  public QWidget{
     Q_OBJECT
@@ -24,7 +24,6 @@ public:
 
 signals:
     void selectedFileDataToQml(QString _fileContents);
-    void threadStateToQml(QString _threadState);
     void directionsTextToQml(QString directionsText);
     void dbDirectionsTxtToQml(QString dbdirectionsTxt);
     void buildDbOutputToQml(QString buildDbText);
@@ -33,23 +32,23 @@ signals:
 
 public slots:
     void selectAFile();
-    void selectAFile2();
-    void processIncomingFileData(QString);
-    void relayThreadState(QString);
-    void getMainInstructions(void);
-    void getDbInstructions(void);
+    void selectAFile2();   
     void buildDatabase(QString, QString);
     void startBlastP(QString, QString, QString, QString, QString, QString);
+    void saveBlastPReply();
     void startBlastN();
     void startBlastX();
     void startTBlastN();
     void startTBlastX();
-
+    void saveDataToFile();
     void getMyDocumentsPath();
+    void getSavedDatabases();
+    void processBuildDbMessages();
+    void dbDoneResultsToQml();
+    void getMainInstructions(void);
+    void getDbInstructions(void);
 
-private:
-    ReadFileDataThread *readFileDataThread;
-
+private:  
     //DB file info
     QString dbFile = "";
     QString dbFileSize = "";
@@ -67,14 +66,31 @@ private:
 
     QString myDocumentsPath = "";
     QString ncbiToolsPath = "";
+    QString databasesPath = "";
+    QString resultsPath = "";
 
     QString instrctionsText = "";   
     QString dbType = "";
-    QString dbName = "";
+    QString selectedDbName = "";
     QString otherArgs = "";
+
+    QString pastedSequence = "";
+    QString outputFormat = "";
+
+    QString scanMethod = "";
 
     //Data from thread if needed
     QString fileContents = "";
+
+    QProcess blast_p_Process;
+    QProcess buildDBProcess;
+
+    QByteArray bpData;
+    QString blastPOutput;
+
+    QByteArray q_buildDbStdOut;
+    QString s_buildDbStdout;
+    QString dbNameEntered;
 };
 
 #endif // MAINCONTROLLER_H

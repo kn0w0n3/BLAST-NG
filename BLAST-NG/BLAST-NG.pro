@@ -1,9 +1,6 @@
 QT += quick
 QT += core gui
 QT += widgets
-QT += multimedia multimediawidgets
-
-CONFIG += c++11
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -11,8 +8,7 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        maincontroller.cpp \
-        readfiledatathread.cpp
+        maincontroller.cpp
 
 RESOURCES += qml.qrc \
     images.qrc \
@@ -30,5 +26,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    maincontroller.h \
-    readfiledatathread.h
+    maincontroller.h

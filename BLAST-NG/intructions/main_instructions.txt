@@ -1,15 +1,15 @@
 Instructions:
 
-1. Click the "Add Database" button to build a database
+1. Select a database from the dropdown menu. Click the create database button if no databases have been created yet.
      
-2.Input the sequence to be aligned into the text box or select the sequence file through the "Select file" button      
+2. Select a method from the dropdown menu     
 
-3.Select the database to be compared and the comparison method
+3. Set values for Threads, E-Value, Output format, and other cmd. Leave blank for default values. The default e-value =1e-5, and the default output format is 0 and the default of threads is 4
 
-4.Set the e-value Value, output format and number of threads.The default e-value =1e-5, and the default output format is 0 and the default of threads is 4
+4. Paste a seqence in the text box or select a fasta file containing the seqence
       
-5.(Optional) Enter additional BLAST commands such as: -max_target_seqs 20 
+5. Click the Start button 
 
-6.Click the "Start" button for comparison. Results will be displayed in the output window as well as saved to a file named result.txt
+Results can be found in MyDocuments/BLAST-NG/results
 
 Note: Alignment time depends on sequence size and computer performance
