@@ -4,7 +4,15 @@ Bioinformatics tool for searching sequence similarities:
 
 The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity between sequences. The program compares nucleotide or protein sequences to sequence databases and calculates the statistical significance of matches.    
 
-![blast_gui_1-16-2023](https://user-images.githubusercontent.com/22214754/212784828-1fc2c6fa-73b8-4a39-a9d3-1915c8a0b7b6.gif)    
+![blastng_1-18-23](https://user-images.githubusercontent.com/22214754/213353249-31efeef1-5a3d-4722-a5ad-8969f1dee312.gif)  
+
+# **Benefits:**  
+
+* Increase productivity by spending less time typing in the terminal  
+* Output files are time stamped and organized to reduce the risk of redundant searches 
+* Intuitive design for users with little or no background in computer science  
+* Output files are stored and organized in a centralized directory 
+* Databases locations are automatically stored and populated in the list of available databases
 
 # **IDE:**       
 ![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
@@ -17,7 +25,8 @@ https://www.qt.io/
     
 # **Resources:**  
 ![ncbi-logo](https://user-images.githubusercontent.com/22214754/204448800-2b846e5b-2c68-4c4e-8687-43aac8ac752e.png)      
-https://www.ncbi.nlm.nih.gov/    
+https://www.ncbi.nlm.nih.gov/  
+https://ftp.ncbi.nlm.nih.gov/blast/db/  
 https://www.ncbi.nlm.nih.gov/home/develop/  
 https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download  
 https://www.ncbi.nlm.nih.gov/books/NBK569839/  
