@@ -19,6 +19,7 @@ void MainController::selectAFile2(){
     seqFile = QFileDialog::getOpenFileName(Q_NULLPTR, tr("Select File"), "/home");
     QFileInfo fileInfo(seqFile);
     seqFileName = fileInfo.fileName().trimmed();
+    emit seqFileNameToQml(seqFileName);
     seqDirPath = fileInfo.filePath().trimmed();
     seqDirPath.replace(seqFileName, "");
     seqFullFilePath = fileInfo.filePath().trimmed();
@@ -29,8 +30,6 @@ void MainController::selectAFile2(){
 void MainController::buildDatabase(QString dbType, QString _dbName){
     dbNameEntered = _dbName.trimmed();
     emit buildDbOutputToQml("Building database... \n");
-    //QProcess proc;
-    QStringList args;
 
     if(!QDir(myDocumentsPath + "BLAST-NG\\databases\\" + dbNameEntered).exists()){
         QDir().mkdir(myDocumentsPath + "BLAST-NG\\databases\\" + dbNameEntered);
@@ -39,6 +38,7 @@ void MainController::buildDatabase(QString dbType, QString _dbName){
 
     //Set the directory for powershell and run the makeblastdb program.
     //After the files are created, they are moved to their unique directory for organization and later use
+    QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
          << "./makeblastdb -in " + dbFullFilePath + " -out " +  dbNameEntered + " -dbtype " + dbType.trimmed() + ";"
          << "Move-Item -Path " + ncbiToolsPath  + _dbName + ".pdb" + " -Destination " + uniqueDirForDb + " -force" ";"
@@ -60,12 +60,12 @@ void MainController::buildDatabase(QString dbType, QString _dbName){
 void MainController::startBlastP(QString selectedDb, QString outFormat, QString eVal, QString numThreads, QString otherArgs, QString pastedSequence){
     selectedDbName = selectedDb.trimmed();
     scanMethod = "BLASTp";
-    QStringList args;
 
     //This path needs to be where the NCBI blast programs are located. The db.fasta and seq.fasta files do not need to be in here
+    QStringList args;
     args<< "Set-Location -Path " + ncbiToolsPath + ";"
     << "./blastp -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath ;
-    blast_p_Process.connect(&blast_p_Process, &QProcess::readyReadStandardOutput, this, &MainController::saveBlastPReply);
+    blast_p_Process.connect(&blast_p_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastStdOut);
     connect(&blast_p_Process, (void(QProcess::*)(int))&QProcess::finished, [=]{saveDataToFile();});
     blast_p_Process.start("powershell", args);
 
@@ -74,7 +74,7 @@ void MainController::startBlastP(QString selectedDb, QString outFormat, QString 
     emit emit blastPData2Qml("Blastp process started at: " + dateTimeString + "\n\n");
 }
 
-void MainController::saveBlastPReply(){
+void MainController::processBlastStdOut(){
     bpData += blast_p_Process.readAllStandardOutput();
     blastPOutput = QString(bpData.trimmed());
 }

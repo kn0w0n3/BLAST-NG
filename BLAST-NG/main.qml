@@ -6,10 +6,11 @@ import QtMultimedia 5.15
 import QtQuick.Layouts 1.12
 
 Window {
-    width: 1055
-    height: 600
-    maximumHeight: 600
-    maximumWidth: 1055
+    width: 1000
+    height: 650
+
+    maximumHeight: 650
+    maximumWidth: 1000
     visible: true
     title: qsTr("BLAST-NG")
 
@@ -19,11 +20,9 @@ Window {
 
         onSelectedFileDataToQml:{
             blastOutputText.text = _fileContents
-            //blastOutputText.getText(0,blastOutputText.length) +
             //Make the log data text in the terminal window auto scroll
             //scrollView.ScrollBar.vertical.position = 1.0 - scrollView.ScrollBar.vertical.size
         }
-
         onDirectionsTextToQml:{
             blastOutputText.text = directionsText
         }
@@ -39,37 +38,40 @@ Window {
         onBlastPData2Qml:{
             blastOutputText.text += blastPText
         }
+        onSeqFileNameToQml:{
+            selectedFileText.text = _seqFileName
+        }
     }
 
     Rectangle {
         id: buildDatabaseWin
-        width: 1055
-        height: 600
+        width: 1000
+        height: 650
         color: "#000000"
         visible: false
 
         MouseArea {
             id: buildDbWinMouseArea
-            width: 1055
-            height: 600
+            width: 1000
+            height: 650
             acceptedButtons: Qt.LeftButton | Qt.RightButton
 
             onClicked: {
                 if (mouse.button === Qt.RightButton){
                     //contextMenuDbWin.popup()
                 }
-                else if(mouse.button === Qt.LeftButton){                              
+                else if(mouse.button === Qt.LeftButton){
                     dbNameTxtEdit.deselect()
                     buildDbOutputText.deselect()
                 }
-            }           
+            }
         }
 
         Image {
             id: image3
-            width: 1061
-            height: 605
-            source: "images/bg_9.png"
+            width: 1000
+            height: 650
+            source: "images/bg_1000X650.png"
             fillMode: Image.PreserveAspectFit
         }
 
@@ -137,7 +139,6 @@ Window {
             onClicked: {
                 buildDatabaseWin.visible = false
                 mainWindow.visible = true
-
             }
         }
 
@@ -289,7 +290,6 @@ Window {
                 selectByMouse:  true
                 //persistentSelection: true
             }
-
             border.color: "#ffffff"
         }
 
@@ -401,18 +401,18 @@ Window {
         id: mainWindow
         x: 0
         y: 0
-        width: 1055
-        height: 600
+        width: 1000
+        height: 650
         visible: true
         color: "#000000"
-        border.color: "#000000"
+        border.color: "#e7d8d8"
 
         MouseArea {
             id: mainWinMouseArea
             x: 0
             y: 1
-            width: 1055
-            height: 600
+            width: 1000
+            height: 650
             acceptedButtons: Qt.LeftButton | Qt.RightButton
 
             onClicked: {
@@ -424,27 +424,27 @@ Window {
                     eValueTxtInput.deselect()
                     resultFmtTxtInput.deselect()
                     otherCmdTxtInput.deselect()
-                    seqTxtInput.deselect()
+                    seqInputText.deselect()
                     blastOutputText.deselect()
                     dbNameTxtEdit.deselect()
-                    buildDbOutputText.deselect()                   
+                    buildDbOutputText.deselect()
                 }
-            }          
+            }
         }
 
         Image {
             id: image2
             x: 0
             y: 0
-            width: 1060
-            height: 605
-            source: "images/bg_9.png"
+            width: 1000
+            height: 650
+            source: "images/bg_1000X650.png"
             fillMode: Image.PreserveAspectFit
         }
 
         Image {
             id: image
-            x: 455
+            x: 450
             y: 8
             width: 156
             height: 25
@@ -457,7 +457,7 @@ Window {
             id: rectangle1
             x: 126
             y: 45
-            width: 811
+            width: 739
             height: 301
             color: "#000000"
             visible: true
@@ -467,7 +467,7 @@ Window {
                 id: scrollView
                 x: 3
                 y: 3
-                width: 805
+                width: 736
                 height: 295
                 clip: false
                 ScrollBar.vertical.policy: ScrollBar.AsNeeded
@@ -481,6 +481,7 @@ Window {
                     clip: true
                     color: "#FFFFFF"
                     text: ""
+                    font.pointSize: 10
                     placeholderText: qsTr("")
                     selectByMouse: true
                     selectionColor: "#ffffff"
@@ -490,40 +491,12 @@ Window {
             }
         }
 
-        Rectangle {
-            id: rectangle2
-            x: 127
-            y: 433
-            width: 812
-            height: 23
-            color: "#000000"
-            visible: true
-            border.color: "#ffffff"
-
-
-            TextEdit {
-                id: seqTxtInput
-                x: 3
-                y: 1
-                width: 807
-                height: 19
-                color: "#ffffff"
-                text: qsTr("")
-                selectedTextColor: "#000000"
-                selectionColor: "#ffffff"
-                font.pixelSize: 15
-                clip: true
-                selectByMouse: true
-                //persistentSelection: true
-            }
-        }
-
         Button {
             id: startBtn
-            x: 570
-            y: 482
-            width: 125
-            height: 40
+            x: 403
+            y: 550
+            width: 100
+            height: 35
             visible: true
             text: qsTr("Start")
 
@@ -547,13 +520,13 @@ Window {
             onClicked: {
                 //video.play()
                 //video1.play()
-                if(selectMethodDropDown.currentText.trim() === "BLASTp"){                                                     
+                if(selectMethodDropDown.currentText.trim() === "BLASTp"){
                     mainController.startBlastP(dbSelectDropDown.currentText,
                                                resultFmtTxtInput.getText(0, resultFmtTxtInput.length),
                                                eValueTxtInput.getText(0, eValueTxtInput.length),
                                                threadsTxtInput.getText(0, threadsTxtInput.length),
                                                otherCmdTxtInput.getText(0, otherCmdTxtInput.length),
-                                               seqTxtInput.getText(0, otherCmdTxtInput.length))
+                                               seqInputText.getText(0, seqInputText.length))
                 }
                 else if(selectMethodDropDown.currentText.trim() === "BLASTn"){
                     mainController.startBlastN()
@@ -572,10 +545,10 @@ Window {
 
         Button {
             id: selectFileBtn
-            x: 335
-            y: 482
-            width: 125
-            height: 40
+            x: 126
+            y: 446
+            width: 78
+            height: 21
             visible: true
             text: qsTr("Select File")
             background: Rectangle {
@@ -603,42 +576,11 @@ Window {
         }
 
         Button {
-            id: addDbBtn
-            x: 125
-            y: 482
-            width: 125
-            height: 40
-            visible: true
-            text: qsTr("Add Database")
-            palette.buttonText: "#ffffff"
-            background: Rectangle {
-                color: "#000000"
-                radius: 50
-            }
-            layer.effect: DropShadow {
-                width: 69
-                color: "#ffffff"
-                radius: 8
-                horizontalOffset: 2
-                transparentBorder: true
-                verticalOffset: 2
-                spread: 0
-                samples: 17
-            }
-            layer.enabled: true
-
-            onClicked: {
-                mainWindow.visible = false
-                buildDatabaseWin.visible = true
-            }
-        }
-
-        Button {
             id: helpBtn
-            x: 812
-            y: 482
-            width: 125
-            height: 40
+            x: 595
+            y: 550
+            width: 100
+            height: 35
             visible: true
             text: qsTr("Help")
             palette.buttonText: "#ffffff"
@@ -667,8 +609,8 @@ Window {
 
         ComboBox {
             id: dbSelectDropDown
-            x: 125
-            y: 378
+            x: 209
+            y: 517
             width: 116
             height: 21
             visible: true
@@ -771,13 +713,13 @@ Window {
 
         ComboBox {
             id: selectMethodDropDown
-            x: 260
-            y: 378
+            x: 126
+            y: 18
             width: 150
             height: 21
             editable: false
             visible: true
-            model: ["               ", " BLASTn", " BLASTp", " BLASTx", " tBLASTn", " tBLASTx"]
+            model: [" Select Method", " BLASTn", " BLASTp", " BLASTx", " tBLASTn", " tBLASTx"]
 
             delegate: ItemDelegate {
                 width: selectMethodDropDown.width
@@ -867,10 +809,10 @@ Window {
 
         Label {
             id: label
-            x: 126
-            y: 361
+            x: 209
+            y: 502
             width: 113
-            height: 18
+            height: 14
             visible: true
             color: "#ffffff"
             text: qsTr("Select Database")
@@ -878,10 +820,10 @@ Window {
 
         Label {
             id: label2
-            x: 433
-            y: 361
+            x: 345
+            y: 502
             width: 60
-            height: 19
+            height: 14
             visible: true
             color: "#ffffff"
             text: qsTr("Threads")
@@ -889,8 +831,8 @@ Window {
 
         Rectangle {
             id: rectangle3
-            x: 433
-            y: 378
+            x: 345
+            y: 517
             width: 62
             height: 21
             color: "#000000"
@@ -918,10 +860,10 @@ Window {
 
         Label {
             id: label3
-            x: 515
-            y: 361
+            x: 431
+            y: 502
             width: 60
-            height: 19
+            height: 16
             visible: true
             color: "#ffffff"
             text: qsTr("E-Value")
@@ -929,8 +871,8 @@ Window {
 
         Rectangle {
             id: rectangle4
-            x: 514
-            y: 378
+            x: 431
+            y: 517
             width: 62
             height: 21
             visible: true
@@ -956,10 +898,10 @@ Window {
 
         Label {
             id: label4
-            x: 599
-            y: 361
+            x: 509
+            y: 502
             width: 96
-            height: 19
+            height: 14
             visible: true
             color: "#ffffff"
             text: qsTr("Output Format")
@@ -967,8 +909,8 @@ Window {
 
         Rectangle {
             id: rectangle5
-            x: 597
-            y: 378
+            x: 509
+            y: 517
             width: 96
             height: 21
             color: "#000000"
@@ -996,10 +938,10 @@ Window {
 
         Label {
             id: label5
-            x: 717
-            y: 361
+            x: 618
+            y: 502
             width: 77
-            height: 19
+            height: 14
             visible: true
             color: "#ffffff"
             text: qsTr("Other cmd")
@@ -1007,9 +949,9 @@ Window {
 
         Rectangle {
             id: rectangle6
-            x: 715
-            y: 378
-            width: 222
+            x: 618
+            y: 517
+            width: 77
             height: 21
             color: "#000000"
             visible: true
@@ -1019,7 +961,7 @@ Window {
                 id: otherCmdTxtInput
                 x: 3
                 y: 1
-                width: 217
+                width: 74
                 height: 18
                 color: "#ffffff"
                 text: qsTr("")
@@ -1035,44 +977,294 @@ Window {
 
         Label {
             id: label1
-            x: 262
-            y: 361
+            x: 128
+            y: 1
             width: 106
             height: 19
-            visible: true
+            visible: false
             color: "#ffffff"
             text: qsTr("Select  Method")
         }
 
         Label {
             id: threadStateLabel
-            x: 126
-            y: 20
+            x: 782
+            y: 22
             width: 155
             height: 19
             color: "#ffffff"
             text: qsTr("")
             visible: true
             font.pointSize: 11
-
         }
 
         Label {
             id: label8
-            x: 127
-            y: 415
-            width: 142
+            x: 126
+            y: 355
+            width: 358
+            height: 17
+            color: "#ffffff"
+            text: qsTr("Enter accession numbers(s), gi(s), FASTA sequences(s) or select a file")
+            visible: true
+        }
+
+        Rectangle {
+            id: sidePanel
+            width: 70
+            height: 600
+            color: "#a6000000"
+            visible: false
+            border.color: "#000000"
+
+            Image {
+                id: image4
+                x: 8
+                y: 95
+                width: 50
+                height: 50
+                fillMode: Image.PreserveAspectFit
+                source: "images/dbBtnImg.png"
+            }
+
+            Image {
+                id: image5
+                x: 8
+                y: 14
+                width: 50
+                height: 50
+                fillMode: Image.PreserveAspectFit
+                source: "images/homeBtnImg.png"
+            }
+        }
+
+        Button {
+            id: addDbBtn
+            x: 210
+            y: 550
+            width: 100
+            height: 35
+            visible: true
+            text: qsTr("Add Database")
+            palette.buttonText: "#ffffff"
+            background: Rectangle {
+                color: "#000000"
+                radius: 50
+            }
+            layer.effect: DropShadow {
+                width: 69
+                color: "#ffffff"
+                radius: 8
+                horizontalOffset: 2
+                transparentBorder: true
+                verticalOffset: 2
+                spread: 0
+                samples: 17
+            }
+            layer.enabled: true
+
+            onClicked: {
+                mainWindow.visible = false
+                buildDatabaseWin.visible = true
+            }
+        }
+
+        Label {
+            id: label9
+            x: 760
+            y: 355
+            width: 81
+            height: 17
+            color: "#ffffff"
+            text: qsTr("Query Subrange")
+            visible: true
+        }
+
+        Rectangle {
+            id: rectangle8
+            x: 735
+            y: 373
+            width: 130
+            height: 21
+            color: "#000000"
+            border.color: "#ffffff"
+            TextEdit {
+                id: resultFmtTxtInput1
+                x: 3
+                y: 1
+                width: 127
+                height: 18
+                color: "#ffffff"
+                text: qsTr("")
+                clip: true
+                selectByMouse: true
+                selectionColor: "#ffffff"
+                selectedTextColor: "#000000"
+                font.pixelSize: 12
+                cursorVisible: false
+            }
+            visible: true
+        }
+
+        Rectangle {
+            id: rectangle9
+            x: 736
+            y: 419
+            width: 130
+            height: 21
+            color: "#000000"
+            border.color: "#ffffff"
+            TextEdit {
+                id: resultFmtTxtInput2
+                x: 3
+                y: 1
+                width: 127
+                height: 18
+                color: "#ffffff"
+                text: qsTr("")
+                clip: true
+                selectByMouse: true
+                selectionColor: "#ffffff"
+                selectedTextColor: "#000000"
+                font.pixelSize: 14
+                cursorVisible: false
+            }
+            visible: true
+        }
+
+        Label {
+            id: label10
+            x: 703
+            y: 375
+            width: 28
             height: 19
             color: "#ffffff"
-            text: qsTr("Enter sequence or select file")
+            text: qsTr("From")
+            visible: true
+        }
+
+        Label {
+            id: label11
+            x: 716
+            y: 421
+            width: 15
+            height: 19
+            color: "#ffffff"
+            text: qsTr("To")
+            visible: true
+        }
+
+        Rectangle {
+            id: selectedFileRect
+            x: 210
+            y: 447
+            width: 485
+            height: 21
+            color: "#000000"
+            border.color: "#ffffff"
+            TextEdit {
+                id: selectedFileText
+                x: 2
+                y: 2
+                width: 481
+                height: 17
+                color: "#ffffff"
+                text: qsTr("")
+                clip: true
+                selectByMouse: true
+                selectionColor: "#ffffff"
+                selectedTextColor: "#000000"
+                font.pixelSize: 12
+            }
+            visible: true
+        }
+
+        Rectangle {
+            id: jobTitleRect
+            x: 210
+            y: 475
+            width: 485
+            height: 21
+            color: "#000000"
+            border.color: "#ffffff"
+            TextEdit {
+                id: jobTitleText
+                x: 2
+                y: 2
+                width: 481
+                height: 17
+                color: "#ffffff"
+                text: qsTr("")
+                selectByMouse: true
+                clip: true
+                selectionColor: "#ffffff"
+                selectedTextColor: "#000000"
+                cursorVisible: false
+                font.pixelSize: 12
+            }
+            visible: true
+        }
+
+        Label {
+            id: label12
+            x: 157
+            y: 479
+            width: 47
+            height: 17
+            color: "#ffffff"
+            text: qsTr("Job Title")
+            visible: true
+        }
+
+        Rectangle {
+            id: seqInputRect
+            x: 126
+            y: 373
+            width: 569
+            height: 67
+            color: "#000000"
+            border.color: "#ffffff"
+            ScrollView {
+                id: seqInputScrollView
+                x: 2
+                y: 2
+                width: 565
+                height: 63
+                clip: false
+                ScrollBar.vertical.position: 0
+                TextArea {
+                    id: seqInputText
+                    x: -9
+                    y: -6
+                    width: 562
+                    height: 63
+                    color: "#ffffff"
+                    text: ""
+                    font.pointSize: 10
+                    clip: true
+                    selectByMouse: true
+                    placeholderText: qsTr("")
+                    selectionColor: "#ffffff"
+                    wrapMode: Text.Wrap
+                    visible: true
+                }
+            }
             visible: true
         }
     }
     //Get paths when the program starts
+    //Check for saved databases and populate the combobox. This is Triggered by the getMyDocuments function
     Component.onCompleted: {
-       mainController.getMyDocumentsPath()
-        //Check for saved databases and populate the combobox
-     }
+        mainController.getMyDocumentsPath()
+    }
 }
 
 
+
+
+
+/*##^##
+Designer {
+    D{i:0;formeditorZoom:0.75}
+}
+##^##*/

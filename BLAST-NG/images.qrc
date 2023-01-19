@@ -2,6 +2,8 @@
     <qresource prefix="/">
         <file>images/logo.png</file>
         <file>images/add_db_text.png</file>
-        <file>images/bg_9.png</file>
+        <file>images/dbBtnImg.png</file>
+        <file>images/homeBtnImg.png</file>
+        <file>images/bg_1000X650.png</file>
     </qresource>
 </RCC>

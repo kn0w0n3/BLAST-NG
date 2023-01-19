@@ -29,13 +29,14 @@ signals:
     void buildDbOutputToQml(QString buildDbText);
     void dbNameTxtToQml(QString dbName);
     void blastPData2Qml(QString blastPText);
+    void seqFileNameToQml(QString _seqFileName);
 
 public slots:
     void selectAFile();
     void selectAFile2();   
     void buildDatabase(QString, QString);
     void startBlastP(QString, QString, QString, QString, QString, QString);
-    void saveBlastPReply();
+    void processBlastStdOut();
     void startBlastN();
     void startBlastX();
     void startTBlastN();
