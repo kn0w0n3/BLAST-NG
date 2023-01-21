@@ -4,7 +4,7 @@ Bioinformatics tool for searching sequence similarities:
 
 The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity between sequences. The program compares nucleotide or protein sequences to sequence databases and calculates the statistical significance of matches.    
 
-![blastng_1-20-23](https://user-images.githubusercontent.com/22214754/213844962-0df2d429-b4bd-47e5-8155-b5ff5a9f1268.gif)      
+![blastng_1-20-23_2](https://user-images.githubusercontent.com/22214754/213847029-6713d043-7748-4db7-803e-bf149e24ea45.gif)        
 
 # **IDE:**       
 ![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
