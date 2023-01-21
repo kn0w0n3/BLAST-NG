@@ -111,7 +111,7 @@ Window {
                 ScrollBar.vertical.position: 0
             }
         }
-
+        /*
         Button {
             id: backBtn
             x: 14
@@ -121,7 +121,7 @@ Window {
             text: qsTr("Back")
             palette.buttonText: "#ffffff"
             layer.enabled: true
-            visible: true
+            visible: false
             layer.effect: DropShadow {
                 width: 69
                 color: "#ffffff"
@@ -141,7 +141,7 @@ Window {
                 mainWindow.visible = true
             }
         }
-
+*/
         ComboBox {
             id: controlDb
             x: 452
@@ -397,6 +397,7 @@ Window {
         }
     }
 
+
     Rectangle {
         id: mainWindow
         x: 0
@@ -438,6 +439,7 @@ Window {
             y: 0
             width: 1000
             height: 650
+            visible: true
             source: "images/bg_1000X650.png"
             fillMode: Image.PreserveAspectFit
         }
@@ -458,7 +460,7 @@ Window {
             x: 126
             y: 45
             width: 739
-            height: 301
+            height: 224
             color: "#000000"
             visible: true
             border.color: "#ffffff"
@@ -468,7 +470,7 @@ Window {
                 x: 3
                 y: 3
                 width: 736
-                height: 295
+                height: 224
                 clip: false
                 ScrollBar.vertical.policy: ScrollBar.AsNeeded
                 ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
@@ -493,16 +495,16 @@ Window {
 
         Button {
             id: startBtn
-            x: 403
-            y: 550
-            width: 100
-            height: 35
-            visible: true
+            x: 210
+            y: 582
+            width: 70
+            height: 20
+            visible: false
             text: qsTr("Start")
 
             background: Rectangle {
                 color: "#000000"
-                radius: 50
+                radius: 0
             }
             layer.effect: DropShadow {
                 width: 69
@@ -516,7 +518,7 @@ Window {
             }
             palette.buttonText: "#FFFFFF"
             layer.enabled: true
-
+            /*
             onClicked: {
                 //video.play()
                 //video1.play()
@@ -541,19 +543,22 @@ Window {
                     mainController.startTBlastX()
                 }
             }
+            */
         }
 
         Button {
             id: selectFileBtn
-            x: 126
-            y: 446
-            width: 78
+            x: 62
+            y: 365
+            width: 67
             height: 21
-            visible: true
+            visible: false
             text: qsTr("Select File")
             background: Rectangle {
+                width: 73
+                height: 18
                 color: "#000000"
-                radius: 50
+                radius: 0
             }
             layer.effect: DropShadow {
                 width: 69
@@ -577,11 +582,11 @@ Window {
 
         Button {
             id: helpBtn
-            x: 595
-            y: 550
+            x: 888
+            y: 186
             width: 100
             height: 35
-            visible: true
+            visible: false
             text: qsTr("Help")
             palette.buttonText: "#ffffff"
             background: Rectangle {
@@ -609,9 +614,9 @@ Window {
 
         ComboBox {
             id: dbSelectDropDown
-            x: 209
-            y: 517
-            width: 116
+            x: 210
+            y: 419
+            width: 485
             height: 21
             visible: true
             editable: false
@@ -808,35 +813,24 @@ Window {
         }
 
         Label {
-            id: label
-            x: 209
-            y: 502
-            width: 113
-            height: 14
-            visible: true
-            color: "#ffffff"
-            text: qsTr("Select Database")
-        }
-
-        Label {
             id: label2
-            x: 345
-            y: 502
+            x: 906
+            y: 372
             width: 60
             height: 14
-            visible: true
+            visible: false
             color: "#ffffff"
             text: qsTr("Threads")
         }
 
         Rectangle {
             id: rectangle3
-            x: 345
-            y: 517
+            x: 906
+            y: 394
             width: 62
             height: 21
             color: "#000000"
-            visible: true
+            visible: false
             border.color: "#ffffff"
 
             TextEdit {
@@ -847,6 +841,7 @@ Window {
                 height: 18
                 color: "#ffffff"
                 text: qsTr("")
+                visible: false
                 selectedTextColor: "#000000"
                 selectionColor: "#ffffff"
                 readOnly: false
@@ -860,22 +855,22 @@ Window {
 
         Label {
             id: label3
-            x: 431
-            y: 502
+            x: 907
+            y: 438
             width: 60
             height: 16
-            visible: true
+            visible: false
             color: "#ffffff"
             text: qsTr("E-Value")
         }
 
         Rectangle {
             id: rectangle4
-            x: 431
-            y: 517
+            x: 907
+            y: 462
             width: 62
             height: 21
-            visible: true
+            visible: false
             color: "#000000"
             border.color: "#ffffff"
 
@@ -887,6 +882,7 @@ Window {
                 height: 18
                 color: "#ffffff"
                 text: qsTr("")
+                visible: false
                 selectionColor: "#ffffff"
                 selectedTextColor: "#000000"
                 font.pixelSize: 15
@@ -898,23 +894,23 @@ Window {
 
         Label {
             id: label4
-            x: 509
+            x: 906
             y: 502
             width: 96
             height: 14
-            visible: true
+            visible: false
             color: "#ffffff"
             text: qsTr("Output Format")
         }
 
         Rectangle {
             id: rectangle5
-            x: 509
-            y: 517
+            x: 896
+            y: 522
             width: 96
             height: 21
             color: "#000000"
-            visible: true
+            visible: false
             border.color: "#ffffff"
 
             TextEdit {
@@ -925,6 +921,7 @@ Window {
                 height: 18
                 color: "#ffffff"
                 text: qsTr("")
+                visible: false
                 selectedTextColor: "#000000"
                 selectionColor: "#ffffff"
                 font.pixelSize: 15
@@ -938,23 +935,23 @@ Window {
 
         Label {
             id: label5
-            x: 618
-            y: 502
+            x: 898
+            y: 566
             width: 77
             height: 14
-            visible: true
+            visible: false
             color: "#ffffff"
             text: qsTr("Other cmd")
         }
 
         Rectangle {
             id: rectangle6
-            x: 618
-            y: 517
+            x: 899
+            y: 581
             width: 77
             height: 21
             color: "#000000"
-            visible: true
+            visible: false
             border.color: "#ffffff"
 
             TextEdit {
@@ -965,6 +962,7 @@ Window {
                 height: 18
                 color: "#ffffff"
                 text: qsTr("")
+                visible: false
                 selectedTextColor: "#000000"
                 selectionColor: "#ffffff"
                 font.pixelSize: 15
@@ -1001,7 +999,7 @@ Window {
         Label {
             id: label8
             x: 126
-            y: 355
+            y: 275
             width: 358
             height: 17
             color: "#ffffff"
@@ -1009,42 +1007,13 @@ Window {
             visible: true
         }
 
-        Rectangle {
-            id: sidePanel
-            width: 70
-            height: 600
-            color: "#a6000000"
-            visible: false
-            border.color: "#000000"
-
-            Image {
-                id: image4
-                x: 8
-                y: 95
-                width: 50
-                height: 50
-                fillMode: Image.PreserveAspectFit
-                source: "images/dbBtnImg.png"
-            }
-
-            Image {
-                id: image5
-                x: 8
-                y: 14
-                width: 50
-                height: 50
-                fillMode: Image.PreserveAspectFit
-                source: "images/homeBtnImg.png"
-            }
-        }
-
         Button {
             id: addDbBtn
-            x: 210
-            y: 550
+            x: 886
+            y: 234
             width: 100
             height: 35
-            visible: true
+            visible: false
             text: qsTr("Add Database")
             palette.buttonText: "#ffffff"
             background: Rectangle {
@@ -1071,8 +1040,8 @@ Window {
 
         Label {
             id: label9
-            x: 760
-            y: 355
+            x: 747
+            y: 275
             width: 81
             height: 17
             color: "#ffffff"
@@ -1083,7 +1052,7 @@ Window {
         Rectangle {
             id: rectangle8
             x: 735
-            y: 373
+            y: 292
             width: 130
             height: 21
             color: "#000000"
@@ -1108,8 +1077,8 @@ Window {
 
         Rectangle {
             id: rectangle9
-            x: 736
-            y: 419
+            x: 735
+            y: 338
             width: 130
             height: 21
             color: "#000000"
@@ -1134,8 +1103,8 @@ Window {
 
         Label {
             id: label10
-            x: 703
-            y: 375
+            x: 701
+            y: 300
             width: 28
             height: 19
             color: "#ffffff"
@@ -1145,8 +1114,8 @@ Window {
 
         Label {
             id: label11
-            x: 716
-            y: 421
+            x: 714
+            y: 340
             width: 15
             height: 19
             color: "#ffffff"
@@ -1157,7 +1126,7 @@ Window {
         Rectangle {
             id: selectedFileRect
             x: 210
-            y: 447
+            y: 365
             width: 485
             height: 21
             color: "#000000"
@@ -1174,7 +1143,7 @@ Window {
                 selectByMouse: true
                 selectionColor: "#ffffff"
                 selectedTextColor: "#000000"
-                font.pixelSize: 12
+                font.pixelSize: 11
             }
             visible: true
         }
@@ -1182,7 +1151,7 @@ Window {
         Rectangle {
             id: jobTitleRect
             x: 210
-            y: 475
+            y: 392
             width: 485
             height: 21
             color: "#000000"
@@ -1200,16 +1169,16 @@ Window {
                 selectionColor: "#ffffff"
                 selectedTextColor: "#000000"
                 cursorVisible: false
-                font.pixelSize: 12
+                font.pixelSize: 11
             }
             visible: true
         }
 
         Label {
             id: label12
-            x: 157
-            y: 479
-            width: 47
+            x: 161
+            y: 394
+            width: 43
             height: 17
             color: "#ffffff"
             text: qsTr("Job Title")
@@ -1219,7 +1188,7 @@ Window {
         Rectangle {
             id: seqInputRect
             x: 126
-            y: 373
+            y: 292
             width: 569
             height: 67
             color: "#000000"
@@ -1251,13 +1220,663 @@ Window {
             }
             visible: true
         }
+
+        Rectangle {
+            id: jobTitleRect1
+            x: 210
+            y: 460
+            width: 485
+            height: 21
+            color: "#000000"
+            border.color: "#ffffff"
+            TextEdit {
+                id: jobTitleText1
+                x: 2
+                y: 2
+                width: 481
+                height: 17
+                color: "#ffffff"
+                text: qsTr("")
+                selectionColor: "#ffffff"
+                cursorVisible: false
+                clip: true
+                font.pixelSize: 11
+                selectedTextColor: "#000000"
+                selectByMouse: true
+            }
+            visible: true
+        }
+
+        Label {
+            id: label13
+            x: 159
+            y: 457
+            width: 47
+            height: 15
+            color: "#ffffff"
+            text: qsTr("Organism")
+            visible: true
+        }
+
+        Label {
+            id: label14
+            x: 158
+            y: 421
+            width: 47
+            height: 17
+            color: "#ffffff"
+            text: qsTr("Database")
+            visible: true
+        }
+
+        CheckBox {
+            id: checkBox
+            x: 204
+            y: 487
+            width: 114
+            height: 23
+            text: qsTr("Models (XM/XP)")
+            checkState: Qt.Unchecked
+            checked: false
+
+            indicator: Rectangle {
+                implicitWidth: 18
+                implicitHeight: 18
+                x: checkBox.leftPadding
+                y: parent.height / 2 - height / 2
+                width: 18
+                height: 18
+                radius: 3
+                border.color: "#000000"
+
+                Rectangle {
+                    width: 12
+                    height: 12
+                    color: "#000000"
+                    x: 3
+                    y: 3
+                    radius: 2
+                    border.color: "#ffffff"
+                    visible: checkBox.checked
+                }
+            }
+
+            contentItem: Text {
+                color: "#ffffff"
+                text: checkBox.text
+                font: checkBox.font
+                opacity: enabled ? 1.0 : 0.3
+                verticalAlignment: Text.AlignVCenter
+                leftPadding: checkBox.indicator.width + checkBox.spacing
+            }
+        }
+
+        CheckBox {
+            id: checkBox1
+            x: 335
+            y: 487
+            width: 217
+            height: 23
+            text: qsTr("Non-redundant RefSeq proteins (WP)")
+            contentItem: Text {
+                color: "#ffffff"
+                text: checkBox1.text
+                font: checkBox1.font
+                verticalAlignment: Text.AlignVCenter
+                leftPadding: checkBox1.indicator.width + checkBox1.spacing
+                opacity: enabled ? 1.0 : 0.3
+            }
+            indicator: Rectangle {
+                x: checkBox1.leftPadding
+                y: parent.height / 2 - height / 2
+                width: 18
+                height: 18
+                radius: 3
+                implicitWidth: 18
+                border.color: "#000000"
+                Rectangle {
+                    x: 3
+                    y: 3
+                    width: 12
+                    height: 12
+                    color: "#000000"
+                    radius: 2
+                    border.color: "#ffffff"
+                    visible: checkBox1.checked
+                }
+                implicitHeight: 18
+            }
+            checked: false
+            checkState: Qt.Unchecked
+        }
+
+        CheckBox {
+            id: checkBox2
+            x: 568
+            y: 487
+            width: 260
+            height: 23
+            text: qsTr("Uncultured/environmental sample sequences")
+            contentItem: Text {
+                color: "#ffffff"
+                text: checkBox2.text
+                font: checkBox2.font
+                verticalAlignment: Text.AlignVCenter
+                leftPadding: checkBox2.indicator.width + checkBox2.spacing
+                opacity: enabled ? 1.0 : 0.3
+            }
+            indicator: Rectangle {
+                x: checkBox2.leftPadding
+                y: parent.height / 2 - height / 2
+                width: 18
+                height: 18
+                radius: 3
+                border.color: "#000000"
+                implicitWidth: 18
+                Rectangle {
+                    x: 3
+                    y: 3
+                    width: 12
+                    height: 12
+                    color: "#000000"
+                    radius: 2
+                    border.color: "#ffffff"
+                    visible: checkBox2.checked
+                }
+                implicitHeight: 18
+            }
+            checked: false
+            checkState: Qt.Unchecked
+        }
+
+        Label {
+            id: excludeLabel
+            x: 168
+            y: 487
+            width: 38
+            height: 14
+            color: "#ffffff"
+            text: qsTr("Exclude")
+            visible: true
+        }
+
+        CheckBox {
+            id: checkBox3
+            x: 701
+            y: 459
+            width: 79
+            height: 23
+            text: qsTr("Exclude")
+            contentItem: Text {
+                color: "#ffffff"
+                text: checkBox3.text
+                font: checkBox3.font
+                verticalAlignment: Text.AlignVCenter
+                leftPadding: checkBox3.indicator.width + checkBox3.spacing
+                opacity: enabled ? 1.0 : 0.3
+            }
+            indicator: Rectangle {
+                x: checkBox3.leftPadding
+                y: parent.height / 2 - height / 2
+                width: 18
+                height: 18
+                radius: 3
+                implicitWidth: 18
+                border.color: "#000000"
+                Rectangle {
+                    x: 3
+                    y: 3
+                    width: 12
+                    height: 12
+                    color: "#000000"
+                    radius: 2
+                    border.color: "#ffffff"
+                    visible: checkBox3.checked
+                }
+                implicitHeight: 18
+            }
+            checked: false
+            checkState: Qt.Unchecked
+        }
+
+        Label {
+            id: label16
+            x: 210
+            y: 446
+            width: 449
+            height: 14
+            color: "#ffffff"
+            text: qsTr("Enter organism common name, binomial, or tax id. Only 20 top taxa will be shown")
+            font.bold: false
+            font.pointSize: 8
+            visible: true
+        }
+        ComboBox {
+            id: selectAlgorithm
+            x: 210
+            y: 516
+            width: 485
+            height: 21
+            editable: false
+            visible: true
+            model: [" Select Algorithm", " Quick BLASTP (Accelerated protein-protein BLAST)", " blastp (protein-protein BLAST)", " PSI-BLAST (Position-Specific Iterated BLAST)", " PHI-BLAST (Pattern Hit Initiated BLAST)", " DELTA-BLAST (Domain Enhanced Lookup Time Accelerated BLAST)"]
+
+            delegate: ItemDelegate {
+                width: selectAlgorithm.width
+                contentItem: Text {
+                    text: selectAlgorithm.textRole
+                          ? (Array.isArray(selectAlgorithm.model) ? modelData[selectAlgorithm.textRole] : model[selectAlgorithm.textRole])
+                          : modelData
+                    color: "#000000" //Change the text color of the model data in the drop down box.
+                    font: selectAlgorithm.font
+                    elide: Text.ElideRight
+                    verticalAlignment: Text.AlignVCenter
+                }
+                highlighted: selectAlgorithm.highlightedIndex === index
+            }
+
+            indicator: Canvas {
+                id: canvasselectAlgorithm
+                x: selectAlgorithm.width - width - selectAlgorithm.rightPadding
+                y: selectAlgorithm.topPadding + (selectAlgorithm.availableHeight - height) / 2
+                width: 12
+                height: 8
+                contextType: "2d"
+
+                Connections {
+                    target: selectAlgorithm
+                    function onPressedChanged() { canvasselectAlgorithm.requestPaint(); }
+                }
+
+                //This will change the color of the triangle indicator.
+                onPaint: {
+                    context.reset();
+                    context.moveTo(0, 0);
+                    context.lineTo(width, 0);
+                    context.lineTo(width / 2, height);
+                    context.closePath();
+                    context.fillStyle = selectAlgorithm.pressed ? "#FFFFFF" : "#FFFFFF";
+                    context.fill();
+                }
+            }
+            //The second color is the main color. The first item is what color the changes to once clicked.
+            //This will change the text color of main text in the box.
+            contentItem: Text {
+                leftPadding: 0
+                rightPadding: selectAlgorithm.indicator.width + selectAlgorithm.spacing
+
+                text: selectAlgorithm.displayText
+                font: selectAlgorithm.font
+                color: selectAlgorithm.pressed ? "#FFFFFF" : "#FFFFFF"
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+            }
+
+            //This will change the main box background color, border color,  and the border color when pressed.
+            //The second color is the main color. The first item is what color the changes to once clicked.
+            background: Rectangle {
+                implicitWidth: 120
+                implicitHeight: 40
+                color: "#000000"
+                border.color: selectAlgorithm.pressed ? "#FFFFFF" : "#FFFFFF"
+                border.width: selectAlgorithm.visualFocus ? 2 : 1
+                radius: 2
+            }
+
+            popup: Popup {
+                y: selectAlgorithm.height - 1
+                width: selectAlgorithm.width
+                implicitHeight: contentItem.implicitHeight
+                padding: 1
+
+                contentItem: ListView {
+                    clip: true
+                    implicitHeight: contentHeight
+                    model: selectAlgorithm.popup.visible ? selectAlgorithm.delegateModel : null
+                    currentIndex: selectAlgorithm.highlightedIndex
+
+                    ScrollIndicator.vertical: ScrollIndicator { }
+                }
+
+                //This will change the color of the drop down Rectangle
+                background: Rectangle {
+                    border.color: "#FFFFFF"
+                    color: "#FFFFFF"
+                    radius: 5
+                }
+            }
+        }
+
+        Label {
+            id: optionalLabel
+            x: 170
+            y: 500
+            width: 34
+            height: 13
+            color: "#ffffff"
+            text: qsTr("Optional")
+            font.pointSize: 7
+            visible: true
+        }
+
+        Label {
+            id: optionalLabel1
+            x: 166
+            y: 471
+            width: 34
+            height: 13
+            color: "#ffffff"
+            text: qsTr("Optional")
+            font.pointSize: 7
+            visible: true
+        }
+
+
+        Image {
+            id: selectFileImgBtn
+            x: 126
+            y: 366
+            width: 70
+            height: 20
+            fillMode: Image.PreserveAspectFit
+            source: "images/sfBtn.png"
+
+            MouseArea {
+                id: selectFileMouseArea
+                width: 70
+                height: 20
+                hoverEnabled: true
+                onClicked: {
+                    //Select a file
+                    //var num = 3;
+                    mainController.selectAFile2()
+
+                }
+                onEntered: {
+                    selectFileImgBtn.width = 75
+                    selectFileImgBtn.height = 25
+                }
+                onExited: {
+                    selectFileImgBtn.width = 70
+                    selectFileImgBtn.height = 20
+                }
+
+                onPressed: {
+                    selectFileImgBtn.width = 70
+                    selectFileImgBtn.height = 20
+                }
+                onReleased: {
+                    selectFileImgBtn.width = 75
+                    selectFileImgBtn.height = 25
+                }
+
+            }
+        }
+        Image {
+            id: startImgBtn
+            x: 210
+            y: 543
+            width: 70
+            height: 20
+            fillMode: Image.PreserveAspectFit
+            source: "images/startBtn.png"
+
+            MouseArea {
+                id: startBtnMouseArea
+                width: 70
+                height: 20
+                hoverEnabled: true
+
+                onClicked: {
+                    //video.play()
+                    //video1.play()
+                    if(selectMethodDropDown.currentText.trim() === "BLASTp"){
+                        mainController.startBlastP(dbSelectDropDown.currentText,
+                                                   resultFmtTxtInput.getText(0, resultFmtTxtInput.length),
+                                                   eValueTxtInput.getText(0, eValueTxtInput.length),
+                                                   threadsTxtInput.getText(0, threadsTxtInput.length),
+                                                   otherCmdTxtInput.getText(0, otherCmdTxtInput.length),
+                                                   seqInputText.getText(0, seqInputText.length))
+                    }
+                    else if(selectMethodDropDown.currentText.trim() === "BLASTn"){
+                        mainController.startBlastN()
+                    }
+                    else if(selectMethodDropDown.currentText.trim() === "BLASTx"){
+                        mainController.startBlastX()
+                    }
+                    else if(selectMethodDropDown.currentText.trim() === "tBLASTn"){
+                        mainController.startTBlastN()
+                    }
+                    else if(selectMethodDropDown.currentText.trim() === "tBLASTx"){
+                        mainController.startTBlastX()
+                    }
+                }
+                onEntered: {
+                    startImgBtn.width = 75
+                    startImgBtn.height = 25
+                }
+                onExited: {
+                    startImgBtn.width = 70
+                    startImgBtn.height = 20
+                }
+
+                onPressed: {
+                    startImgBtn.width = 70
+                    startImgBtn.height = 20
+                }
+                onReleased: {
+                    startImgBtn.width = 75
+                    startImgBtn.height = 25
+                }
+            }
+        }
     }
+
     //Get paths when the program starts
     //Check for saved databases and populate the combobox. This is Triggered by the getMyDocuments function
     Component.onCompleted: {
         mainController.getMyDocumentsPath()
     }
+
+    Rectangle {
+        id: sidePanel
+        width: 65
+        height: 650
+        color: "#99000000"
+        visible: false
+        border.color: "#000000"
+
+        Image {
+            id: homeBtnImg
+            x: 13
+            y: 18
+            width: 40
+            height: 40
+            fillMode: Image.PreserveAspectFit
+            source: "images/homeBtnImg.png"
+
+            MouseArea {
+                id: homeBtnMouseArea
+                width: 40
+                height: 40
+                hoverEnabled: true
+                onEntered: {
+                    homeBtnImg.width = 45
+                    homeBtnImg.height = 45
+                }
+                onExited: {
+                    homeBtnImg.width = 40
+                    homeBtnImg.height = 40
+                }
+                onClicked: {
+                    if(buildDatabaseWin.visible == true){
+                        buildDatabaseWin.visible = false
+                        mainWindow.visible = true
+                    }
+                }
+            }
+        }
+
+        Image {
+            id: dbBtnImg
+            x: 13
+            y: 83
+            width: 40
+            height: 40
+            fillMode: Image.PreserveAspectFit
+            source: "images/dbBtnImg.png"
+
+            MouseArea {
+                id: mouseArea1
+                width: 40
+                height: 40
+                hoverEnabled: true
+                onEntered: {
+                    dbBtnImg.width = 45
+                    dbBtnImg.height = 45
+                }
+                onExited: {
+                    dbBtnImg.width = 40
+                    dbBtnImg.height = 40
+                }
+                onClicked: {
+                    if(mainWindow.visible == true){
+                        mainWindow.visible = false
+                        buildDatabaseWin.visible = true
+                    }
+                }
+            }
+        }
+
+
+        Image {
+            id: globalsearchBtn
+            x: 13
+            y: 148
+            width: 40
+            height: 40
+            source: "images/blobalImgBtn.png"
+            fillMode: Image.PreserveAspectFit
+
+            MouseArea {
+                id: mouseArea2
+                width: 40
+                height: 40
+                hoverEnabled: true
+
+                onEntered: {
+                    globalsearchBtn.width = 45
+                    globalsearchBtn.height = 45
+                }
+                onExited: {
+                    globalsearchBtn.width = 40
+                    globalsearchBtn.height = 40
+                }
+            }
+        }
+
+        Image {
+            id: globalsearchBtn1
+            x: 13
+            y: 215
+            width: 40
+            height: 40
+            source: "images/toolsBtn.png"
+            fillMode: Image.PreserveAspectFit
+
+            MouseArea {
+                id: mouseArea3
+                width: 40
+                height: 40
+                hoverEnabled: true
+
+                onEntered: {
+                    globalsearchBtn1.width = 45
+                    globalsearchBtn1.height = 45
+                }
+                onExited: {
+                    globalsearchBtn1.width = 40
+                    globalsearchBtn1.height = 40
+                }
+            }
+        }
+
+        Image {
+            id: globalsearchBtn2
+            x: 13
+            y: 281
+            width: 40
+            height: 40
+            source: "images/helpBtn.png"
+            fillMode: Image.PreserveAspectFit
+
+            MouseArea {
+                id: mouseArea4
+                width: 40
+                height: 40
+                hoverEnabled: true
+
+                onEntered: {
+                    globalsearchBtn2.width = 45
+                    globalsearchBtn2.height = 45
+                }
+                onExited: {
+                    globalsearchBtn2.width = 40
+                    globalsearchBtn2.height = 40
+                }
+            }
+        }
+
+        Image {
+            id: hideMenuImg
+            x: 13
+            y: 610
+            width: 40
+            height: 30
+            fillMode: Image.PreserveAspectFit
+            source: "images/GmenuClose.png"
+
+            MouseArea {
+                id: hideMenuMouseArea
+                x: 0
+                y: 0
+                width: 38
+                height: 30
+                onClicked: {
+                    dotsImg.visible = true
+                    sidePanel.visible = false
+                }
+            }
+        }
+    }
+
+    Image {
+        id: dotsImg
+        x: 13
+        y: 626
+        width: 40
+        height: 21
+        visible: true
+        fillMode: Image.PreserveAspectFit
+        source: "images/GopenMenuDots.png"
+
+        MouseArea {
+            id: dotsMouseArea
+            width: 40
+            height: 21
+            onClicked: {
+                dotsImg.visible = false
+                sidePanel.visible = true
+            }
+        }
+    }
 }
+
+
+
+
+
+
 
 
 

@@ -5,5 +5,14 @@
         <file>images/dbBtnImg.png</file>
         <file>images/homeBtnImg.png</file>
         <file>images/bg_1000X650.png</file>
+        <file>images/blobalImgBtn.png</file>
+        <file>images/toolsBtn.png</file>
+        <file>images/helpBtn.png</file>
+        <file>images/sfBtn.png</file>
+        <file>images/startBtn.png</file>
+        <file>images/menuClose.png</file>
+        <file>images/openMenuDots.png</file>
+        <file>images/GmenuClose.png</file>
+        <file>images/GopenMenuDots.png</file>
     </qresource>
 </RCC>
