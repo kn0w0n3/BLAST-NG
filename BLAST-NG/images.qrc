@@ -10,9 +10,12 @@
         <file>images/helpBtn.png</file>
         <file>images/sfBtn.png</file>
         <file>images/startBtn.png</file>
-        <file>images/menuClose.png</file>
-        <file>images/openMenuDots.png</file>
         <file>images/GmenuClose.png</file>
         <file>images/GopenMenuDots.png</file>
+        <file>images/buildDBBtn.png</file>
+        <file>images/elpBtn.png</file>
+        <file>images/sfBtn-adb.png</file>
+        <file>images/startBtn2.png</file>
+        <file>images/selectDirBtn.png</file>
     </qresource>
 </RCC>

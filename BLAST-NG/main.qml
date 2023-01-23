@@ -41,6 +41,12 @@ Window {
         onSeqFileNameToQml:{
             selectedFileText.text = _seqFileName
         }
+        onDbFileNameToQml:{
+            filePathLabel.text = _dbFileName
+        }
+        onDirPathToQml:{
+            dirPathLabel.text = _dirPath
+        }
     }
 
     Rectangle {
@@ -73,13 +79,24 @@ Window {
             height: 650
             source: "images/bg_1000X650.png"
             fillMode: Image.PreserveAspectFit
+
+            Label {
+                id: label
+                x: 291
+                y: 409
+                width: 217
+                height: 13
+                color: "#ffffff"
+                text: qsTr("Optional: Select directory to store database")
+                font.pointSize: 7
+            }
         }
 
         Rectangle {
             id: rectangle
-            x: 240
-            y: 65
-            width: 575
+            x: 198
+            y: 62
+            width: 605
             height: 292
             color: "#000000"
             border.color: "#ffffff"
@@ -88,7 +105,7 @@ Window {
                 id: scrollView1
                 x: 3
                 y: 3
-                width: 572
+                width: 602
                 height: 289
 
                 TextArea {
@@ -144,8 +161,8 @@ Window {
 */
         ComboBox {
             id: controlDb
-            x: 452
-            y: 412
+            x: 471
+            y: 379
             width: 152
             height: 21
             visible: true
@@ -246,7 +263,7 @@ Window {
             text: qsTr("Select File")
             palette.buttonText: "#ffffff"
             layer.enabled: true
-            visible: true
+            visible: false
             layer.effect: DropShadow {
                 width: 69
                 color: "#ffffff"
@@ -267,9 +284,9 @@ Window {
         }
 
         Rectangle {
-            id: rectangle7
-            x: 647
-            y: 412
+            id: dbNameRect
+            x: 635
+            y: 379
             width: 168
             height: 21
             color: "#000000"
@@ -278,15 +295,15 @@ Window {
                 id: dbNameTxtEdit
                 x: 2
                 y: 2
-                width: 165
-                height: 19
+                width: 164
+                height: 17
                 color: "#ffffff"
                 text: qsTr("")
                 selectedTextColor: "#000000"
                 selectionColor: "#ffffff"
                 cursorVisible: false
                 clip: true
-                font.pixelSize: 15
+                font.pixelSize: 13
                 selectByMouse:  true
                 //persistentSelection: true
             }
@@ -295,9 +312,9 @@ Window {
 
         Label {
             id: label6
-            x: 647
-            y: 384
-            width: 168
+            x: 665
+            y: 360
+            width: 109
             height: 22
             color: "#ffffff"
             text: qsTr("Database Name")
@@ -306,13 +323,13 @@ Window {
 
         Label {
             id: label7
-            x: 452
-            y: 384
-            width: 152
+            x: 476
+            y: 360
+            width: 144
             height: 22
             color: "#ffffff"
             text: qsTr("Select Database Type")
-            font.pointSize: 12
+            font.pointSize: 11
         }
 
         Button {
@@ -324,7 +341,7 @@ Window {
             text: qsTr("Build Database")
             palette.buttonText: "#ffffff"
             layer.enabled: true
-            visible: true
+            visible: false
             layer.effect: DropShadow {
                 width: 69
                 color: "#ffffff"
@@ -357,8 +374,8 @@ Window {
 
         Image {
             id: image1
-            x: 442
-            y: 21
+            x: 414
+            y: 14
             width: 172
             height: 25
             source: "images/add_db_text.png"
@@ -374,7 +391,7 @@ Window {
             text: qsTr("Help")
             palette.buttonText: "#ffffff"
             layer.enabled: true
-            visible: true
+            visible: false
             layer.effect: DropShadow {
                 width: 69
                 color: "#ffffff"
@@ -392,6 +409,177 @@ Window {
             onClicked: {
                 if(buildDbOutputText.getText(0,1) === ""){
                     mainController.getDbInstructions()
+                }
+            }
+        }
+
+
+
+
+        Rectangle {
+            id: filePathRect
+            x: 290
+            y: 379
+            width: 168
+            height: 21
+            color: "#000000"
+
+            Label {
+                id: filePathLabel
+                x: 3
+                y: 3
+                width: 163
+                height: 17
+                color: "#ffffff"
+                text: qsTr("")
+                clip: true
+                font.pointSize: 8
+            }
+            border.color: "#ffffff"
+        }
+        Image {
+            id: db_selectFileBtn
+            x: 207
+            y: 378
+            width: 77
+            height: 24
+            source: "images/sfBtn-adb.png"
+            fillMode: Image.PreserveAspectFit
+
+            MouseArea {
+                id: addDbSelectFileMouseArea
+                x: 0
+                y: 0
+                width: 77
+                height: 24
+                hoverEnabled: true
+                onClicked: {
+                    mainController.selectAFile()
+                }
+                onEntered: {
+                    db_selectFileBtn.width = 79
+                    db_selectFileBtn.height = 26
+                }
+                onExited: {
+                    db_selectFileBtn.width = 77
+                    db_selectFileBtn.height = 24
+                }
+            }
+        }
+        Image {
+            id: db_buildDbBtn
+            x: 288
+            y: 453
+            width: 77
+            height: 24
+            source: "images/buildDBBtn.png"
+            MouseArea {
+                id: buildDbMouseArea
+                x: 0
+                y: 0
+                width: 77
+                height: 24
+                hoverEnabled: true
+                onClicked: {
+                    var curText = dbNameTxtEdit.getText(0,dbNameTxtEdit.length)
+                    if(controlDb.currentText.trim() === ""){
+                        buildDbOutputText.text = "Select a database type before proceeding"
+
+                    }else{
+                        if(controlDb.currentText.trim() === "Protein Sequence"){
+                            mainController.buildDatabase("prot", curText)
+
+                        }else{
+                            mainController.buildDatabase("nucl", curText)
+                        }
+                    }
+                }
+                onEntered: {
+                    db_buildDbBtn.width = 79
+                    db_buildDbBtn.height = 26
+                }
+                onExited: {
+                    db_buildDbBtn.width = 77
+                    db_buildDbBtn.height = 24
+                }
+            }
+            fillMode: Image.PreserveAspectFit
+        }
+        Image {
+            id: db_helpBtn
+            x: 730
+            y: 453
+            width: 77
+            height: 24
+            source: "images/elpBtn.png"
+            MouseArea {
+                id: helpMouseArea
+                width: 77
+                height: 24
+                hoverEnabled: true
+                onEntered: {
+                    db_helpBtn.width = 79
+                    db_helpBtn.height = 26
+                }
+                onExited: {
+                    db_helpBtn.width = 77
+                    db_helpBtn.height = 24
+                }
+                onClicked: {
+                    if(buildDbOutputText.getText(0,1) === ""){
+                        mainController.getDbInstructions()
+                    }
+                }
+            }
+            fillMode: Image.PreserveAspectFit
+        }
+
+        Rectangle {
+            id: dirPathRect
+            x: 290
+            y: 421
+            width: 513
+            height: 21
+            color: "#000000"
+            border.color: "#ffffff"
+            Label {
+                id: dirPathLabel
+                x: 3
+                y: 3
+                width: 508
+                height: 17
+                color: "#ffffff"
+                text: qsTr("")
+                clip: true
+                font.pointSize: 8
+            }
+        }
+
+        Image {
+            id: dbSelectDirVtn
+            x: 207
+            y: 420
+            width: 77
+            height: 24
+            fillMode: Image.PreserveAspectFit
+            source: "images/selectDirBtn.png"
+            MouseArea {
+                id: selectDirMouseArea
+                x: 0
+                y: 0
+                width: 77
+                height: 24
+                hoverEnabled: true
+                onEntered: {
+                    dbSelectDirVtn.width = 79
+                    dbSelectDirVtn.height = 26
+                }
+                onExited: {
+                    dbSelectDirVtn.width = 77
+                    dbSelectDirVtn.height = 24
+                }
+                onClicked: {
+                    mainController.selectDirectory()
                 }
             }
         }
@@ -1882,8 +2070,10 @@ Window {
 
 
 
+
+
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.75}
+    D{i:0;formeditorZoom:0.8999999761581421}
 }
 ##^##*/

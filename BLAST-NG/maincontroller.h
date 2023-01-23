@@ -30,6 +30,8 @@ signals:
     void dbNameTxtToQml(QString dbName);
     void blastPData2Qml(QString blastPText);
     void seqFileNameToQml(QString _seqFileName);
+    void dbFileNameToQml(QString _dbFileName);
+    void dirPathToQml(QString _dirPath);
 
 public slots:
     void selectAFile();
@@ -45,17 +47,21 @@ public slots:
     void getMyDocumentsPath();
     void getSavedDatabases();
     void processBuildDbMessages();
+    void processBuildDbErrMsg();
     void dbDoneResultsToQml();
     void getMainInstructions(void);
     void getDbInstructions(void);
+    void selectDirectory();
 
 private:  
     //DB file info
-    QString dbFile = "";
+    QStringList dbFile;
     QString dbFileSize = "";
     QString dbFileName = "";
     QString dbFilePath = "";
+    QStringList dbFullFilePath_L;
     QString dbFullFilePath = "";
+    QString finalDirForDb = "";
     QString uniqueDirForDb = "";
 
     //Sequence to compare file info
@@ -84,14 +90,19 @@ private:
     QString fileContents = "";
 
     QProcess blast_p_Process;
-    QProcess buildDBProcess;
+    QProcess *buildDBProcess;
 
     QByteArray bpData;
     QString blastPOutput;
 
     QByteArray q_buildDbStdOut;
     QString s_buildDbStdout;
+
+    QByteArray q_buildDbStdErr;
+    QString s_buildDbStdErr;
+
     QString dbNameEntered;
+    QStringList s_SelectedDirectory;
 };
 
 #endif // MAINCONTROLLER_H

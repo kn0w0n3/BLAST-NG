@@ -6,13 +6,17 @@ MainController::MainController(QWidget *parent) : QWidget(parent){
 
 //Select a file
 void MainController::selectAFile(){
-    dbFile = QFileDialog::getOpenFileName(Q_NULLPTR, tr("Select File"), "/home");
-    QFileInfo fileInfo(dbFile);
+    dbFile << QFileDialog::getOpenFileName(Q_NULLPTR, tr("Select File"), "/home");
+    QFileInfo fileInfo(dbFile[0]);
     dbFileName = fileInfo.fileName().trimmed();
+    emit dbFileNameToQml(dbFileName);
     dbFullFilePath = fileInfo.filePath().trimmed();
+    dbFullFilePath_L << fileInfo.filePath();
     dbFilePath = fileInfo.filePath().trimmed();
     dbFilePath.replace(dbFileName, "");
     dbFileSize = QString::number(fileInfo.size());
+
+    qDebug() << "The selected full db file path is " << dbFullFilePath;
 }
 
 void MainController::selectAFile2(){
@@ -24,36 +28,40 @@ void MainController::selectAFile2(){
     seqDirPath.replace(seqFileName, "");
     seqFullFilePath = fileInfo.filePath().trimmed();
     seqFileSize = QString::number(fileInfo.size());
+
+    qDebug() << "The sequence full file path is " << seqFullFilePath;
 }
 
+//TODO put all the files in a folder and then transfer the folder. Also allow user to select output directory
 //Build the database and keep the files organized in their own directories
 void MainController::buildDatabase(QString dbType, QString _dbName){
     dbNameEntered = _dbName.trimmed();
-    emit buildDbOutputToQml("Building database... \n");
+    QDateTime dateTime = dateTime.currentDateTime();
+    QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
+    emit buildDbOutputToQml("Building database: " + dbNameEntered +"\nBuild database process started @: " + dateTimeString);
 
-    if(!QDir(myDocumentsPath + "BLAST-NG\\databases\\" + dbNameEntered).exists()){
-        QDir().mkdir(myDocumentsPath + "BLAST-NG\\databases\\" + dbNameEntered);
+    if(!QDir(myDocumentsPath + "BLAST-NG\\databases\\").exists()){
+        //qDebug() << "Should be making directory: " + myDocumentsPath + "BLAST-NG\\databases\\";
+         QDir().mkdir(myDocumentsPath + "BLAST-NG\\databases\\");
     }
-    uniqueDirForDb = myDocumentsPath + "BLAST-NG\\databases\\" + dbNameEntered;
+
+    uniqueDirForDb = myDocumentsPath + "BLAST-NG\\databases\\" + dbNameEntered + "\\";
+    //finalDirForDb = myDocumentsPath + "BLAST-NG\\databases\\";
 
     //Set the directory for powershell and run the makeblastdb program.
     //After the files are created, they are moved to their unique directory for organization and later use
     QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./makeblastdb -in " + dbFullFilePath + " -out " +  dbNameEntered + " -dbtype " + dbType.trimmed() + ";"
-         << "Move-Item -Path " + ncbiToolsPath  + _dbName + ".pdb" + " -Destination " + uniqueDirForDb + " -force" ";"
-         << "Move-Item -Path " + ncbiToolsPath  + _dbName + ".phr" + " -Destination " + uniqueDirForDb + " -force" ";"
-         << "Move-Item -Path " + ncbiToolsPath  + _dbName + ".pin" + " -Destination " + uniqueDirForDb + " -force" ";"
-         << "Move-Item -Path " + ncbiToolsPath  + _dbName + ".pjs" + " -Destination " + uniqueDirForDb + " -force" ";"
-         << "Move-Item -Path " + ncbiToolsPath  + _dbName + ".pot" + " -Destination " + uniqueDirForDb + " -force" ";"
-         << "Move-Item -Path " + ncbiToolsPath  + _dbName + ".ptf" + " -Destination " + uniqueDirForDb + " -force" ";"
-         << "Move-Item -Path " + ncbiToolsPath  + _dbName + ".psq" + " -Destination " + uniqueDirForDb + " -force" ";"
-         << "Move-Item -Path " + ncbiToolsPath  + _dbName + ".pto" + " -Destination " + uniqueDirForDb + " -force";
+         << "./makeblastdb -in " + dbFullFilePath_L[0] + " -out " + uniqueDirForDb + dbNameEntered + " -dbtype " + dbType.trimmed();
+         //<< "Move-Item -Path " + uniqueDirForDb + " -Destination " + finalDirForDb + " -force";
+    buildDBProcess = new QProcess();
+    buildDBProcess->connect(buildDBProcess, &QProcess::readyReadStandardOutput, this, &MainController::processBuildDbMessages);
+    buildDBProcess->connect(buildDBProcess, &QProcess::readyReadStandardError, this, &MainController::processBuildDbErrMsg);
+    connect(buildDBProcess, (void(QProcess::*)(int))&QProcess::finished, [=]{dbDoneResultsToQml();});
+    buildDBProcess->start("powershell", args);
 
-    buildDBProcess.connect(&buildDBProcess, &QProcess::readyReadStandardOutput, this, &MainController::processBuildDbMessages);
-    connect(&buildDBProcess, (void(QProcess::*)(int))&QProcess::finished, [=]{dbDoneResultsToQml();});
-    buildDBProcess.start("powershell", args);
     emit dbNameTxtToQml(" " + _dbName.trimmed());
+    //dbFullFilePath.clear();
 }
 
 //Run Blastp
@@ -75,7 +83,7 @@ void MainController::startBlastP(QString selectedDb, QString outFormat, QString 
 }
 
 void MainController::processBlastStdOut(){
-    bpData += blast_p_Process.readAllStandardOutput();
+    bpData += blast_p_Process.readAllStandardOutput().trimmed();
     blastPOutput = QString(bpData.trimmed());
 }
 
@@ -218,12 +226,27 @@ void MainController::getSavedDatabases(){
 }
 
 void MainController::processBuildDbMessages(){
-    q_buildDbStdOut += buildDBProcess.readAllStandardOutput();
+    q_buildDbStdOut += buildDBProcess->readAllStandardOutput().trimmed();
     s_buildDbStdout = QString(q_buildDbStdOut.trimmed());
+    qDebug() << "STD OUTPUT IS: " + s_buildDbStdout;
+    //emit buildDbOutputToQml(s_buildDbStdout);
+}
+
+void MainController::processBuildDbErrMsg(){
+    q_buildDbStdErr += buildDBProcess->readAllStandardError().trimmed();
+    s_buildDbStdErr = QString(q_buildDbStdErr);
+    qDebug() << "ERROR MESSAGE IS: " + s_buildDbStdErr;
 }
 
 void MainController::dbDoneResultsToQml(){
+    qDebug() << "Trying to send db results";
     emit buildDbOutputToQml(s_buildDbStdout + "\n\n");
+    QDateTime dateTime = dateTime.currentDateTime();
+    QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
+    emit buildDbOutputToQml("Build database process finished @: " + dateTimeString + "\n\n");
+    q_buildDbStdOut = "";
+    s_buildDbStdout = "";
+
 }
 
 //Display the main window instructions
@@ -252,4 +275,13 @@ void MainController::getDbInstructions(void){
     }
     file.close();
     emit dbDirectionsTxtToQml(instrctionsText);
+}
+
+void MainController::selectDirectory(){
+    QString dir = QFileDialog::getExistingDirectory(Q_NULLPTR, tr("Select Directory"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    s_SelectedDirectory << dir.trimmed();
+
+    emit dirPathToQml(s_SelectedDirectory[0]);
+    qDebug() << "The selected directory is: " +  s_SelectedDirectory[0];
+    s_SelectedDirectory.clear();
 }
