@@ -6,11 +6,13 @@ import QtMultimedia 5.15
 import QtQuick.Layouts 1.12
 
 Window {
+
     width: 1000
     height: 650
 
-    maximumHeight: 650
     maximumWidth: 1000
+    maximumHeight: 650
+
     visible: true
     title: qsTr("BLAST-NG")
 
@@ -128,7 +130,7 @@ Window {
                 ScrollBar.vertical.position: 0
             }
         }
-        /*
+/*
         Button {
             id: backBtn
             x: 14
@@ -413,9 +415,6 @@ Window {
             }
         }
 
-
-
-
         Rectangle {
             id: filePathRect
             x: 290
@@ -609,10 +608,10 @@ Window {
                     //contextMenuM.popup()
                 }
                 else if(mouse.button === Qt.LeftButton){
-                    threadsTxtInput.deselect()
-                    eValueTxtInput.deselect()
+                    //threadsTxtInput.deselect()
+                    //eValueTxtInput.deselect()
                     resultFmtTxtInput.deselect()
-                    otherCmdTxtInput.deselect()
+                    //otherCmdTxtInput.deselect()
                     seqInputText.deselect()
                     blastOutputText.deselect()
                     dbNameTxtEdit.deselect()
@@ -634,7 +633,7 @@ Window {
 
         Image {
             id: image
-            x: 450
+            x: 408
             y: 8
             width: 156
             height: 25
@@ -731,7 +730,7 @@ Window {
                     mainController.startTBlastX()
                 }
             }
-            */
+         */
         }
 
         Button {
@@ -1011,36 +1010,6 @@ Window {
             text: qsTr("Threads")
         }
 
-        Rectangle {
-            id: rectangle3
-            x: 906
-            y: 394
-            width: 62
-            height: 21
-            color: "#000000"
-            visible: false
-            border.color: "#ffffff"
-
-            TextEdit {
-                id: threadsTxtInput
-                x: 3
-                y: 1
-                width: 57
-                height: 18
-                color: "#ffffff"
-                text: qsTr("")
-                visible: false
-                selectedTextColor: "#000000"
-                selectionColor: "#ffffff"
-                readOnly: false
-                font.pixelSize: 15
-                clip: true
-                cursorVisible: false
-                selectByMouse: true
-
-            }
-        }
-
         Label {
             id: label3
             x: 907
@@ -1050,34 +1019,6 @@ Window {
             visible: false
             color: "#ffffff"
             text: qsTr("E-Value")
-        }
-
-        Rectangle {
-            id: rectangle4
-            x: 907
-            y: 462
-            width: 62
-            height: 21
-            visible: false
-            color: "#000000"
-            border.color: "#ffffff"
-
-            TextEdit {
-                id: eValueTxtInput
-                x: 3
-                y: 1
-                width: 57
-                height: 18
-                color: "#ffffff"
-                text: qsTr("")
-                visible: false
-                selectionColor: "#ffffff"
-                selectedTextColor: "#000000"
-                font.pixelSize: 15
-                clip: true
-                cursorVisible: false
-                selectByMouse: true
-            }
         }
 
         Label {
@@ -1130,35 +1071,6 @@ Window {
             visible: false
             color: "#ffffff"
             text: qsTr("Other cmd")
-        }
-
-        Rectangle {
-            id: rectangle6
-            x: 899
-            y: 581
-            width: 77
-            height: 21
-            color: "#000000"
-            visible: false
-            border.color: "#ffffff"
-
-            TextEdit {
-                id: otherCmdTxtInput
-                x: 3
-                y: 1
-                width: 74
-                height: 18
-                color: "#ffffff"
-                text: qsTr("")
-                visible: false
-                selectedTextColor: "#000000"
-                selectionColor: "#ffffff"
-                font.pixelSize: 15
-                clip: true
-                cursorVisible: false
-                selectByMouse: true
-                //persistentSelection: true
-            }
         }
 
         Label {
@@ -1246,7 +1158,7 @@ Window {
             color: "#000000"
             border.color: "#ffffff"
             TextEdit {
-                id: resultFmtTxtInput1
+                id: fSubrangeTxt
                 x: 3
                 y: 1
                 width: 127
@@ -1272,7 +1184,7 @@ Window {
             color: "#000000"
             border.color: "#ffffff"
             TextEdit {
-                id: resultFmtTxtInput2
+                id: tSubrangeTxt
                 x: 3
                 y: 1
                 width: 127
@@ -1735,6 +1647,106 @@ Window {
             }
         }
 
+        ComboBox {
+            id: selectOutputFormat
+            x: 210
+            y: 545
+            width: 485
+            height: 21
+            editable: false
+            visible: true
+            model: [" Select Output Format", " pairwise", " query-anchored showing identities",
+                    " query-anchored no identities", " flat query-anchored, show identities",
+                    " flat query-anchored, no identities", " XML Blast output", " tabular",
+                    " tabular with comment lines", " Text ASN.1", " Binary ASN.1",
+                    " Comma-separated values", " BLAST archive format (ASN.1) "]
+
+            delegate: ItemDelegate {
+                width: selectOutputFormat.width
+                contentItem: Text {
+                    text: selectOutputFormat.textRole
+                          ? (Array.isArray(selectOutputFormat.model) ? modelData[selectOutputFormat.textRole] : model[selectOutputFormat.textRole])
+                          : modelData
+                    color: "#000000" //Change the text color of the model data in the drop down box.
+                    font: selectOutputFormat.font
+                    elide: Text.ElideRight
+                    verticalAlignment: Text.AlignVCenter
+                }
+                highlighted: selectOutputFormat.highlightedIndex === index
+            }
+
+            indicator: Canvas {
+                id: canvasselectOutputFormat
+                x: selectOutputFormat.width - width - selectOutputFormat.rightPadding
+                y: selectOutputFormat.topPadding + (selectOutputFormat.availableHeight - height) / 2
+                width: 12
+                height: 8
+                contextType: "2d"
+
+                Connections {
+                    target: selectOutputFormat
+                    function onPressedChanged() { canvasselectAlgorithm.requestPaint(); }
+                }
+
+                //This will change the color of the triangle indicator.
+                onPaint: {
+                    context.reset();
+                    context.moveTo(0, 0);
+                    context.lineTo(width, 0);
+                    context.lineTo(width / 2, height);
+                    context.closePath();
+                    context.fillStyle = selectOutputFormat.pressed ? "#FFFFFF" : "#FFFFFF";
+                    context.fill();
+                }
+            }
+            //The second color is the main color. The first item is what color the changes to once clicked.
+            //This will change the text color of main text in the box.
+            contentItem: Text {
+                leftPadding: 0
+                rightPadding: selectOutputFormat.indicator.width + selectOutputFormat.spacing
+
+                text: selectOutputFormat.displayText
+                font: selectOutputFormat.font
+                color: selectOutputFormat.pressed ? "#FFFFFF" : "#FFFFFF"
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+            }
+
+            //This will change the main box background color, border color,  and the border color when pressed.
+            //The second color is the main color. The first item is what color the changes to once clicked.
+            background: Rectangle {
+                implicitWidth: 120
+                implicitHeight: 40
+                color: "#000000"
+                border.color: selectOutputFormat.pressed ? "#FFFFFF" : "#FFFFFF"
+                border.width: selectOutputFormat.visualFocus ? 2 : 1
+                radius: 2
+            }
+
+            popup: Popup {
+                y: selectOutputFormat.height - 1
+                width: selectOutputFormat.width
+                implicitHeight: contentItem.implicitHeight
+                padding: 1
+
+                contentItem: ListView {
+                    clip: true
+                    implicitHeight: contentHeight
+                    model: selectOutputFormat.popup.visible ? selectOutputFormat.delegateModel : null
+                    currentIndex: selectOutputFormat.highlightedIndex
+
+                    ScrollIndicator.vertical: ScrollIndicator { }
+                }
+
+                //This will change the color of the drop down Rectangle
+                background: Rectangle {
+                    border.color: "#FFFFFF"
+                    color: "#FFFFFF"
+                    radius: 5
+                }
+            }
+        }
+
         Label {
             id: optionalLabel
             x: 170
@@ -1758,7 +1770,6 @@ Window {
             font.pointSize: 7
             visible: true
         }
-
 
         Image {
             id: selectFileImgBtn
@@ -1797,13 +1808,12 @@ Window {
                     selectFileImgBtn.width = 75
                     selectFileImgBtn.height = 25
                 }
-
             }
         }
         Image {
             id: startImgBtn
             x: 210
-            y: 543
+            y: 576
             width: 70
             height: 20
             fillMode: Image.PreserveAspectFit
@@ -1811,6 +1821,7 @@ Window {
 
             MouseArea {
                 id: startBtnMouseArea
+                y: 0
                 width: 70
                 height: 20
                 hoverEnabled: true
@@ -1820,11 +1831,11 @@ Window {
                     //video1.play()
                     if(selectMethodDropDown.currentText.trim() === "BLASTp"){
                         mainController.startBlastP(dbSelectDropDown.currentText,
-                                                   resultFmtTxtInput.getText(0, resultFmtTxtInput.length),
-                                                   eValueTxtInput.getText(0, eValueTxtInput.length),
-                                                   threadsTxtInput.getText(0, threadsTxtInput.length),
-                                                   otherCmdTxtInput.getText(0, otherCmdTxtInput.length),
-                                                   seqInputText.getText(0, seqInputText.length))
+                                                   resultFmtTxtInput.getText(0, resultFmtTxtInput.length),                                                                                                                                                        
+                                                   seqInputText.getText(0, seqInputText.length),                                              
+                                                   jobTitleText.getText(0, jobTitleText.length),
+                                                   fSubrangeTxt.getText(0,fSubrangeTxt.length),
+                                                   tSubrangeTxt.getText(0,tSubrangeTxt.length))
                     }
                     else if(selectMethodDropDown.currentText.trim() === "BLASTn"){
                         mainController.startBlastN()
@@ -2059,18 +2070,6 @@ Window {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*##^##
 Designer {

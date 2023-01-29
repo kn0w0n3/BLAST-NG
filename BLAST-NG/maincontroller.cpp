@@ -6,24 +6,31 @@ MainController::MainController(QWidget *parent) : QWidget(parent){
 
 //Select a file
 void MainController::selectAFile(){
-    dbFile << QFileDialog::getOpenFileName(Q_NULLPTR, tr("Select File"), "/home");
-    QFileInfo fileInfo(dbFile[0]);
+    dbFile = QFileDialog::getOpenFileName(Q_NULLPTR, tr("Select File"), "/home");
+    QFileInfo fileInfo(dbFile);
     dbFileName = fileInfo.fileName().trimmed();
+
     emit dbFileNameToQml(dbFileName);
     dbFullFilePath = fileInfo.filePath().trimmed();
-    dbFullFilePath_L << fileInfo.filePath();
+    //dbFullFilePath.replace(" ", "\/" );
+    //dbFullFilePath_L = fileInfo.filePath();
     dbFilePath = fileInfo.filePath().trimmed();
     dbFilePath.replace(dbFileName, "");
     dbFileSize = QString::number(fileInfo.size());
+    //testPath = dbFullFileP\ath;
+    //testPath.replace(" ","\/");
 
     qDebug() << "The selected full db file path is " << dbFullFilePath;
 }
 
+//File and folder names with spaces will give an error.
 void MainController::selectAFile2(){
     seqFile = QFileDialog::getOpenFileName(Q_NULLPTR, tr("Select File"), "/home");
     QFileInfo fileInfo(seqFile);
+
     seqFileName = fileInfo.fileName().trimmed();
     emit seqFileNameToQml(seqFileName);
+
     seqDirPath = fileInfo.filePath().trimmed();
     seqDirPath.replace(seqFileName, "");
     seqFullFilePath = fileInfo.filePath().trimmed();
@@ -52,7 +59,7 @@ void MainController::buildDatabase(QString dbType, QString _dbName){
     //After the files are created, they are moved to their unique directory for organization and later use
     QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./makeblastdb -in " + dbFullFilePath_L[0] + " -out " + uniqueDirForDb + dbNameEntered + " -dbtype " + dbType.trimmed();
+         << "./makeblastdb -in " + dbFullFilePath + " -out " + uniqueDirForDb + dbNameEntered + " -dbtype " + dbType.trimmed();
          //<< "Move-Item -Path " + uniqueDirForDb + " -Destination " + finalDirForDb + " -force";
     buildDBProcess = new QProcess();
     buildDBProcess->connect(buildDBProcess, &QProcess::readyReadStandardOutput, this, &MainController::processBuildDbMessages);
@@ -65,9 +72,10 @@ void MainController::buildDatabase(QString dbType, QString _dbName){
 }
 
 //Run Blastp
-void MainController::startBlastP(QString selectedDb, QString outFormat, QString eVal, QString numThreads, QString otherArgs, QString pastedSequence){
+void MainController::startBlastP(QString selectedDb, QString outFormat, QString pastedSequence, QString jobTitle, QString fSubrange, QString tSubrange){
     selectedDbName = selectedDb.trimmed();
     scanMethod = "BLASTp";
+    qDebug() << "The job title is: " << jobTitle;
 
     //This path needs to be where the NCBI blast programs are located. The db.fasta and seq.fasta files do not need to be in here
     QStringList args;
@@ -246,7 +254,6 @@ void MainController::dbDoneResultsToQml(){
     emit buildDbOutputToQml("Build database process finished @: " + dateTimeString + "\n\n");
     q_buildDbStdOut = "";
     s_buildDbStdout = "";
-
 }
 
 //Display the main window instructions
@@ -279,9 +286,9 @@ void MainController::getDbInstructions(void){
 
 void MainController::selectDirectory(){
     QString dir = QFileDialog::getExistingDirectory(Q_NULLPTR, tr("Select Directory"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-    s_SelectedDirectory << dir.trimmed();
+    s_SelectedDirectory = dir.trimmed();
 
-    emit dirPathToQml(s_SelectedDirectory[0]);
-    qDebug() << "The selected directory is: " +  s_SelectedDirectory[0];
+    emit dirPathToQml(s_SelectedDirectory);
+    qDebug() << "The selected directory is: " +  s_SelectedDirectory;
     s_SelectedDirectory.clear();
 }

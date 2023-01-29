@@ -55,11 +55,11 @@ public slots:
 
 private:  
     //DB file info
-    QStringList dbFile;
+    QString dbFile;
     QString dbFileSize = "";
     QString dbFileName = "";
     QString dbFilePath = "";
-    QStringList dbFullFilePath_L;
+    QString dbFullFilePath_L;
     QString dbFullFilePath = "";
     QString finalDirForDb = "";
     QString uniqueDirForDb = "";
@@ -102,7 +102,9 @@ private:
     QString s_buildDbStdErr;
 
     QString dbNameEntered;
-    QStringList s_SelectedDirectory;
+    QString s_SelectedDirectory;
+    QString jobTitle;
+    QString testPath;
 };
 
 #endif // MAINCONTROLLER_H
