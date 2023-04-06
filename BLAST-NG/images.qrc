@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/logo.png</file>
+        <file>images/add_db_text.png</file>
+        <file>images/dbBtnImg.png</file>
+        <file>images/homeBtnImg.png</file>
+        <file>images/bg_1000X650.png</file>
+        <file>images/blobalImgBtn.png</file>
+        <file>images/toolsBtn.png</file>
+        <file>images/helpBtn.png</file>
+        <file>images/sfBtn.png</file>
+        <file>images/startBtn.png</file>
+        <file>images/GmenuClose.png</file>
+        <file>images/GopenMenuDots.png</file>
+        <file>images/buildDBBtn.png</file>
+        <file>images/elpBtn.png</file>
+        <file>images/sfBtn-adb.png</file>
+        <file>images/startBtn2.png</file>
+        <file>images/selectDirBtn.png</file>
+    </qresource>
+</RCC>

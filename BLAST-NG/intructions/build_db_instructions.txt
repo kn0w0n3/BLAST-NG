@@ -1,0 +1,9 @@
+1. Click select file button to select FASTA file 
+
+2. Select database type 
+            
+3. Enter the name of the database (no Spaces)
+            
+4. Click Build database button to start database building 
+            
+5. Click the back button to go back to the main window

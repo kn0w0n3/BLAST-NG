@@ -1,0 +1,15 @@
+Instructions:
+
+1. Select a database from the dropdown menu. Click the create database button if no databases have been created yet.
+     
+2. Select a method from the dropdown menu     
+
+3. Set values for Threads, E-Value, Output format, and other cmd. Leave blank for default values. The default e-value =1e-5, and the default output format is 0 and the default of threads is 4
+
+4. Paste a seqence in the text box or select a fasta file containing the seqence
+      
+5. Click the Start button 
+
+Results can be found in MyDocuments/BLAST-NG/results
+
+Note: Alignment time depends on sequence size and computer performance
