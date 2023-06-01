@@ -7,12 +7,12 @@ The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity 
 
 # **Work Environment:**       
 ![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
-Qt Creator 4.12.3  
-Based on Qt 5.14.2 (MSVC 2017, 32 bit)  
-Built on Jun 16 2020 01:19:17  
-From revision 48e46132e3  
-Kit 5.15.2 MinGW 64-bit  
-https://www.qt.io/  
+Qt Creator 10.0.1    
+Based on Qt 6.4.3 (MSVC 2019, x86_64)    
+Built on May 4 2023 01:13:52    
+From revision d2b3c31e04     
+Kit 6.5.1 MinGW 64-bit    
+https://www.qt.io/    
     
 # **Resources:**  
 ![ncbi-logo](https://user-images.githubusercontent.com/22214754/204448800-2b846e5b-2c68-4c4e-8687-43aac8ac752e.png)      
