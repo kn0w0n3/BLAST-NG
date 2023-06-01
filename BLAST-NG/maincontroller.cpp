@@ -12,13 +12,13 @@ void MainController::selectAFile(){
 
     emit dbFileNameToQml(dbFileName);
     dbFullFilePath = fileInfo.filePath().trimmed();
-    //dbFullFilePath.replace(" ", "\/" );
+    //dbFullFilePath.replace(" ", "\\" );
     //dbFullFilePath_L = fileInfo.filePath();
     dbFilePath = fileInfo.filePath().trimmed();
     dbFilePath.replace(dbFileName, "");
     dbFileSize = QString::number(fileInfo.size());
     //testPath = dbFullFileP\ath;
-    //testPath.replace(" ","\/");
+    //testPath.replace(" ","\\");
 
     qDebug() << "The selected full db file path is " << dbFullFilePath;
 }
@@ -72,47 +72,92 @@ void MainController::buildDatabase(QString dbType, QString _dbName){
 }
 
 //Run Blastp
-void MainController::startBlastP(QString selectedDb, QString outFormat, QString pastedSequence, QString jobTitle, QString fSubrange, QString tSubrange){
+void MainController::startBlastP(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange){
     selectedDbName = selectedDb.trimmed();
+    pastedSequence = iPastedSequence.trimmed();
     scanMethod = "BLASTp";
     qDebug() << "The job title is: " << jobTitle;
 
+    //Use pasted sequence<-----
+    if(!pastedSequence.isEmpty()){
     //This path needs to be where the NCBI blast programs are located. The db.fasta and seq.fasta files do not need to be in here
     QStringList args;
     args<< "Set-Location -Path " + ncbiToolsPath + ";"
-    << "./blastp -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath ;
-    blast_p_Process.connect(&blast_p_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastStdOut);
+    << "./blastp -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + pastedSequence ;
+    blast_p_Process.connect(&blast_p_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastPStdOut);
     connect(&blast_p_Process, (void(QProcess::*)(int))&QProcess::finished, [=]{saveDataToFile();});
     blast_p_Process.start("powershell", args);
 
     QDateTime dateTime = dateTime.currentDateTime();
     QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
-    emit emit blastPData2Qml("Blastp process started at: " + dateTimeString + "\n\n");
+    emit emit blastTimeLogData2Qml("BlastP process started at: " + dateTimeString + "\n\n");
+    }
+
+    //Use the selected file <-----
+    else if(pastedSequence.isEmpty()){
+    //This path needs to be where the NCBI blast programs are located. The db.fasta and seq.fasta files do not need to be in here
+    QStringList args;
+    args<< "Set-Location -Path " + ncbiToolsPath + ";"
+         << "./blastp -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath ;
+    blast_p_Process.connect(&blast_p_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastPStdOut);
+    connect(&blast_p_Process, (void(QProcess::*)(int))&QProcess::finished, [=]{saveDataToFile();});
+    blast_p_Process.start("powershell", args);
+
+    QDateTime dateTime = dateTime.currentDateTime();
+    QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
+    emit emit blastTimeLogData2Qml("BlastP process started at: " + dateTimeString + "\n\n");
+    }
 }
 
-void MainController::processBlastStdOut(){
+//Read read the output of the BLASTp process and store the data in a variable
+void MainController::processBlastPStdOut(){
     bpData += blast_p_Process.readAllStandardOutput().trimmed();
     blastPOutput = QString(bpData.trimmed());
 }
 
-void MainController::startBlastN(){
+void MainController::startBlastN(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange){
     qDebug() << "In BLASTN function.";
-    /*
-    QProcess proc;
-    QStringList args;
 
+    selectedDbName = selectedDb.trimmed();
+    pastedSequence = iPastedSequence.trimmed();
+    scanMethod = "BLASTn";
+    qDebug() << "The job title is: " << jobTitle;
+
+    //Use pasted sequence
+    if(!pastedSequence.isEmpty()){
     //This path needs to be where the NCBI blast programs are located. The db.fasta and seq.fasta files do not need to be in here
-    //args<< "Set-Location -Path " + ncbiToolsPath + ";"
-    //<< "./blastp -db " + uniqueDirForDb + "\\" + selectedDb.trimmed() + " -query " + seqFullFilePath ;
+    QStringList args;
+    args<< "Set-Location -Path " + ncbiToolsPath + ";"
+         << "./blastn -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath ;
+    blast_n_Process.connect(&blast_n_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastNStdOut);
+    connect(&blast_n_Process, (void(QProcess::*)(int))&QProcess::finished, [=]{saveDataToFile();});
+    blast_n_Process.start("powershell", args);
 
-    proc.start("powershell", args);
-    proc.waitForFinished();
-    QByteArray output = proc.readAll();
+    QDateTime dateTime = dateTime.currentDateTime();
+    QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
+    emit emit blastTimeLogData2Qml("BLASTn process started at: " + dateTimeString + "\n\n");
+    }
 
-    QString outputAsString = QString(output.trimmed());
-    QByteArray errorOutput = proc.readAllStandardError();
-    QByteArray outputStandard = proc.readAllStandardOutput();
-*/
+    //Use sequence from selected file
+    else if (pastedSequence.isEmpty()){
+    //This path needs to be where the NCBI blast programs are located. The db.fasta and seq.fasta files do not need to be in here
+    QStringList args;
+    args<< "Set-Location -Path " + ncbiToolsPath + ";"
+         << "./blastn -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath ;
+    blast_n_Process.connect(&blast_n_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastNStdOut);
+    connect(&blast_n_Process, (void(QProcess::*)(int))&QProcess::finished, [=]{saveDataToFile();});
+    blast_n_Process.start("powershell", args);
+
+    QDateTime dateTime = dateTime.currentDateTime();
+    QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
+    emit emit blastTimeLogData2Qml("BLASTn process started at: " + dateTimeString + "\n\n");
+    }
+}
+
+//Read read the output of the BLASTn process and store the data in a variable
+void MainController::processBlastNStdOut(){
+    bnData += blast_n_Process.readAllStandardOutput().trimmed();
+    blastNOutput = QString(bnData.trimmed());
 }
 
 void MainController::startBlastX(){
@@ -194,7 +239,8 @@ void MainController::saveDataToFile(){
     }
     QDateTime dateTime = dateTime.currentDateTime();
     QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
-    emit blastPData2Qml("BlastP process completed at: " + dateTimeString + "\n\n");
+    emit blastTimeLogData2Qml("BlastP process completed at: " + dateTimeString + "\n\n");
+
 }
 
 //Get and store the path of NCBI tools and MyDocuments folder

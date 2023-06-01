@@ -1,9 +1,10 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
-import QtQuick.Controls 2.12
-import QtGraphicalEffects 1.12
-import QtMultimedia 5.15
-import QtQuick.Layouts 1.12
+import QtQuick.Controls
+//import QtGraphicalEffects 1.15
+import Qt5Compat.GraphicalEffects
+//import QtMultimedia 5.15
+import QtQuick.Layouts 1.15
 
 Window {
 
@@ -39,6 +40,9 @@ Window {
         }
         onBlastPData2Qml:{
             blastOutputText.text += blastPText
+        }
+        onBlastTimeLogData2Qml:{
+            blastOutputText.text += timeLogText
         }
         onSeqFileNameToQml:{
             selectedFileText.text = _seqFileName
@@ -105,25 +109,31 @@ Window {
 
             ScrollView {
                 id: scrollView1
-                x: 3
-                y: 3
-                width: 602
-                height: 289
+                x: 4
+                y: 4
+                width: 596
+                height: 282
+                opacity: 1
+                ScrollBar.vertical.policy: ScrollBar.AsNeeded
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+
 
                 TextArea {
                     id: buildDbOutputText
-                    x: -10
-                    y: -6
+                    x: -7
+                    y: -3
                     width: 572
                     height: 287
                     color: "#ffffff"
                     text: ""
                     wrapMode: Text.Wrap
+                    placeholderTextColor: "#ffffff"
                     clip: true
                     placeholderText: qsTr("")
                     visible: true
                     selectByMouse: true
                     selectionColor: "#ffffff"
+                    background: Rectangle {color: "black"}
                     //persistentSelection: true
                 }
                 clip: false
@@ -629,6 +639,14 @@ Window {
             visible: true
             source: "images/bg_1000X650.png"
             fillMode: Image.PreserveAspectFit
+
+            ScrollView {
+                id: scrollView2
+                x: 777
+                y: 406
+                width: 200
+                height: 200
+            }
         }
 
         Image {
@@ -654,27 +672,38 @@ Window {
 
             ScrollView {
                 id: scrollView
-                x: 3
-                y: 3
-                width: 736
-                height: 224
+                x: 4
+                y: 4
+                width: 731
+                height: 216
+                opacity: 1
                 clip: false
+                //color: "#000000"
+
+                //contentItem: Rectangle {color: "#000000"}
                 ScrollBar.vertical.policy: ScrollBar.AsNeeded
                 ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                 ScrollBar.vertical.position: 0
                 TextArea {
                     id: blastOutputText
+                    x: -7
+                    y: -3
+                    width: 730
+                    height: 214
                     visible: true
                     wrapMode: Text.Wrap
+                    placeholderTextColor: "#ffffff"
                     clip: true
-                    color: "#FFFFFF"
+                    color: "#ffffff"
                     text: ""
                     font.pointSize: 10
                     placeholderText: qsTr("")
                     selectByMouse: true
                     selectionColor: "#ffffff"
                     //persistentSelection: true
+                    background: Rectangle {color: "black"}
+
                 }
                 //ScrollBar.vertical.position: ScrollBar.setPosition(100)
             }
@@ -1299,6 +1328,7 @@ Window {
                 y: 2
                 width: 565
                 height: 63
+                opacity: 0
                 clip: false
                 ScrollBar.vertical.position: 0
                 TextArea {
@@ -1838,7 +1868,12 @@ Window {
                                                    tSubrangeTxt.getText(0,tSubrangeTxt.length))
                     }
                     else if(selectMethodDropDown.currentText.trim() === "BLASTn"){
-                        mainController.startBlastN()
+                        mainController.startBlastN(dbSelectDropDown.currentText,
+                                                   resultFmtTxtInput.getText(0, resultFmtTxtInput.length),
+                                                   seqInputText.getText(0, seqInputText.length),
+                                                   jobTitleText.getText(0, jobTitleText.length),
+                                                   fSubrangeTxt.getText(0,fSubrangeTxt.length),
+                                                   tSubrangeTxt.getText(0,tSubrangeTxt.length))
                     }
                     else if(selectMethodDropDown.currentText.trim() === "BLASTx"){
                         mainController.startBlastX()

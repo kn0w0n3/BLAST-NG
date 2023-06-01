@@ -28,7 +28,11 @@ signals:
     void dbDirectionsTxtToQml(QString dbdirectionsTxt);
     void buildDbOutputToQml(QString buildDbText);
     void dbNameTxtToQml(QString dbName);
+
     void blastPData2Qml(QString blastPText);
+    void blastNData2Qml(QString blastNText);
+    void blastTimeLogData2Qml(QString timeLogText);
+
     void seqFileNameToQml(QString _seqFileName);
     void dbFileNameToQml(QString _dbFileName);
     void dirPathToQml(QString _dirPath);
@@ -38,8 +42,11 @@ public slots:
     void selectAFile2();   
     void buildDatabase(QString, QString);
     void startBlastP(QString, QString, QString, QString, QString, QString);
-    void processBlastStdOut();
-    void startBlastN();
+
+    void processBlastPStdOut();
+    void processBlastNStdOut();
+
+    void startBlastN(QString, QString, QString, QString, QString, QString);
     void startBlastX();
     void startTBlastN();
     void startTBlastX();
@@ -90,10 +97,14 @@ private:
     QString fileContents = "";
 
     QProcess blast_p_Process;
+    QProcess blast_n_Process;
     QProcess *buildDBProcess;
 
+    //Store BLAST output
     QByteArray bpData;
     QString blastPOutput;
+    QByteArray bnData;
+    QString blastNOutput;
 
     QByteArray q_buildDbStdOut;
     QString s_buildDbStdout;
@@ -105,6 +116,7 @@ private:
     QString s_SelectedDirectory;
     QString jobTitle;
     QString testPath;
+
 };
 
 #endif // MAINCONTROLLER_H
