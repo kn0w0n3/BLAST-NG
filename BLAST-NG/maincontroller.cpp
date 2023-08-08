@@ -12,13 +12,11 @@ void MainController::selectAFile(){
 
     emit dbFileNameToQml(dbFileName);
     dbFullFilePath = fileInfo.filePath().trimmed();
-    //dbFullFilePath.replace(" ", "\\" );
-    //dbFullFilePath_L = fileInfo.filePath();
+
     dbFilePath = fileInfo.filePath().trimmed();
     dbFilePath.replace(dbFileName, "");
-    dbFileSize = QString::number(fileInfo.size());
-    //testPath = dbFullFileP\ath;
-    //testPath.replace(" ","\\");
+    //dbFileSize = QString::number(fileInfo.size());
+
 
     qDebug() << "The selected full db file path is " << dbFullFilePath;
 }
@@ -64,7 +62,8 @@ void MainController::buildDatabase(QString dbType, QString _dbName){
     buildDBProcess = new QProcess();
     buildDBProcess->connect(buildDBProcess, &QProcess::readyReadStandardOutput, this, &MainController::processBuildDbMessages);
     buildDBProcess->connect(buildDBProcess, &QProcess::readyReadStandardError, this, &MainController::processBuildDbErrMsg);
-    connect(buildDBProcess, (void(QProcess::*)(int))&QProcess::finished, [=]{dbDoneResultsToQml();});
+    //connect(buildDBProcess, (void(QProcess::*)(int))&QProcess::finished, [=]{dbDoneResultsToQml();});
+    connect(buildDBProcess, &QProcess::finished, this, &MainController::dbDoneResultsToQml);
     buildDBProcess->start("powershell", args);
 
     emit dbNameTxtToQml(" " + _dbName.trimmed());
@@ -85,7 +84,8 @@ void MainController::startBlastP(QString selectedDb, QString outFormat, QString 
     args<< "Set-Location -Path " + ncbiToolsPath + ";"
     << "./blastp -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + pastedSequence ;
     blast_p_Process.connect(&blast_p_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastPStdOut);
-    connect(&blast_p_Process, (void(QProcess::*)(int))&QProcess::finished, [=]{saveDataToFile();});
+    //connect(&blast_p_Process, (void(QProcess::*)(int))&QProcess::finished, [=]{saveDataToFile();});
+    connect(&blast_p_Process, &QProcess::finished, this, &MainController::saveDataToFile);
     blast_p_Process.start("powershell", args);
 
     QDateTime dateTime = dateTime.currentDateTime();
@@ -100,7 +100,8 @@ void MainController::startBlastP(QString selectedDb, QString outFormat, QString 
     args<< "Set-Location -Path " + ncbiToolsPath + ";"
          << "./blastp -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath ;
     blast_p_Process.connect(&blast_p_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastPStdOut);
-    connect(&blast_p_Process, (void(QProcess::*)(int))&QProcess::finished, [=]{saveDataToFile();});
+    //connect(&blast_p_Process, (void(QProcess::*)(int))&QProcess::finished, [=]{saveDataToFile();});
+    connect(&blast_p_Process, &QProcess::finished, this, &MainController::saveDataToFile);
     blast_p_Process.start("powershell", args);
 
     QDateTime dateTime = dateTime.currentDateTime();
@@ -130,7 +131,8 @@ void MainController::startBlastN(QString selectedDb, QString outFormat, QString 
     args<< "Set-Location -Path " + ncbiToolsPath + ";"
          << "./blastn -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath ;
     blast_n_Process.connect(&blast_n_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastNStdOut);
-    connect(&blast_n_Process, (void(QProcess::*)(int))&QProcess::finished, [=]{saveDataToFile();});
+    //connect(&blast_n_Process, (void(QProcess::*)(int))&QProcess::finished, [=]{saveDataToFile();});
+    connect(&blast_n_Process, &QProcess::finished, this, &MainController::saveDataToFile);
     blast_n_Process.start("powershell", args);
 
     QDateTime dateTime = dateTime.currentDateTime();
@@ -145,7 +147,8 @@ void MainController::startBlastN(QString selectedDb, QString outFormat, QString 
     args<< "Set-Location -Path " + ncbiToolsPath + ";"
          << "./blastn -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath ;
     blast_n_Process.connect(&blast_n_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastNStdOut);
-    connect(&blast_n_Process, (void(QProcess::*)(int))&QProcess::finished, [=]{saveDataToFile();});
+    //connect(&blast_n_Process, (void(QProcess::*)(int))&QProcess::finished, [=]{saveDataToFile();});
+    connect(&blast_n_Process, &QProcess::finished, this, &MainController::saveDataToFile);
     blast_n_Process.start("powershell", args);
 
     QDateTime dateTime = dateTime.currentDateTime();
@@ -154,7 +157,7 @@ void MainController::startBlastN(QString selectedDb, QString outFormat, QString 
     }
 }
 
-//Read read the output of the BLASTn process and store the data in a variable
+//Read the output of the BLASTn process and store the data in a variable
 void MainController::processBlastNStdOut(){
     bnData += blast_n_Process.readAllStandardOutput().trimmed();
     blastNOutput = QString(bnData.trimmed());
@@ -239,7 +242,7 @@ void MainController::saveDataToFile(){
     }
     QDateTime dateTime = dateTime.currentDateTime();
     QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
-    emit blastTimeLogData2Qml("BlastP process completed at: " + dateTimeString + "\n\n");
+    emit blastTimeLogData2Qml("Process completed at: " + dateTimeString + "\n\n");
 
 }
 
@@ -300,6 +303,7 @@ void MainController::dbDoneResultsToQml(){
     emit buildDbOutputToQml("Build database process finished @: " + dateTimeString + "\n\n");
     q_buildDbStdOut = "";
     s_buildDbStdout = "";
+    buildDBProcess->terminate();
 }
 
 //Display the main window instructions
