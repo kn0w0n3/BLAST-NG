@@ -15,6 +15,7 @@
 #include <QDirIterator>
 #include <QString>
 #include <QDateTime>
+#include <QStandardPaths>
 
 class MainController:  public QWidget{
     Q_OBJECT
@@ -116,6 +117,8 @@ private:
     QString s_SelectedDirectory;
     QString jobTitle;
     QString testPath;
+
+    QString docsFolder;
 
 };
 
