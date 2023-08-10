@@ -5,7 +5,7 @@ Status: In Progress
 
 The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity between sequences. The program compares nucleotide or protein sequences to sequence databases and calculates the statistical significance of matches.    
 
-![blast-ng-gui-8-9-23](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/d86468cc-ec8d-4be5-a193-ae50c535f0f1)          
+![blast-ng-gui-8-9-23_2](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/7702f403-0343-4407-ba8a-37598bab5484)           
 
 # **Work Environment:**       
 ![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
