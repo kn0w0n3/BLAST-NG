@@ -23,6 +23,6 @@ int main(int argc, char *argv[]){
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
-
+    //app.setWindowIcon(QIcon("C:/Users/Voldem0rt/Documents/Qt_Projects/BLAST-NG/images/appicon.png"));
     return app.exec();
 }

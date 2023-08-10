@@ -23,7 +23,6 @@ Window {
 
         onSelectedFileDataToQml:{
             blastOutputText.text = _fileContents
-            //Make the log data text in the terminal window auto scroll
             //scrollView.ScrollBar.vertical.position = 1.0 - scrollView.ScrollBar.vertical.size
         }
         onDirectionsTextToQml:{
@@ -651,12 +650,12 @@ Window {
 
         Image {
             id: image
-            x: 408
-            y: 8
-            width: 156
-            height: 25
-            visible: true
-            source: "images/logo.png"
+            x: 445
+            y: 5
+            width: 111
+            height: 36
+            visible: false
+            source: "images/logo2.png"
             fillMode: Image.PreserveAspectFit
         }
 
@@ -2085,6 +2084,16 @@ Window {
     }
 
     Image {
+        id: image4
+        x: 905
+        y: 594
+        width: 95
+        height: 56
+        source: "images/logo_w_dna.png"
+        fillMode: Image.PreserveAspectFit
+    }
+
+    Image {
         id: dotsImg
         x: 13
         y: 626
@@ -2104,6 +2113,7 @@ Window {
             }
         }
     }
+
 }
 
 /*##^##

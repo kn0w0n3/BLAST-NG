@@ -14,6 +14,8 @@ RESOURCES += qml.qrc \
     images.qrc \
     instructions.qrc
 
+RC_FILE = blastng.rc
+
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 

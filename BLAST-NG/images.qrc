@@ -17,5 +17,6 @@
         <file>images/sfBtn-adb.png</file>
         <file>images/startBtn2.png</file>
         <file>images/selectDirBtn.png</file>
+        <file>images/logo_w_dna.png</file>
     </qresource>
 </RCC>
