@@ -50,7 +50,10 @@ public slots:
     void processBlastNStdOut();
 
     void startBlastN(QString, QString, QString, QString, QString, QString);
-    void startBlastX();
+    void startBlastX(QString, QString, QString, QString, QString, QString);
+    void processBlastXStdOut();
+    void saveBlastXDataToFile();
+
     void startTBlastN();
     void startTBlastX();
     void saveDataToFile();
@@ -66,6 +69,7 @@ public slots:
     void selectDirectory();
     void populateDataFiles();
     void loadDataFile(QString);
+
 
 private:  
     //DB file info
@@ -105,6 +109,7 @@ private:
 
     QProcess blast_p_Process;
     QProcess blast_n_Process;
+    QProcess blast_x_Process;
     QProcess *buildDBProcess;
 
     //Store BLAST output

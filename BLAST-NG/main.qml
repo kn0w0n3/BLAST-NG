@@ -981,59 +981,6 @@ Window {
         }
 
         Button {
-            id: startBtn
-            x: 210
-            y: 582
-            width: 70
-            height: 20
-            visible: false
-            text: qsTr("Start")
-
-            background: Rectangle {
-                color: "#000000"
-                radius: 0
-            }
-            layer.effect: DropShadow {
-                width: 69
-                color: "#FFFFFF"
-                radius: 8
-                verticalOffset: 2
-                transparentBorder: true
-                horizontalOffset: 2
-                spread: 0
-                samples: 17
-            }
-            palette.buttonText: "#FFFFFF"
-            layer.enabled: true
-            /*
-            onClicked: {
-                //video.play()
-                //video1.play()
-                if(selectMethodDropDown.currentText.trim() === "BLASTp"){
-                    mainController.startBlastP(dbSelectDropDown.currentText,
-                                               resultFmtTxtInput.getText(0, resultFmtTxtInput.length),
-                                               eValueTxtInput.getText(0, eValueTxtInput.length),
-                                               threadsTxtInput.getText(0, threadsTxtInput.length),
-                                               otherCmdTxtInput.getText(0, otherCmdTxtInput.length),
-                                               seqInputText.getText(0, seqInputText.length))
-                }
-                else if(selectMethodDropDown.currentText.trim() === "BLASTn"){
-                    mainController.startBlastN()
-                }
-                else if(selectMethodDropDown.currentText.trim() === "BLASTx"){
-                    mainController.startBlastX()
-                }
-                else if(selectMethodDropDown.currentText.trim() === "tBLASTn"){
-                    mainController.startTBlastN()
-                }
-                else if(selectMethodDropDown.currentText.trim() === "tBLASTx"){
-                    mainController.startTBlastX()
-                }
-            }
-         */
-        }
-
-        Button {
             id: selectFileBtn
             x: 62
             y: 365
@@ -2128,8 +2075,6 @@ Window {
                 hoverEnabled: true
 
                 onClicked: {
-                    //video.play()
-                    //video1.play()
                     if(selectMethodDropDown.currentText.trim() === "BLASTp"){
                         mainController.startBlastP(dbSelectDropDown.currentText,
                                                    resultFmtTxtInput.getText(0, resultFmtTxtInput.length),
@@ -2147,7 +2092,12 @@ Window {
                                                    tSubrangeTxt.getText(0,tSubrangeTxt.length))
                     }
                     else if(selectMethodDropDown.currentText.trim() === "BLASTx"){
-                        mainController.startBlastX()
+                        mainController.startBlastX(dbSelectDropDown.currentText,
+                                                   resultFmtTxtInput.getText(0, resultFmtTxtInput.length),
+                                                   seqInputText.getText(0, seqInputText.length),
+                                                   jobTitleText.getText(0, jobTitleText.length),
+                                                   fSubrangeTxt.getText(0,fSubrangeTxt.length),
+                                                   tSubrangeTxt.getText(0,tSubrangeTxt.length))
                     }
                     else if(selectMethodDropDown.currentText.trim() === "tBLASTn"){
                         mainController.startTBlastN()
@@ -2381,7 +2331,6 @@ Window {
         }
     }
 
-
     Image {
         id: image4
         x: 905
@@ -2391,7 +2340,6 @@ Window {
         source: "images/logo_w_dna.png"
         fillMode: Image.PreserveAspectFit
     }
-
 
     Image {
         id: dotsImg
@@ -2419,6 +2367,6 @@ Window {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.8999999761581421}D{i:4}D{i:18}D{i:205}
+    D{i:0;formeditorZoom:0.8999999761581421}
 }
 ##^##*/

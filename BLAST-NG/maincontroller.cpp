@@ -48,7 +48,7 @@ void MainController::buildDatabase(QString dbType, QString _dbName){
     //dbFullFilePath.clear();
 }
 
-//Run Blastp
+//Start BLASTp
 void MainController::startBlastP(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange){
     qDebug() << "In BLAST P Function....";
     selectedDbName = selectedDb.trimmed();
@@ -61,7 +61,7 @@ void MainController::startBlastP(QString selectedDb, QString outFormat, QString 
     if(!pastedSequence.isEmpty()){
     QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./blastp -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + pastedSequence ;
+         << "./blastp -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + pastedSequence;
     blast_p_Process.connect(&blast_p_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastPStdOut);
     connect(&blast_p_Process, &QProcess::finished, this, &MainController::saveBlastPDataToFile);
     blast_p_Process.start("powershell", args);
@@ -94,6 +94,7 @@ void MainController::processBlastPStdOut(){
     //qDebug() << "The BLAST P output is: " + blastPOutput;
 }
 
+//Start BLASTn
 void MainController::startBlastN(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange){
     selectedDbName = selectedDb.trimmed();
     pastedSequence = iPastedSequence.trimmed();
@@ -105,7 +106,7 @@ void MainController::startBlastN(QString selectedDb, QString outFormat, QString 
     //This path needs to be where the NCBI blast programs are located. The db.fasta and seq.fasta files do not need to be in here
     QStringList args;
     args<< "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./blastn -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath ;
+         << "./blastn -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + pastedSequence;
     blast_n_Process.connect(&blast_n_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastNStdOut);
     connect(&blast_n_Process, &QProcess::finished, this, &MainController::saveBlastNDataToFile);
     blast_n_Process.start("powershell", args);
@@ -137,24 +138,50 @@ void MainController::processBlastNStdOut(){
     blastNOutput = QString(bnData.trimmed());
 }
 
-void MainController::startBlastX(){
-    qDebug() << "In BLASTX function..";
-    /*
-    QProcess proc;
+void MainController::startBlastX(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange){
+    qDebug() << "In BLAST X Function....";
+    selectedDbName = selectedDb.trimmed();
+    pastedSequence = iPastedSequence.trimmed();
+    scanMethod = "BLASTx";
+    qDebug() << "The job title is: " << jobTitle;
+    qDebug() << "The selected db  name is: " + selectedDbName;
+
+    //Use pasted sequence<-----
+    if(!pastedSequence.isEmpty()){
     QStringList args;
+    args << "Set-Location -Path " + ncbiToolsPath + ";"
+         << "./blastx -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + pastedSequence;
+    blast_x_Process.connect(&blast_x_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastXStdOut);
+    connect(&blast_x_Process, &QProcess::finished, this, &MainController::saveBlastXDataToFile);
+    blast_x_Process.start("powershell", args);
 
-    //This path needs to be where the NCBI blast programs are located. The db.fasta and seq.fasta files do not need to be in here
-    //args<< "Set-Location -Path " + ncbiToolsPath + ";"
-    //<< "./blastp -db " + uniqueDirForDb + "\\" + selectedDb.trimmed() + " -query " + seqFullFilePath ;
+    QDateTime dateTime = dateTime.currentDateTime();
+    QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
+    emit emit blastTimeLogData2Qml("BlastX process started at: " + dateTimeString + "\n\n");
+    }
 
-    proc.start("powershell", args);
-    proc.waitForFinished();
-    QByteArray output = proc.readAll();
+    //Use the selected file <-----
+    else if(pastedSequence.isEmpty()){
+    qDebug() << "Pasted sequence was empty......";
+    QStringList args;
+    args << "Set-Location -Path " + ncbiToolsPath + ";"
+         << "./blastx -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath;
+    blast_x_Process.connect(&blast_x_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastXStdOut);
+    connect(&blast_x_Process, &QProcess::finished, this, &MainController::saveBlastXDataToFile);
+    blast_x_Process.start("powershell", args);
 
-    QString outputAsString = QString(output.trimmed());
-    QByteArray errorOutput = proc.readAllStandardError();
-    QByteArray outputStandard = proc.readAllStandardOutput();
-*/
+    QDateTime dateTime = dateTime.currentDateTime();
+    QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
+    emit emit blastTimeLogData2Qml("BlastX process started at: " + dateTimeString + "\n\n");
+    }
+}
+
+void MainController::processBlastXStdOut(){
+
+}
+
+void MainController::saveBlastXDataToFile(){
+
 }
 
 void MainController::startTBlastN(){
