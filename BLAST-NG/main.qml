@@ -52,6 +52,13 @@ Window {
         onDirPathToQml:{
             dirPathLabel.text = _dirPath
         }
+        onDataFileName2QML:{
+            console.log("Trying to add file names to combo box...")
+            modelLogView.append({text: dataFileName})
+        }
+        onFileViewerData2Qml:{
+            dataViewerTxtArea.text += fileData + "/n"
+        }
     }
 
     Rectangle {
@@ -74,82 +81,113 @@ Window {
             fillMode: Image.PreserveAspectFit
 
             ComboBox {
-                id: selectLogComboBox
-                x: 96
-                y: 26
-                width: 152
-                height: 21
-                visible: true
-                popup: Popup {
-                    y: selectLogComboBox.height - 1
-                    width: selectLogComboBox.width
-                    background: Rectangle {
-                        color: "#ffffff"
-                        radius: 5
-                        border.color: "#ffffff"
-                    }
-                    padding: 1
-                    implicitHeight: contentItem.implicitHeight
-                    contentItem: ListView {
-                        ScrollIndicator.vertical: ScrollIndicator {
-                        }
-                        currentIndex: selectLogComboBox.highlightedIndex
-                        clip: true
-                        model: selectLogComboBox.popup.visible ? selectLogComboBox.delegateModel : null
-                        implicitHeight: contentHeight
-                    }
-                }
-                indicator: Canvas {
-                    x: selectLogComboBox.width - width - selectLogComboBox.rightPadding
-                    y: selectLogComboBox.topPadding + (selectLogComboBox.availableHeight - height) / 2
-                    width: 12
-                    height: 8
-                    contextType: "2d"
-                    onPaint: {
-                        context.reset();
-                        context.moveTo(0, 0);
-                        context.lineTo(width, 0);
-                        context.lineTo(width / 2, height);
-                        context.closePath();
-                        context.fillStyle = selectLogComboBox.pressed ? "#FFFFFF" : "#FFFFFF";
-                        context.fill();
-                    }
-                    Connections {
-                        target: selectLogComboBox
-                    }
-                }
-                background: Rectangle {
-                    color: "#000000"
-                    radius: 2
-                    border.color: selectLogComboBox.pressed ? "#FFFFFF" : "#FFFFFF"
-                    border.width: selectLogComboBox.visualFocus ? 2 : 1
-                    implicitWidth: 120
-                    implicitHeight: 40
-                }
-                model: [" Select Data File"]
-                contentItem: Text {
-                    color: selectLogComboBox.pressed ? "#FFFFFF" : "#FFFFFF"
-                    text: selectLogComboBox.displayText
-                    elide: Text.ElideRight
-                    verticalAlignment: Text.AlignVCenter
-                    rightPadding: selectLogComboBox.indicator.width + selectLogComboBox.spacing
-                    leftPadding: 0
-                    font: selectLogComboBox.font
-                }
-                delegate: ItemDelegate {
-                    width: selectLogComboBox.width
-                    highlighted: selectLogComboBox.highlightedIndex === index
-                    contentItem: Text {
-                        color: "#000000"
-                        text: selectLogComboBox.textRole
-                              ? (Array.isArray(selectLogComboBox.model) ? modelData[selectLogComboBox.textRole] : model[selectLogComboBox.textRole])
-                              : modelData
-                        elide: Text.ElideRight
-                        verticalAlignment: Text.AlignVCenter
-                        font: selectLogComboBox.font
-                    }
-                }
-            }
+                       id: controlLogView
+                       x: 96
+                       y: 26
+                       width: 200
+                       height: 21
+                       //model: ["Available Logs", "Application", "System", "Security", "Custom"]
+                       model: ListModel{
+                           id: modelLogView
+                           ListElement {text: "Select Data File"}
+                       }
+                       onAccepted: {
+                           if (find(editText) === -1)
+                               modelLogView.append({text: editText})
+                       }
+
+                       delegate: ItemDelegate {
+                           width: controlLogView.width
+                           contentItem: Text {
+                               text: controlLogView.textRole
+                                     ? (Array.isArray(controlLogView.model) ? modelData[controlLogView.textRole] : model[controlLogView.textRole])
+                                     : modelData
+                               color: "#000000" //Change the text color of the model data in the drop down box.
+                               font: controlLogView.font
+                               elide: Text.ElideRight
+                               verticalAlignment: Text.AlignVCenter
+                           }
+                           highlighted: controlLogView.highlightedIndex === index
+                       }
+
+                       indicator: Canvas {
+                           id: canvasDWV
+                           x: controlLogView.width - width - controlLogView.rightPadding
+                           y: controlLogView.topPadding + (controlLogView.availableHeight - height) / 2
+                           width: 12
+                           height: 8
+                           contextType: "2d"
+
+                           Connections {
+                               target: controlLogView
+                               function onPressedChanged() { canvasDWV.requestPaint(); }
+                           }
+
+                           //This will change the color of the triangle indicator.
+                           onPaint: {
+                               context.reset();
+                               context.moveTo(0, 0);
+                               context.lineTo(width, 0);
+                               context.lineTo(width / 2, height);
+                               context.closePath();
+                               context.fillStyle = controlLogView.pressed ? "#ffffff" : "#ffffff";
+                               context.fill();
+                           }
+                       }
+                       //The second color is the main color. The first item is what color the changes to once clicked.
+                       //This will change the text color of main text in the box.
+                       contentItem: Text {
+                           leftPadding: 0
+                           rightPadding: controlLogView.indicator.width + controlLogView.spacing
+
+                           text: controlLogView.displayText
+                           font: controlLogView.font
+                           color: controlLogView.pressed ? "#000000" : "#ffffff"
+                           verticalAlignment: Text.AlignVCenter
+                           elide: Text.ElideRight
+                       }
+
+                       //This will change the main box background color, border color,  and the border color when pressed.
+                       //The second color is the main color. The first item is what color the changes to once clicked.
+                       background: Rectangle {
+                           implicitWidth: 120
+                           implicitHeight: 40
+                           color: "#000000"
+                           border.color: controlLogView.pressed ? "#ffffff" : "#ffffff"
+                           border.width: controlLogView.visualFocus ? 2 : 1
+                           radius: 2
+                       }
+
+                       popup: Popup {
+                           y: controlLogView.height - 1
+                           width: controlLogView.width
+                           implicitHeight: contentItem.implicitHeight
+                           padding: 1
+
+                           contentItem: ListView {
+                               clip: true
+                               implicitHeight: contentHeight
+                               model: controlLogView.popup.visible ? controlLogView.delegateModel : null
+                               currentIndex: controlLogView.highlightedIndex
+
+                               ScrollIndicator.vertical: ScrollIndicator { }
+                           }
+
+                           //This will change the color of the drop down Rectangle
+                           background: Rectangle {
+                               border.color: "#ffffff"
+                               color: "#ffffff"
+                               radius: 5
+                           }
+                       }
+                       Component.onCompleted: {
+                           //populate saved logs
+                           mainController.populateDataFiles()
+                       }
+                       onSelectTextByMouseChanged: {
+
+                       }
+                   }
 
             Image {
                 id: image5
@@ -182,9 +220,8 @@ Window {
                     dvw_OpenBtn.height = 24
                 }
                 onClicked: {
-                    if(buildDbOutputText.getText(0,1) === ""){
-                        mainController.getDbInstructions()
-                    }
+                  mainController.loadDataFile(controlLogView.currentText)
+
                 }
                 onEntered: {
                     dvw_OpenBtn.width = 79
@@ -213,9 +250,7 @@ Window {
                                     dvw_OpenBtn.height = 24
                 }
                 onClicked: {
-                    if(buildDbOutputText.getText(0,1) === ""){
-                        mainController.getDbInstructions()
-                    }
+                    dataViewerTxtArea.text = ""
                 }
                 onEntered: {
                     dvw_OpenBtn.width = 79
@@ -270,9 +305,15 @@ Window {
                 y: 4
                 width: 831
                 height: 416
+                //visible: false
+                clip: true
+
+
 
                 TextArea {
                     id: dataViewerTxtArea
+                    x: -7
+                    y: -3
                     color: "#ffffff"
                     placeholderText: qsTr("")
                     background: Rectangle {color: "black"}
@@ -2378,6 +2419,6 @@ Window {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.8999999761581421}D{i:4}D{i:16}D{i:203}
+    D{i:0;formeditorZoom:0.8999999761581421}D{i:4}D{i:18}D{i:205}
 }
 ##^##*/

@@ -232,6 +232,7 @@ void MainController::saveBlastPDataToFile(){
     QDateTime dateTimeF = dateTimeF.currentDateTime();
     QString dateTimeStringF = dateTimeF.toString("yyyy-MM-dd_h_mm_ss_ap");
     QString filename = resultsPath + selectedDbName + "\\" + scanMethod + "\\" + selectedDbName + "_"  + dateTimeStringF +  ".txt";
+    emit dataFileName2QML(selectedDbName + "_"  + dateTimeStringF +  ".txt");
     QFile file(filename);
     if (file.open(QIODevice::ReadWrite)) {
         QTextStream stream(&file);
@@ -240,7 +241,6 @@ void MainController::saveBlastPDataToFile(){
     QDateTime dateTime = dateTime.currentDateTime();
     QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
     emit blastTimeLogData2Qml("BlastP Process completed at: " + dateTimeString + "\n\n");
-
 }
 
 void MainController::saveBlastNDataToFile(){
@@ -350,4 +350,33 @@ void MainController::selectDirectory(){
     emit dirPathToQml(s_SelectedDirectory);
     qDebug() << "The selected directory is: " +  s_SelectedDirectory;
     s_SelectedDirectory.clear();
+}
+
+//TODO: Get all files from all folders
+void MainController::populateDataFiles(){
+    //qDebug() << "In populate data files..................";
+    QString path ="C:/BLAST-NG/results/swissptot2/BLASTp/";
+    QDir dir(path);
+    dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
+    dir.setSorting(QDir::Size | QDir::Reversed);
+    QFileInfoList list = dir.entryInfoList();
+    for (int i = 0; i < list.size(); ++i) {
+        QFileInfo fileInfo = list.at(i);
+        emit dataFileName2QML(fileInfo.fileName());
+    }
+}
+
+void MainController::loadDataFile(QString selectedFile){
+    qDebug() << "In Load data file...........";
+    QFile sFile("C:/BLAST-NG/results/swissptot2/BLASTp/" + selectedFile);
+    if(!sFile.open(QIODevice::ReadOnly)){
+        //error
+    }
+    QTextStream in(&sFile);
+    while (!in.atEnd()){
+        openFileForView = in.readAll().trimmed();
+    }
+    sFile.close();
+    emit fileViewerData2Qml(openFileForView);
+    openFileForView = "";
 }

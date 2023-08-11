@@ -37,6 +37,8 @@ signals:
     void seqFileNameToQml(QString _seqFileName);
     void dbFileNameToQml(QString _dbFileName);
     void dirPathToQml(QString _dirPath);
+    void dataFileName2QML(QString dataFileName);
+    void fileViewerData2Qml(QString fileData);
 
 public slots:
     void selectAFile();
@@ -62,6 +64,8 @@ public slots:
     void getMainInstructions(void);
     void getDbInstructions(void);
     void selectDirectory();
+    void populateDataFiles();
+    void loadDataFile(QString);
 
 private:  
     //DB file info
@@ -121,6 +125,8 @@ private:
     QString testPath;
 
     QString docsFolder;
+
+    QString openFileForView = "";
 
 };
 
