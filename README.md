@@ -26,4 +26,4 @@ https://www.ncbi.nlm.nih.gov/books/NBK569839/
 https://blast.ncbi.nlm.nih.gov/Blast.cgi  
 
 # **Notes:**  
-Basic BLASTp query: ./blastp -db  pathtodatabase -query pathtosequence
+Basic BLASTp query: blastp -db  pathToDatabase -query pathToSequence
