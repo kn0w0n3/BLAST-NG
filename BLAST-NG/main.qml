@@ -55,6 +55,236 @@ Window {
     }
 
     Rectangle {
+        id: dataViewerWin
+        x: 0
+        y: 0
+        width: 1000
+        height: 650
+        opacity: 1
+        visible: false
+        color: "#000000"
+
+        Image {
+            id: dataViewerWinBg
+            x: 0
+            y: 0
+            width: 1000
+            height: 650
+            source: "images/bg_1000X650.png"
+            fillMode: Image.PreserveAspectFit
+
+            ComboBox {
+                id: selectLogComboBox
+                x: 96
+                y: 26
+                width: 152
+                height: 21
+                visible: true
+                popup: Popup {
+                    y: selectLogComboBox.height - 1
+                    width: selectLogComboBox.width
+                    background: Rectangle {
+                        color: "#ffffff"
+                        radius: 5
+                        border.color: "#ffffff"
+                    }
+                    padding: 1
+                    implicitHeight: contentItem.implicitHeight
+                    contentItem: ListView {
+                        ScrollIndicator.vertical: ScrollIndicator {
+                        }
+                        currentIndex: selectLogComboBox.highlightedIndex
+                        clip: true
+                        model: selectLogComboBox.popup.visible ? selectLogComboBox.delegateModel : null
+                        implicitHeight: contentHeight
+                    }
+                }
+                indicator: Canvas {
+                    x: selectLogComboBox.width - width - selectLogComboBox.rightPadding
+                    y: selectLogComboBox.topPadding + (selectLogComboBox.availableHeight - height) / 2
+                    width: 12
+                    height: 8
+                    contextType: "2d"
+                    onPaint: {
+                        context.reset();
+                        context.moveTo(0, 0);
+                        context.lineTo(width, 0);
+                        context.lineTo(width / 2, height);
+                        context.closePath();
+                        context.fillStyle = selectLogComboBox.pressed ? "#FFFFFF" : "#FFFFFF";
+                        context.fill();
+                    }
+                    Connections {
+                        target: selectLogComboBox
+                    }
+                }
+                background: Rectangle {
+                    color: "#000000"
+                    radius: 2
+                    border.color: selectLogComboBox.pressed ? "#FFFFFF" : "#FFFFFF"
+                    border.width: selectLogComboBox.visualFocus ? 2 : 1
+                    implicitWidth: 120
+                    implicitHeight: 40
+                }
+                model: [" Select Data File"]
+                contentItem: Text {
+                    color: selectLogComboBox.pressed ? "#FFFFFF" : "#FFFFFF"
+                    text: selectLogComboBox.displayText
+                    elide: Text.ElideRight
+                    verticalAlignment: Text.AlignVCenter
+                    rightPadding: selectLogComboBox.indicator.width + selectLogComboBox.spacing
+                    leftPadding: 0
+                    font: selectLogComboBox.font
+                }
+                delegate: ItemDelegate {
+                    width: selectLogComboBox.width
+                    highlighted: selectLogComboBox.highlightedIndex === index
+                    contentItem: Text {
+                        color: "#000000"
+                        text: selectLogComboBox.textRole
+                              ? (Array.isArray(selectLogComboBox.model) ? modelData[selectLogComboBox.textRole] : model[selectLogComboBox.textRole])
+                              : modelData
+                        elide: Text.ElideRight
+                        verticalAlignment: Text.AlignVCenter
+                        font: selectLogComboBox.font
+                    }
+                }
+            }
+
+            Image {
+                id: image5
+                x: 416
+                y: 8
+                width: 172
+                height: 32
+                source: "images/dataviewertext.png"
+                fillMode: Image.PreserveAspectFit
+            }
+
+            Image {
+                id: dvw_OpenBtn
+                x: 96
+                y: 495
+                width: 77
+                height: 24
+                source: "images/open_file_btn.png"
+                fillMode: Image.PreserveAspectFit
+            }
+
+            MouseArea {
+                x: 96
+                y: 495
+                width: 77
+                height: 24
+                hoverEnabled: true
+                onExited: {
+                    dvw_OpenBtn.width = 77
+                    dvw_OpenBtn.height = 24
+                }
+                onClicked: {
+                    if(buildDbOutputText.getText(0,1) === ""){
+                        mainController.getDbInstructions()
+                    }
+                }
+                onEntered: {
+                    dvw_OpenBtn.width = 79
+                    dvw_OpenBtn.height = 26
+                }
+            }
+
+            Image {
+                id: dvw_CloseBtn
+                x: 463
+                y: 495
+                width: 77
+                height: 24
+                source: "images/close_file_btn.png"
+                fillMode: Image.PreserveAspectFit
+            }
+
+            MouseArea {
+                x: 463
+                y: 495
+                width: 77
+                height: 24
+                hoverEnabled: true
+                onExited: {
+                                    dvw_OpenBtn.width = 77
+                                    dvw_OpenBtn.height = 24
+                }
+                onClicked: {
+                    if(buildDbOutputText.getText(0,1) === ""){
+                        mainController.getDbInstructions()
+                    }
+                }
+                onEntered: {
+                    dvw_OpenBtn.width = 79
+                    dvw_OpenBtn.height = 26
+                }
+            }
+
+            Image {
+                id: dvw_HelpBtn
+                x: 861
+                y: 495
+                width: 77
+                height: 24
+                source: "images/elpBtn.png"
+                fillMode: Image.PreserveAspectFit
+            }
+
+            MouseArea {
+                x: 861
+                y: 495
+                width: 77
+                height: 24
+                hoverEnabled: true
+                onExited: {
+                                    dvw_OpenBtn.width = 77
+                                    dvw_OpenBtn.height = 24
+                                }
+                onClicked: {
+                                    if(buildDbOutputText.getText(0,1) === ""){
+                                        mainController.getDbInstructions()
+                                    }
+                                }
+                onEntered: {
+                                    dvw_OpenBtn.width = 79
+                                    dvw_OpenBtn.height = 26
+                                }
+            }
+        }
+
+        Rectangle {
+            id: rectangle2
+            x: 96
+            y: 50
+            width: 839
+            height: 425
+            color: "#000000"
+            border.color: "#ffffff"
+
+            ScrollView {
+                id: dataViewerScrollView
+                x: 4
+                y: 4
+                width: 831
+                height: 416
+
+                TextArea {
+                    id: dataViewerTxtArea
+                    color: "#ffffff"
+                    placeholderText: qsTr("")
+                    background: Rectangle {color: "black"}
+                }
+            }
+        }
+
+
+
+    }
+
+    Rectangle {
         id: buildDatabaseWin
         width: 1000
         height: 650
@@ -139,7 +369,7 @@ Window {
                 ScrollBar.vertical.position: 0
             }
         }
-/*
+        /*
         Button {
             id: backBtn
             x: 14
@@ -384,7 +614,7 @@ Window {
         }
 
         Image {
-            id: image1
+            id: addDbTxtImg
             x: 409
             y: 14
             width: 183
@@ -594,6 +824,7 @@ Window {
     }
 
 
+
     Rectangle {
         id: mainWindow
         x: 0
@@ -653,7 +884,7 @@ Window {
             x: 463
             y: 8
             width: 75
-            height: 29
+            height: 33
             visible: true
             source: "images/hometext.png"
             fillMode: Image.PreserveAspectFit
@@ -1685,10 +1916,10 @@ Window {
             editable: false
             visible: true
             model: [" Select Output Format", " pairwise", " query-anchored showing identities",
-                    " query-anchored no identities", " flat query-anchored, show identities",
-                    " flat query-anchored, no identities", " XML Blast output", " tabular",
-                    " tabular with comment lines", " Text ASN.1", " Binary ASN.1",
-                    " Comma-separated values", " BLAST archive format (ASN.1) "]
+                " query-anchored no identities", " flat query-anchored, show identities",
+                " flat query-anchored, no identities", " XML Blast output", " tabular",
+                " tabular with comment lines", " Text ASN.1", " Binary ASN.1",
+                " Comma-separated values", " BLAST archive format (ASN.1) "]
 
             delegate: ItemDelegate {
                 width: selectOutputFormat.width
@@ -1860,8 +2091,8 @@ Window {
                     //video1.play()
                     if(selectMethodDropDown.currentText.trim() === "BLASTp"){
                         mainController.startBlastP(dbSelectDropDown.currentText,
-                                                   resultFmtTxtInput.getText(0, resultFmtTxtInput.length),                                                                                                                                                        
-                                                   seqInputText.getText(0, seqInputText.length),                                              
+                                                   resultFmtTxtInput.getText(0, resultFmtTxtInput.length),
+                                                   seqInputText.getText(0, seqInputText.length),
                                                    jobTitleText.getText(0, jobTitleText.length),
                                                    fSubrangeTxt.getText(0,fSubrangeTxt.length),
                                                    tSubrangeTxt.getText(0,tSubrangeTxt.length))
@@ -1911,6 +2142,7 @@ Window {
         mainController.getMyDocumentsPath()
     }
 
+
     Rectangle {
         id: sidePanel
         width: 65
@@ -1942,10 +2174,9 @@ Window {
                     homeBtnImg.height = 40
                 }
                 onClicked: {
-                    if(buildDatabaseWin.visible == true){
                         buildDatabaseWin.visible = false
+                        dataViewerWin.visible = false
                         mainWindow.visible = true
-                    }
                 }
             }
         }
@@ -1973,19 +2204,16 @@ Window {
                     dbBtnImg.height = 40
                 }
                 onClicked: {
-                    if(mainWindow.visible == true){
                         mainWindow.visible = false
+                        dataViewerWin.visible = false
                         buildDatabaseWin.visible = true
-                    }
                 }
             }
         }
-
-
         Image {
             id: globalsearchBtn
             x: 13
-            y: 148
+            y: 213
             width: 40
             height: 40
             source: "images/blobalImgBtn.png"
@@ -2011,7 +2239,7 @@ Window {
         Image {
             id: globalsearchBtn1
             x: 13
-            y: 215
+            y: 280
             width: 40
             height: 40
             source: "images/toolsBtn.png"
@@ -2035,27 +2263,27 @@ Window {
         }
 
         Image {
-            id: globalsearchBtn2
+            id: sidePanelHelpBtn
             x: 13
-            y: 281
+            y: 347
             width: 40
             height: 40
             source: "images/helpBtn.png"
             fillMode: Image.PreserveAspectFit
 
             MouseArea {
-                id: mouseArea4
+                id: mouseAreaHelpBtn
                 width: 40
                 height: 40
                 hoverEnabled: true
 
                 onEntered: {
-                    globalsearchBtn2.width = 45
-                    globalsearchBtn2.height = 45
+                    sidePanelHelpBtn.width = 45
+                    sidePanelHelpBtn.height = 45
                 }
                 onExited: {
-                    globalsearchBtn2.width = 40
-                    globalsearchBtn2.height = 40
+                    sidePanelHelpBtn.width = 40
+                    sidePanelHelpBtn.height = 40
                 }
             }
         }
@@ -2081,7 +2309,37 @@ Window {
                 }
             }
         }
+
+        Image {
+            id: dataViewerBtn
+            x: 13
+            y: 148
+            width: 40
+            height: 40
+            source: "images/dataViewerBtn.png"
+            fillMode: Image.PreserveAspectFit
+            MouseArea {
+                id: logViewerBtnMouseArea
+                width: 40
+                height: 40
+                hoverEnabled: true
+                onExited: {
+                            dataViewerBtn.width = 40
+                            dataViewerBtn.height = 40
+                        }
+                onEntered: {
+                            dataViewerBtn.width = 45
+                            dataViewerBtn.height = 45
+                        }
+                onClicked: {
+                    mainWindow.visible = false
+                    buildDatabaseWin.visible = false
+                    dataViewerWin.visible = true
+                }
+            }
+        }
     }
+
 
     Image {
         id: image4
@@ -2092,6 +2350,7 @@ Window {
         source: "images/logo_w_dna.png"
         fillMode: Image.PreserveAspectFit
     }
+
 
     Image {
         id: dotsImg
@@ -2114,10 +2373,11 @@ Window {
         }
     }
 
+
 }
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.8999999761581421}
+    D{i:0;formeditorZoom:0.8999999761581421}D{i:4}D{i:16}D{i:203}
 }
 ##^##*/

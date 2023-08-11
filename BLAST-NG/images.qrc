@@ -17,5 +17,10 @@
         <file>images/selectDirBtn.png</file>
         <file>images/logo_w_dna.png</file>
         <file>images/hometext.png</file>
+        <file>images/adddbtext.png</file>
+        <file>images/dataviewertext.png</file>
+        <file>images/open_file_btn.png</file>
+        <file>images/close_file_btn.png</file>
+        <file>images/dataViewerBtn.png</file>
     </qresource>
 </RCC>
