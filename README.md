@@ -5,7 +5,15 @@ Status: In Progress
 
 The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity between sequences. The program compares nucleotide or protein sequences to sequence databases and calculates the statistical significance of matches.    
 
-![blast-ng-gui-8-11-23](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/69e3a32a-3619-4415-b809-9fd69ab8e152)             
+![blast-ng-gui-8-11-23](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/69e3a32a-3619-4415-b809-9fd69ab8e152)  
+
+# **Usage:**    
+
+* BLASTp: Compare a protein query to a protein (nr) database.     
+
+* BLASTn:  translates the DNA sequence in all possible reading frames and compares it with the non redundant NCBI (nt) protein database.     
+
+* BLASTx: (translated nucleotide sequence searched against protein sequences): compares a nucleotide query sequence that is translated in six reading frames (resulting in six protein sequences) against a database of protein sequences.    
 
 # **Work Environment:**       
 ![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
@@ -30,8 +38,3 @@ A BLAST search against a database requires at least a –query and –db option.
 
 blastn –db nt –query nt.fsa –out results.out 
 
-* BLASTp: Compare a protein query to a protein (nr) database.   
-
-* BLASTn:  translates the DNA sequence in all possible reading frames and compares it with the non redundant NCBI (nt) protein database.   
-
-* BLASTx: (translated nucleotide sequence searched against protein sequences): compares a nucleotide query sequence that is translated in six reading frames (resulting in six protein sequences) against a database of protein sequences.  
