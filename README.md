@@ -26,4 +26,6 @@ https://www.ncbi.nlm.nih.gov/books/NBK569839/
 https://blast.ncbi.nlm.nih.gov/Blast.cgi  
 
 # **Notes:**  
-Basic BLASTp query: blastp -db  pathToDatabase -query pathToSequence
+A BLAST search against a database requires at least a –query and –db option. The command:  
+
+blastn –db nt –query nt.fsa –out results.out  
