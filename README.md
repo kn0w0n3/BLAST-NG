@@ -30,8 +30,8 @@ A BLAST search against a database requires at least a –query and –db option.
 
 blastn –db nt –query nt.fsa –out results.out 
 
-BLASTp: Compare a protein query to a protein (nr) database.   
+* BLASTp: Compare a protein query to a protein (nr) database.   
 
-BLASTn:  translates the DNA sequence in all possible reading frames and compares it with the non redundant NCBI (nt) protein database.   
+* BLASTn:  translates the DNA sequence in all possible reading frames and compares it with the non redundant NCBI (nt) protein database.   
 
-BLASTx: (translated nucleotide sequence searched against protein sequences): compares a nucleotide query sequence that is translated in six reading frames (resulting in six protein sequences) against a database of protein sequences.  
+* BLASTx: (translated nucleotide sequence searched against protein sequences): compares a nucleotide query sequence that is translated in six reading frames (resulting in six protein sequences) against a database of protein sequences.  
