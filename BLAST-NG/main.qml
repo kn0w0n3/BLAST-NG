@@ -385,11 +385,11 @@ Window {
 
         Image {
             id: image1
-            x: 414
+            x: 409
             y: 14
-            width: 172
-            height: 25
-            source: "images/add_db_text.png"
+            width: 183
+            height: 33
+            source: "images/adddbtext.png"
             fillMode: Image.PreserveAspectFit
         }
 
@@ -650,12 +650,12 @@ Window {
 
         Image {
             id: image
-            x: 445
-            y: 5
-            width: 111
-            height: 36
-            visible: false
-            source: "images/logo2.png"
+            x: 463
+            y: 8
+            width: 75
+            height: 29
+            visible: true
+            source: "images/hometext.png"
             fillMode: Image.PreserveAspectFit
         }
 

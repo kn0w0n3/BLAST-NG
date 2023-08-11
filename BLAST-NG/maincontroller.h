@@ -52,6 +52,8 @@ public slots:
     void startTBlastN();
     void startTBlastX();
     void saveDataToFile();
+    void saveBlastPDataToFile();
+    void saveBlastNDataToFile();
     void getMyDocumentsPath();
     void getSavedDatabases();
     void processBuildDbMessages();
