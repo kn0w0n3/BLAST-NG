@@ -19,6 +19,9 @@ Databases are required to perform BLAST queries. Databases can be downloaded her
 
 https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/  
 
+Some files are very large and could take some time to download.  
+![db](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/8ff73180-e8f6-4f8a-9a43-ba32554f5eae)    
+
 # **Work Environment:**       
 ![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
 Qt Creator 10.0.1    
