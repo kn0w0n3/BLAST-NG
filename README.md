@@ -17,7 +17,7 @@ The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity 
   
 * tBLASTn: Operates by translating database nucleotide sequences to hypothetical amino acid sequences in all six reading frames and then aligning the hypothetical amino acid sequences to the query. TBLASTN is widely used as associating proteins with chromosomes or with mRNAs is useful in many biological studies.
 
-* tBLASTX: Accepts nucleotide query sequence(s) as well as database subject sequences, translates both to 6‐frame amino acid sequences and, finally, compares them at the amino acid level. tBLASTx is a tool for discovering novel genes in the nucleotide sequences, such as single pass expressed sequence tags and draft genome records which are unannotated and riddled with errors (e.g., wrong bases and frame shifts). These errors often make one coding sequence difficult to be detected.  
+* tBLASTx: Accepts nucleotide query sequence(s) as well as database subject sequences, translates both to 6‐frame amino acid sequences and, finally, compares them at the amino acid level. tBLASTx is a tool for discovering novel genes in the nucleotide sequences, such as single pass expressed sequence tags and draft genome records which are unannotated and riddled with errors (e.g., wrong bases and frame shifts). These errors often make one coding sequence difficult to be detected.  
 
 Databases are required to perform BLAST queries. Databases can be downloaded from the following link:  
 
