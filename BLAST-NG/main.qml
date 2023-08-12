@@ -840,6 +840,7 @@ Window {
             y: 420
             width: 77
             height: 24
+            visible: true
             fillMode: Image.PreserveAspectFit
             source: "images/selectDirBtn.png"
             MouseArea {

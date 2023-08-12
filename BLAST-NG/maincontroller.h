@@ -29,11 +29,9 @@ signals:
     void dbDirectionsTxtToQml(QString dbdirectionsTxt);
     void buildDbOutputToQml(QString buildDbText);
     void dbNameTxtToQml(QString dbName);
-
     void blastPData2Qml(QString blastPText);
     void blastNData2Qml(QString blastNText);
     void blastTimeLogData2Qml(QString timeLogText);
-
     void seqFileNameToQml(QString _seqFileName);
     void dbFileNameToQml(QString _dbFileName);
     void dirPathToQml(QString _dirPath);
@@ -44,21 +42,32 @@ public slots:
     void selectAFile();
     void selectAFile2();   
     void buildDatabase(QString, QString);
+
+    //BLASTp functions
     void startBlastP(QString, QString, QString, QString, QString, QString);
-
     void processBlastPStdOut();
-    void processBlastNStdOut();
+    void saveBlastPDataToFile();
 
+    //BLASTn functions
     void startBlastN(QString, QString, QString, QString, QString, QString);
+    void processBlastNStdOut();
+    void saveBlastNDataToFile();
+
+    //BLASTx functions
     void startBlastX(QString, QString, QString, QString, QString, QString);
     void processBlastXStdOut();
     void saveBlastXDataToFile();
 
-    void startTBlastN();
-    void startTBlastX();
-    void saveDataToFile();
-    void saveBlastPDataToFile();
-    void saveBlastNDataToFile();
+    //tBLASTn functions
+    void startTBlastN(QString, QString, QString, QString, QString, QString);
+    void processtBlastnStdOut();
+    void savetBlastnDataToFile();
+
+    //tBLASTx functions
+    void startTBlastX(QString, QString, QString, QString, QString, QString);
+    void processtBlastxStdOut();
+    void savetBlastxDataToFile();
+
     void getMyDocumentsPath();
     void getSavedDatabases();
     void processBuildDbMessages();
@@ -69,7 +78,6 @@ public slots:
     void selectDirectory();
     void populateDataFiles();
     void loadDataFile(QString);
-
 
 private:  
     //DB file info
@@ -110,29 +118,44 @@ private:
     QProcess blast_p_Process;
     QProcess blast_n_Process;
     QProcess blast_x_Process;
+    QProcess t_BLAST_n_Process;
+    QProcess t_BLAST_x_Process;
     QProcess *buildDBProcess;
 
-    //Store BLAST output
+    //Variables for BLASTp data
     QByteArray bpData;
     QString blastPOutput;
+
+    //Variables for BLASTn data
     QByteArray bnData;
     QString blastNOutput;
 
+    //Variables for BLASTx data
+    QByteArray bxData;
+    QString blastXOutput;
+
+    //Variables for build database standard data
     QByteArray q_buildDbStdOut;
     QString s_buildDbStdout;
 
+    //Variables for build database error data
     QByteArray q_buildDbStdErr;
     QString s_buildDbStdErr;
 
+    //Variables for tBLASTn data
+    QByteArray tBLASTnByteArrayData;
+    QString tBLASTnStringData;
+
+    //Variables for tBLASTx data
+    QByteArray tBLASTxByteArrayData;
+    QString tBLASTxStringData;
+
+    //Variables to store info from QML about operational data
     QString dbNameEntered;
     QString s_SelectedDirectory;
     QString jobTitle;
     QString testPath;
-
     QString docsFolder;
-
     QString openFileForView = "";
-
 };
-
 #endif // MAINCONTROLLER_H
