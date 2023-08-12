@@ -9,7 +9,7 @@ The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity 
 
 # **Usage:**    
 
-* **BLASTp:** Compare a protein query to a protein (nr) database.     
+* $${\color(blue**BLASTp:**)$$ Compare a protein query to a protein (nr) database.     
 
 * **BLASTn:** Translates the DNA sequence in all possible reading frames and compares it with the non redundant NCBI (nt) protein database.     
 
