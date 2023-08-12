@@ -15,11 +15,11 @@ The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity 
 
 * BLASTx: (translated nucleotide sequence searched against protein sequences): compares a nucleotide query sequence that is translated in six reading frames (resulting in six protein sequences) against a database of protein sequences.
 
-Databases are required to perform BLAST queries. Databases can be downloaded here:  
+Databases are required to perform BLAST queries. Databases can be downloaded from the following link:  
 
 https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/  
 
-Some files are very large and could take some time to download.  
+Some database files have a size greater than 300GB and could take some time to download.    
 ![db](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/8ff73180-e8f6-4f8a-9a43-ba32554f5eae)    
 
 # **Work Environment:**       
