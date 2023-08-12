@@ -13,7 +13,11 @@ The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity 
 
 * BLASTn:  translates the DNA sequence in all possible reading frames and compares it with the non redundant NCBI (nt) protein database.     
 
-* BLASTx: (translated nucleotide sequence searched against protein sequences): compares a nucleotide query sequence that is translated in six reading frames (resulting in six protein sequences) against a database of protein sequences.    
+* BLASTx: (translated nucleotide sequence searched against protein sequences): compares a nucleotide query sequence that is translated in six reading frames (resulting in six protein sequences) against a database of protein sequences.
+
+Databases are required to perform BLAST queries. Databases can be downloaded here:  
+
+https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/  
 
 # **Work Environment:**       
 ![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
