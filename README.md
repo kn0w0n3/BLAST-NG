@@ -25,16 +25,7 @@ https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/
 
 Some database files have a size greater than 300GB and could take some time to download.    
 ![db](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/8ff73180-e8f6-4f8a-9a43-ba32554f5eae)    
-
-# **Work Environment:**       
-![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
-Qt Creator 10.0.1    
-Based on Qt 6.4.3 (MSVC 2019, x86_64)    
-Built on May 4 2023 01:13:52    
-From revision d2b3c31e04     
-Kit 6.5.1 MinGW 64-bit    
-https://www.qt.io/    
-    
+   
 # **Resources:**  
 ![ncbi-logo](https://user-images.githubusercontent.com/22214754/204448800-2b846e5b-2c68-4c4e-8687-43aac8ac752e.png)      
 https://www.ncbi.nlm.nih.gov/  
@@ -47,5 +38,14 @@ https://blast.ncbi.nlm.nih.gov/Blast.cgi
 # **Notes:**  
 A BLAST search against a database requires at least a –query and –db option. The command:  
 
-blastn –db nt –query nt.fsa –out results.out 
+blastn –db nt –query nt.fsa –out results.out  
+
+# **Work Environment:**       
+![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
+Qt Creator 10.0.1    
+Based on Qt 6.4.3 (MSVC 2019, x86_64)    
+Built on May 4 2023 01:13:52    
+From revision d2b3c31e04     
+Kit 6.5.1 MinGW 64-bit    
+https://www.qt.io/    
 
