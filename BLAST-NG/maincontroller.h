@@ -40,8 +40,14 @@ signals:
 
 public slots:
     void selectAFile();
-    void selectAFile2();   
+    void selectAFile2();
+    void selectDirectory();
+
+    //Build database functions
     void buildDatabase(QString, QString);
+    void processBuildDbMessages();
+    void processBuildDbErrMsg();
+    void dbDoneResultsToQml();
 
     //BLASTp functions
     void startBlastP(QString, QString, QString, QString, QString, QString);
@@ -70,12 +76,11 @@ public slots:
 
     void getMyDocumentsPath();
     void getSavedDatabases();
-    void processBuildDbMessages();
-    void processBuildDbErrMsg();
-    void dbDoneResultsToQml();
+
+
     void getMainInstructions(void);
     void getDbInstructions(void);
-    void selectDirectory();
+
     void populateDataFiles();
     void loadDataFile(QString);
 
@@ -115,11 +120,12 @@ private:
     //Data from thread if needed
     QString fileContents = "";
 
-    QProcess blast_p_Process;
-    QProcess blast_n_Process;
-    QProcess blast_x_Process;
-    QProcess t_BLAST_n_Process;
-    QProcess t_BLAST_x_Process;
+    //Pointers for dynamic memory allocation
+    QProcess *blast_p_Process;
+    QProcess *blast_n_Process;
+    QProcess *blast_x_Process;
+    QProcess *t_BLAST_n_Process;
+    QProcess *t_BLAST_x_Process;
     QProcess *buildDBProcess;
 
     //Variables for BLASTp data
@@ -157,5 +163,8 @@ private:
     QString testPath;
     QString docsFolder;
     QString openFileForView = "";
+    QDir currentDir;
+
+    bool searchingForFile = false;
 };
 #endif // MAINCONTROLLER_H

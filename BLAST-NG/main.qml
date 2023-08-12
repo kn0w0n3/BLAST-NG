@@ -53,7 +53,7 @@ Window {
             dirPathLabel.text = _dirPath
         }
         onDataFileName2QML:{
-            console.log("Trying to add file names to combo box...")
+            //console.log("Trying to add file names to combo box...")
             modelLogView.append({text: dataFileName})
         }
         onFileViewerData2Qml:{
@@ -308,8 +308,6 @@ Window {
                 //visible: false
                 clip: true
 
-
-
                 TextArea {
                     id: dataViewerTxtArea
                     x: -7
@@ -320,9 +318,6 @@ Window {
                 }
             }
         }
-
-
-
     }
 
     Rectangle {
@@ -387,7 +382,6 @@ Window {
                 ScrollBar.vertical.policy: ScrollBar.AsNeeded
                 ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
-
                 TextArea {
                     id: buildDbOutputText
                     x: -7
@@ -410,37 +404,7 @@ Window {
                 ScrollBar.vertical.position: 0
             }
         }
-        /*
-        Button {
-            id: backBtn
-            x: 14
-            y: 15
-            width: 91
-            height: 36
-            text: qsTr("Back")
-            palette.buttonText: "#ffffff"
-            layer.enabled: true
-            visible: false
-            layer.effect: DropShadow {
-                width: 69
-                color: "#ffffff"
-                radius: 8
-                verticalOffset: 2
-                samples: 17
-                horizontalOffset: 2
-                transparentBorder: true
-                spread: 0
-            }
-            background: Rectangle {
-                color: "#000000"
-                radius: 50
-            }
-            onClicked: {
-                buildDatabaseWin.visible = false
-                mainWindow.visible = true
-            }
-        }
-*/
+
         ComboBox {
             id: controlDb
             x: 471
@@ -890,10 +854,7 @@ Window {
                     //contextMenuM.popup()
                 }
                 else if(mouse.button === Qt.LeftButton){
-                    //threadsTxtInput.deselect()
-                    //eValueTxtInput.deselect()
                     resultFmtTxtInput.deselect()
-                    //otherCmdTxtInput.deselect()
                     seqInputText.deselect()
                     blastOutputText.deselect()
                     dbNameTxtEdit.deselect()
@@ -1055,7 +1016,6 @@ Window {
             height: 21
             visible: true
             editable: false
-            //model: ["         ", " DB One", " DB Two", " DB Three"]
             model: ListModel{
                 id: model
                 ListElement {text: ""}
@@ -2362,8 +2322,6 @@ Window {
             }
         }
     }
-
-
 }
 
 /*##^##
