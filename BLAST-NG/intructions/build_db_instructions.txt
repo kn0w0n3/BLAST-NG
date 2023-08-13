@@ -1,9 +1,11 @@
-1. Click select file button to select FASTA file 
+1. Click the select file button to select a FASTA file. 
 
-2. Select database type 
+2. Select a database type (Nucleic Acid Sequence or Protein Sequence).
             
-3. Enter the name of the database (no Spaces)
+3. Enter a name for the database (no Spaces).
             
-4. Click Build database button to start database building 
+4. Click the Build database button to start building the database Databases will be stored in C:\BLAST-NG\databases.
             
-5. Click the back button to go back to the main window
+5. After the database build process has completed, it will be listed in the database dropdown on the main window.
+
+Databases can be downloaded from the following link: https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/

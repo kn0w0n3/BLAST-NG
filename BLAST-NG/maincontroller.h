@@ -74,7 +74,7 @@ public slots:
     void processtBlastxStdOut();
     void savetBlastxDataToFile();
 
-    void getMyDocumentsPath();
+    void setDirs();
     void getSavedDatabases();
 
 

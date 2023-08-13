@@ -1,7 +1,7 @@
 #include "maincontroller.h"
 
 MainController::MainController(QWidget *parent) : QWidget(parent){
-
+    setDirs();
 }
 
 //Select a database file - files with spaces om the name will give an error
@@ -11,9 +11,6 @@ void MainController::selectAFile(){
     dbFileName = fileInfo.fileName().trimmed();
     emit dbFileNameToQml(dbFileName);
     dbFullFilePath = fileInfo.filePath().trimmed();
-    //dbFilePath = fileInfo.filePath().trimmed();
-    //dbFilePath.replace(dbFileName, "");
-    //qDebug() << "The selected full db file path is " << dbFullFilePath;
 }
 
 //Select a sequence file - files with spaces om the name will give an error
@@ -29,9 +26,7 @@ void MainController::selectAFile2(){
 void MainController::selectDirectory(){
     QString dir = QFileDialog::getExistingDirectory(Q_NULLPTR, tr("Select Directory"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     s_SelectedDirectory = dir.trimmed();
-
     emit dirPathToQml(s_SelectedDirectory);
-   // qDebug() << "The selected directory is: " +  s_SelectedDirectory;
     s_SelectedDirectory.clear();
 }
 
@@ -43,19 +38,14 @@ void MainController::buildDatabase(QString dbType, QString _dbName){
     QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
     emit buildDbOutputToQml("Building database: " + dbNameEntered +"\nBuild database process started @: " + dateTimeString);
     buildDBProcess = new QProcess();
-
     uniqueDirForDb = "C:/BLAST-NG/databases/" + dbNameEntered + "/";
-
     QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
          << "./makeblastdb -in " + dbFullFilePath + " -out " + uniqueDirForDb + dbNameEntered + " -dbtype " + dbType.trimmed();
-
-
     buildDBProcess->connect(buildDBProcess, &QProcess::readyReadStandardOutput, this, &MainController::processBuildDbMessages);
     buildDBProcess->connect(buildDBProcess, &QProcess::readyReadStandardError, this, &MainController::processBuildDbErrMsg);
     connect(buildDBProcess, &QProcess::finished, this, &MainController::dbDoneResultsToQml);
     buildDBProcess->start("powershell", args);
-
     emit dbNameTxtToQml(" " + _dbName.trimmed());
     //dbFullFilePath.clear();
 }
@@ -92,9 +82,6 @@ void MainController::startBlastP(QString selectedDb, QString outFormat, QString 
     selectedDbName = selectedDb.trimmed();
     pastedSequence = iPastedSequence.trimmed();
     scanMethod = "BLASTp";
-    //qDebug() << "The job title is: " << jobTitle;
-    //qDebug() << "The selected db  name is: " + selectedDbName;
-
     blast_p_Process = new QProcess();
 
     //Use pasted sequence<-----
@@ -443,9 +430,10 @@ void MainController::savetBlastxDataToFile(){
     t_BLAST_x_Process->terminate();
 }
 
-//The BLAST-NG, NCBI, databasesn and results folders are created upon installation of BLAST-NG
-void MainController::getMyDocumentsPath(){
-    docsFolder = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+//The BLAST-NG, NCBI, databases and results folders are created upon installation of BLAST-NG
+//Set Directories. This is being called from a component in QML
+void MainController::setDirs(){
+    //docsFolder = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     ncbiToolsPath = "C:/BLAST-NG/NCBI/";
     databasesPath = "C:/BLAST-NG/databases/";
     resultsPath = "C:/BLAST-NG/results/";
@@ -460,8 +448,6 @@ void MainController::getSavedDatabases(){
         QFileInfo fileInfo(dir);
         QString folderName = fileInfo.fileName();
         qDebug() << folderName;
-
-        //Add the database names to the drop down menu
         emit dbNameTxtToQml(" " + folderName);
     }
 }
@@ -486,6 +472,7 @@ void MainController::getDbInstructions(void){
     if(!file.open(QIODevice::ReadOnly)) {
         QMessageBox::information(0, "error", file.errorString());
     }
+
     QTextStream in(&file);
     while(!in.atEnd()) {
         instrctionsText = in.readAll();
@@ -494,18 +481,17 @@ void MainController::getDbInstructions(void){
     emit dbDirectionsTxtToQml(instrctionsText);
 }
 
-//TODO: Get all files from all folders
 //Populate the combobox in QML with the available file names
 void MainController::populateDataFiles(){
-    //qDebug() << "In populate data files..................";
-    QString path ="C:/BLAST-NG/results/swissptot2/BLASTp/";
-    QDir dir(path);
-    dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
-    dir.setSorting(QDir::Size | QDir::Reversed);
-    QFileInfoList list = dir.entryInfoList();
-    for (int i = 0; i < list.size(); ++i) {
-        QFileInfo fileInfo = list.at(i);
-        emit dataFileName2QML(fileInfo.fileName());
+    QString t_FilePath = "";
+    QString t_FileName = "";
+    searchingForFile = true;
+    QDirIterator it("C:/BLAST-NG/results/", QDir::NoDotAndDotDot | QDir::Files, QDirIterator::Subdirectories);
+
+    while (it.hasNext()) {
+        t_FilePath = it.next();
+        t_FileName = it.fileName();
+        emit dataFileName2QML(t_FileName);
     }
 }
 
@@ -515,16 +501,13 @@ void MainController::loadDataFile(QString selectedFile){
     QString t_FileName = "";
     QString f_FileToOpen = "";
     searchingForFile = true;
-
     QDirIterator it("C:/BLAST-NG/results/", QDirIterator::Subdirectories);
     while (it.hasNext() && searchingForFile == true) {
         t_FilePath = it.next();
         t_FileName = it.fileName();
-        qDebug() << t_FileName;
 
         if(t_FileName == selectedFile){
             f_FileToOpen = t_FilePath;
-            qDebug() << t_FilePath;
             searchingForFile = false;
         }
     }

@@ -84,7 +84,7 @@ Window {
                        id: controlLogView
                        x: 96
                        y: 26
-                       width: 200
+                       width: 263
                        height: 21
                        //model: ["Available Logs", "Application", "System", "Security", "Custom"]
                        model: ListModel{
@@ -279,9 +279,7 @@ Window {
                                     dvw_OpenBtn.height = 24
                                 }
                 onClicked: {
-                                    if(buildDbOutputText.getText(0,1) === ""){
-                                        mainController.getDbInstructions()
-                                    }
+
                                 }
                 onEntered: {
                                     dvw_OpenBtn.width = 79
@@ -2091,7 +2089,7 @@ Window {
     //Get paths when the program starts
     //Check for saved databases and populate the combobox. This is Triggered by the getMyDocuments function
     Component.onCompleted: {
-        mainController.getMyDocumentsPath()
+        mainController.setDirs()
     }
 
 
@@ -2136,7 +2134,7 @@ Window {
         Image {
             id: dbBtnImg
             x: 13
-            y: 83
+            y: 147
             width: 40
             height: 40
             fillMode: Image.PreserveAspectFit
@@ -2144,6 +2142,8 @@ Window {
 
             MouseArea {
                 id: mouseArea1
+                x: 0
+                y: 0
                 width: 40
                 height: 40
                 hoverEnabled: true
@@ -2265,7 +2265,7 @@ Window {
         Image {
             id: dataViewerBtn
             x: 13
-            y: 148
+            y: 83
             width: 40
             height: 40
             source: "images/dataViewerBtn.png"
