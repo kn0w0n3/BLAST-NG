@@ -35,6 +35,8 @@ https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download
 https://www.ncbi.nlm.nih.gov/books/NBK569839/  
 https://blast.ncbi.nlm.nih.gov/Blast.cgi  
 
+NCBI BLAST Executables: https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/  
+
 # **Notes:**  
 A BLAST search against a database requires at least a –query and –db option. The command:  
 
