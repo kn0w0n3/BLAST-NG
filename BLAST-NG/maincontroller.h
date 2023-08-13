@@ -8,7 +8,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QFileDialog>
-#include <QThread>
+//#include <QThread>
 #include <QProcess>
 #include <QDebug>
 #include <QMessageBox>

@@ -316,6 +316,9 @@ Window {
                 }
             }
         }
+        Component.onCompleted: {
+            mainConctroller.populateDataFiles()
+        }
     }
 
     Rectangle {
