@@ -59,6 +59,219 @@ Window {
         onFileViewerData2Qml:{
             dataViewerTxtArea.text += fileData + "/n"
         }
+        onSettingsDirPath2Qml:{
+            dbSaveLocationTxt.text = updatedCurSavedDbPath
+        }
+        onUpdateCurSavedDbPath:{
+            curSavedDbLocationTxt.text = curDbPath
+        }
+    }
+
+    Rectangle {
+        id: settingsWin
+        x: 0
+        y: 0
+        width: 1000
+        height: 650
+        visible: false
+        color: "#ffffff"
+
+        Image {
+            id: image1
+            x: 0
+            y: 0
+            width: 1000
+            height: 650
+            source: "images/bg_1000X650.png"
+            fillMode: Image.PreserveAspectFit
+        }
+
+
+        Image {
+            id: dbSelectDirBtn
+            x: 209
+            y: 425
+            width: 77
+            height: 24
+            visible: true
+            source: "images/selectDirBtn.png"
+            fillMode: Image.PreserveAspectFit
+        }
+
+        MouseArea {
+            x: 209
+            y: 425
+            width: 77
+            height: 24
+            onEntered: {
+                dbSelectDirBtn.width = 79
+                dbSelectDirBtn.height = 26
+            }
+            onExited: {
+                dbSelectDirBtn.width = 77
+                dbSelectDirBtn.height = 24
+            }
+            onClicked: {
+                mainController.settingsSelectDir()
+            }
+            hoverEnabled: true
+        }
+
+        Rectangle {
+            id: dirPathRect1
+            x: 292
+            y: 425
+            width: 498
+            height: 21
+            color: "#000000"
+            border.color: "#ffffff"
+
+            Label {
+                id: dbSaveLocationTxt
+                x: 3
+                y: 3
+                width: 493
+                height: 17
+                color: "#ffffff"
+                text: qsTr("")
+                font.pointSize: 8
+                clip: true
+            }
+        }
+
+        Image {
+            id: settingsTextImg
+            x: 431
+            y: 14
+            width: 138
+            height: 44
+            source: "images/settings-text.png"
+            fillMode: Image.PreserveAspectFit
+        }
+
+        Rectangle {
+            id: dirPathRect2
+            x: 292
+            y: 364
+            width: 498
+            height: 21
+            color: "#000000"
+            border.color: "#ffffff"
+
+            Label {
+                id: curSavedDbLocationTxt
+                x: 3
+                y: 3
+                width: 493
+                height: 17
+                color: "#ffffff"
+                text: qsTr("")
+                font.pointSize: 8
+                clip: true
+            }
+        }
+
+        Image {
+            id: saveBtn
+            x: 292
+            y: 465
+            width: 77
+            height: 24
+            visible: true
+            source: "images/saveBtn.png"
+            fillMode: Image.PreserveAspectFit
+
+            MouseArea {
+                x: 0
+                y: 0
+                width: 77
+                height: 24
+                onEntered: {
+                    saveBtn.width = 79
+                    saveBtn.height = 26
+                }
+                onExited: {
+                    saveBtn.width = 77
+                    saveBtn.height = 24
+                }
+                onClicked: {
+                    var dbText = dbSaveLocationTxt.text
+                    console.log("The db save location text is: " + dbText)
+                    if(dbText === ""){
+                        settingsTxtArea.text += "Select the location of saved databases /n"
+                    }
+                    else{
+                        mainController.saveDatabaseSettings(dbText)
+                    }
+                }
+                hoverEnabled: true
+            }
+        }
+        Label {
+            id: label15
+            x: 209
+            y: 315
+            width: 188
+            height: 21
+            color: "#ffffff"
+            text: qsTr("Saved Databases Location:")
+            font.bold: true
+            font.pointSize: 11
+        }
+
+        Label {
+            id: label17
+            x: 210
+            y: 337
+            width: 98
+            height: 20
+            color: "#ffffff"
+            text: qsTr("Current location:")
+            font.pointSize: 10
+        }
+
+        Label {
+            id: label18
+            x: 210
+            y: 396
+            width: 116
+            height: 20
+            color: "#ffffff"
+            text: qsTr("Select new location:")
+            font.pointSize: 10
+        }
+
+        Rectangle {
+            id: rectangle3
+            x: 210
+            y: 71
+            width: 580
+            height: 232
+            color: "#000000"
+            border.color: "#ffffff"
+
+            ScrollView {
+                id: scrollView3
+                x: 3
+                y: 3
+                width: 574
+                height: 226
+
+                TextArea {
+                    id: settingsTxtArea
+                    color: "#ffffff"
+                    text: ""
+                    font.bold: false
+                    font.pointSize: 8
+                    placeholderText: qsTr("Text Area")
+                    background: Rectangle {color: "black"}
+                }
+            }
+        }
+        Component.onCompleted: {
+            //load the current save location
+            mainController.loadDatabaseSettings()
+        }
     }
 
     Rectangle {
@@ -81,113 +294,113 @@ Window {
             fillMode: Image.PreserveAspectFit
 
             ComboBox {
-                       id: controlLogView
-                       x: 96
-                       y: 26
-                       width: 263
-                       height: 21
-                       //model: ["Available Logs", "Application", "System", "Security", "Custom"]
-                       model: ListModel{
-                           id: modelLogView
-                           ListElement {text: "Select Data File"}
-                       }
-                       onAccepted: {
-                           if (find(editText) === -1)
-                               modelLogView.append({text: editText})
-                       }
+                id: controlLogView
+                x: 96
+                y: 26
+                width: 263
+                height: 21
+                //model: ["Available Logs", "Application", "System", "Security", "Custom"]
+                model: ListModel{
+                    id: modelLogView
+                    ListElement {text: "Select Data File"}
+                }
+                onAccepted: {
+                    if (find(editText) === -1)
+                        modelLogView.append({text: editText})
+                }
 
-                       delegate: ItemDelegate {
-                           width: controlLogView.width
-                           contentItem: Text {
-                               text: controlLogView.textRole
-                                     ? (Array.isArray(controlLogView.model) ? modelData[controlLogView.textRole] : model[controlLogView.textRole])
-                                     : modelData
-                               color: "#000000" //Change the text color of the model data in the drop down box.
-                               font: controlLogView.font
-                               elide: Text.ElideRight
-                               verticalAlignment: Text.AlignVCenter
-                           }
-                           highlighted: controlLogView.highlightedIndex === index
-                       }
+                delegate: ItemDelegate {
+                    width: controlLogView.width
+                    contentItem: Text {
+                        text: controlLogView.textRole
+                              ? (Array.isArray(controlLogView.model) ? modelData[controlLogView.textRole] : model[controlLogView.textRole])
+                              : modelData
+                        color: "#000000" //Change the text color of the model data in the drop down box.
+                        font: controlLogView.font
+                        elide: Text.ElideRight
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    highlighted: controlLogView.highlightedIndex === index
+                }
 
-                       indicator: Canvas {
-                           id: canvasDWV
-                           x: controlLogView.width - width - controlLogView.rightPadding
-                           y: controlLogView.topPadding + (controlLogView.availableHeight - height) / 2
-                           width: 12
-                           height: 8
-                           contextType: "2d"
+                indicator: Canvas {
+                    id: canvasDWV
+                    x: controlLogView.width - width - controlLogView.rightPadding
+                    y: controlLogView.topPadding + (controlLogView.availableHeight - height) / 2
+                    width: 12
+                    height: 8
+                    contextType: "2d"
 
-                           Connections {
-                               target: controlLogView
-                               function onPressedChanged() { canvasDWV.requestPaint(); }
-                           }
+                    Connections {
+                        target: controlLogView
+                        function onPressedChanged() { canvasDWV.requestPaint(); }
+                    }
 
-                           //This will change the color of the triangle indicator.
-                           onPaint: {
-                               context.reset();
-                               context.moveTo(0, 0);
-                               context.lineTo(width, 0);
-                               context.lineTo(width / 2, height);
-                               context.closePath();
-                               context.fillStyle = controlLogView.pressed ? "#ffffff" : "#ffffff";
-                               context.fill();
-                           }
-                       }
-                       //The second color is the main color. The first item is what color the changes to once clicked.
-                       //This will change the text color of main text in the box.
-                       contentItem: Text {
-                           leftPadding: 0
-                           rightPadding: controlLogView.indicator.width + controlLogView.spacing
+                    //This will change the color of the triangle indicator.
+                    onPaint: {
+                        context.reset();
+                        context.moveTo(0, 0);
+                        context.lineTo(width, 0);
+                        context.lineTo(width / 2, height);
+                        context.closePath();
+                        context.fillStyle = controlLogView.pressed ? "#ffffff" : "#ffffff";
+                        context.fill();
+                    }
+                }
+                //The second color is the main color. The first item is what color the changes to once clicked.
+                //This will change the text color of main text in the box.
+                contentItem: Text {
+                    leftPadding: 0
+                    rightPadding: controlLogView.indicator.width + controlLogView.spacing
 
-                           text: controlLogView.displayText
-                           font: controlLogView.font
-                           color: controlLogView.pressed ? "#000000" : "#ffffff"
-                           verticalAlignment: Text.AlignVCenter
-                           elide: Text.ElideRight
-                       }
+                    text: controlLogView.displayText
+                    font: controlLogView.font
+                    color: controlLogView.pressed ? "#000000" : "#ffffff"
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                }
 
-                       //This will change the main box background color, border color,  and the border color when pressed.
-                       //The second color is the main color. The first item is what color the changes to once clicked.
-                       background: Rectangle {
-                           implicitWidth: 120
-                           implicitHeight: 40
-                           color: "#000000"
-                           border.color: controlLogView.pressed ? "#ffffff" : "#ffffff"
-                           border.width: controlLogView.visualFocus ? 2 : 1
-                           radius: 2
-                       }
+                //This will change the main box background color, border color,  and the border color when pressed.
+                //The second color is the main color. The first item is what color the changes to once clicked.
+                background: Rectangle {
+                    implicitWidth: 120
+                    implicitHeight: 40
+                    color: "#000000"
+                    border.color: controlLogView.pressed ? "#ffffff" : "#ffffff"
+                    border.width: controlLogView.visualFocus ? 2 : 1
+                    radius: 2
+                }
 
-                       popup: Popup {
-                           y: controlLogView.height - 1
-                           width: controlLogView.width
-                           implicitHeight: contentItem.implicitHeight
-                           padding: 1
+                popup: Popup {
+                    y: controlLogView.height - 1
+                    width: controlLogView.width
+                    implicitHeight: contentItem.implicitHeight
+                    padding: 1
 
-                           contentItem: ListView {
-                               clip: true
-                               implicitHeight: contentHeight
-                               model: controlLogView.popup.visible ? controlLogView.delegateModel : null
-                               currentIndex: controlLogView.highlightedIndex
+                    contentItem: ListView {
+                        clip: true
+                        implicitHeight: contentHeight
+                        model: controlLogView.popup.visible ? controlLogView.delegateModel : null
+                        currentIndex: controlLogView.highlightedIndex
 
-                               ScrollIndicator.vertical: ScrollIndicator { }
-                           }
+                        ScrollIndicator.vertical: ScrollIndicator { }
+                    }
 
-                           //This will change the color of the drop down Rectangle
-                           background: Rectangle {
-                               border.color: "#ffffff"
-                               color: "#ffffff"
-                               radius: 5
-                           }
-                       }
-                       Component.onCompleted: {
-                           //populate saved logs
-                           mainController.populateDataFiles()
-                       }
-                       onSelectTextByMouseChanged: {
+                    //This will change the color of the drop down Rectangle
+                    background: Rectangle {
+                        border.color: "#ffffff"
+                        color: "#ffffff"
+                        radius: 5
+                    }
+                }
+                Component.onCompleted: {
+                    //populate saved logs
+                    mainController.populateDataFiles()
+                }
+                onSelectTextByMouseChanged: {
 
-                       }
-                   }
+                }
+            }
 
             Image {
                 id: image5
@@ -220,7 +433,7 @@ Window {
                     dvw_OpenBtn.height = 24
                 }
                 onClicked: {
-                  mainController.loadDataFile(controlLogView.currentText)
+                    mainController.loadDataFile(controlLogView.currentText)
 
                 }
                 onEntered: {
@@ -246,8 +459,8 @@ Window {
                 height: 24
                 hoverEnabled: true
                 onExited: {
-                                    dvw_OpenBtn.width = 77
-                                    dvw_OpenBtn.height = 24
+                    dvw_OpenBtn.width = 77
+                    dvw_OpenBtn.height = 24
                 }
                 onClicked: {
                     dataViewerTxtArea.text = ""
@@ -275,16 +488,16 @@ Window {
                 height: 24
                 hoverEnabled: true
                 onExited: {
-                                    dvw_OpenBtn.width = 77
-                                    dvw_OpenBtn.height = 24
-                                }
+                    dvw_OpenBtn.width = 77
+                    dvw_OpenBtn.height = 24
+                }
                 onClicked: {
 
-                                }
+                }
                 onEntered: {
-                                    dvw_OpenBtn.width = 79
-                                    dvw_OpenBtn.height = 26
-                                }
+                    dvw_OpenBtn.width = 79
+                    dvw_OpenBtn.height = 26
+                }
             }
         }
 
@@ -317,9 +530,10 @@ Window {
             }
         }
         Component.onCompleted: {
-            mainConctroller.populateDataFiles()
+            mainController.populateDataFiles()
         }
     }
+
 
     Rectangle {
         id: buildDatabaseWin
@@ -725,16 +939,32 @@ Window {
                 height: 24
                 hoverEnabled: true
                 onClicked: {
-                    var curText = dbNameTxtEdit.getText(0,dbNameTxtEdit.length)
-                    if(controlDb.currentText.trim() === ""){
-                        buildDbOutputText.text = "Select a database type before proceeding"
+                    //var curText = dbNameTxtEdit.getText(0,dbNameTxtEdit.length)
+                    var dbStoragePath  = dirPathLabel.text
+                    var selectedFile = filePathLabel.text
+                    var dbName = dbNameTxtEdit.text
+                    console.log("1 The db path text is: " + dbStoragePath)
+                    //console.log("2 The db name text is: " + curText)
 
-                    }else{
+                    if(selectedFile === ""){
+                        buildDbOutputText.text = "Select a database file before proceeding"
+                    }
+
+                    else if(controlDb.currentText.trim() === ""){
+                        buildDbOutputText.text = "Select a database type before proceeding"
+                    }
+                    else if(dbName === ""){
+                        buildDbOutputText.text = "Enter a name for the database. The databse name must not contain spaces."
+                    }
+                    else if(dbStoragePath === ""){
+                        buildDbOutputText.text = "Select a location to store the database before proceeding"
+                    }
+                    else{
                         if(controlDb.currentText.trim() === "Protein Sequence"){
-                            mainController.buildDatabase("prot", curText)
+                            mainController.buildDatabase("prot", dbName, dbStoragePath)
 
                         }else{
-                            mainController.buildDatabase("nucl", curText)
+                            mainController.buildDatabase("nucl", dbName, dbStoragePath)
                         }
                     }
                 }
@@ -829,7 +1059,6 @@ Window {
             }
         }
     }
-
 
 
     Rectangle {
@@ -2096,6 +2325,7 @@ Window {
     }
 
 
+
     Rectangle {
         id: sidePanel
         width: 65
@@ -2127,9 +2357,10 @@ Window {
                     homeBtnImg.height = 40
                 }
                 onClicked: {
-                        buildDatabaseWin.visible = false
-                        dataViewerWin.visible = false
-                        mainWindow.visible = true
+                    buildDatabaseWin.visible = false
+                    dataViewerWin.visible = false
+                    settingsWin.visible = false
+                    mainWindow.visible = true
                 }
             }
         }
@@ -2159,9 +2390,10 @@ Window {
                     dbBtnImg.height = 40
                 }
                 onClicked: {
-                        mainWindow.visible = false
-                        dataViewerWin.visible = false
-                        buildDatabaseWin.visible = true
+                    mainWindow.visible = false
+                    dataViewerWin.visible = false
+                    settingsWin.visible = false
+                    buildDatabaseWin.visible = true
                 }
             }
         }
@@ -2192,7 +2424,7 @@ Window {
         }
 
         Image {
-            id: globalsearchBtn1
+            id: settingsBtn
             x: 13
             y: 280
             width: 40
@@ -2201,18 +2433,24 @@ Window {
             fillMode: Image.PreserveAspectFit
 
             MouseArea {
-                id: mouseArea3
+                id: mouseAreaSettingsBtn
                 width: 40
                 height: 40
                 hoverEnabled: true
 
                 onEntered: {
-                    globalsearchBtn1.width = 45
-                    globalsearchBtn1.height = 45
+                    settingsBtn.width = 45
+                    settingsBtn.height = 45
                 }
                 onExited: {
-                    globalsearchBtn1.width = 40
-                    globalsearchBtn1.height = 40
+                    settingsBtn.width = 40
+                    settingsBtn.height = 40
+                }
+                onClicked: {
+                    mainWindow.visible = false
+                    dataViewerWin.visible = false
+                    buildDatabaseWin.visible = false
+                    settingsWin.visible = true
                 }
             }
         }
@@ -2279,21 +2517,23 @@ Window {
                 height: 40
                 hoverEnabled: true
                 onExited: {
-                            dataViewerBtn.width = 40
-                            dataViewerBtn.height = 40
-                        }
+                    dataViewerBtn.width = 40
+                    dataViewerBtn.height = 40
+                }
                 onEntered: {
-                            dataViewerBtn.width = 45
-                            dataViewerBtn.height = 45
-                        }
+                    dataViewerBtn.width = 45
+                    dataViewerBtn.height = 45
+                }
                 onClicked: {
                     mainWindow.visible = false
                     buildDatabaseWin.visible = false
+                    settingsWin.visible = false
                     dataViewerWin.visible = true
                 }
             }
         }
     }
+
 
     Image {
         id: image4
@@ -2301,9 +2541,11 @@ Window {
         y: 594
         width: 95
         height: 56
+        visible: true
         source: "images/logo_w_dna.png"
         fillMode: Image.PreserveAspectFit
     }
+
 
     Image {
         id: dotsImg
@@ -2325,10 +2567,11 @@ Window {
             }
         }
     }
+
 }
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.8999999761581421}
+    D{i:0;formeditorZoom:0.8999999761581421}D{i:4}D{i:6}D{i:15}
 }
 ##^##*/

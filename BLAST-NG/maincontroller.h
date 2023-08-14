@@ -37,14 +37,17 @@ signals:
     void dirPathToQml(QString _dirPath);
     void dataFileName2QML(QString dataFileName);
     void fileViewerData2Qml(QString fileData);
+    void settingsDirPath2Qml(QString updatedCurSavedDbPath);
+    void updateCurSavedDbPath(QString curDbPath);
 
 public slots:
     void selectAFile();
     void selectAFile2();
     void selectDirectory();
+    void settingsSelectDir();
 
     //Build database functions
-    void buildDatabase(QString, QString);
+    void buildDatabase(QString, QString, QString);
     void processBuildDbMessages();
     void processBuildDbErrMsg();
     void dbDoneResultsToQml();
@@ -83,6 +86,9 @@ public slots:
 
     void populateDataFiles();
     void loadDataFile(QString);
+
+    void saveDatabaseSettings(QString);
+    void loadDatabaseSettings();
 
 private:  
     //DB file info
@@ -166,5 +172,7 @@ private:
     QDir currentDir;
 
     bool searchingForFile = false;
+
+    QString curSavedDbPath = "";
 };
 #endif // MAINCONTROLLER_H

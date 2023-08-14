@@ -1,7 +1,7 @@
 #include "maincontroller.h"
 
 MainController::MainController(QWidget *parent) : QWidget(parent){
-    setDirs();
+
 }
 
 //Select a database file - files with spaces om the name will give an error
@@ -30,15 +30,22 @@ void MainController::selectDirectory(){
     s_SelectedDirectory.clear();
 }
 
+void MainController::settingsSelectDir(){
+    QString dir = QFileDialog::getExistingDirectory(Q_NULLPTR, tr("Select Directory"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString thePath = dir.trimmed();
+    emit settingsDirPath2Qml(thePath);
+}
+
 //TODO: allow user to select output directory
 //Run the NCBI makeblastdb program
-void MainController::buildDatabase(QString dbType, QString _dbName){
+void MainController::buildDatabase(QString dbType, QString _dbName, QString _dbStoragePath){
     dbNameEntered = _dbName.trimmed();
     QDateTime dateTime = dateTime.currentDateTime();
     QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
     emit buildDbOutputToQml("Building database: " + dbNameEntered +"\nBuild database process started @: " + dateTimeString);
     buildDBProcess = new QProcess();
-    uniqueDirForDb = "C:/BLAST-NG/databases/" + dbNameEntered + "/";
+    //uniqueDirForDb = "C:/BLAST-NG/databases/" + dbNameEntered + "/";
+    uniqueDirForDb = _dbStoragePath + "/" + dbNameEntered + "/";
     QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
          << "./makeblastdb -in " + dbFullFilePath + " -out " + uniqueDirForDb + dbNameEntered + " -dbtype " + dbType.trimmed();
@@ -435,9 +442,9 @@ void MainController::savetBlastxDataToFile(){
 void MainController::setDirs(){
     //docsFolder = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     ncbiToolsPath = "C:/BLAST-NG/NCBI/";
-    databasesPath = "C:/BLAST-NG/databases/";
+    //databasesPath = "C:/BLAST-NG/databases/";
     resultsPath = "C:/BLAST-NG/results/";
-    getSavedDatabases();
+    //getSavedDatabases();
 }
 
 //Get the saved database name and populate the combo box in QML
@@ -523,4 +530,41 @@ void MainController::loadDataFile(QString selectedFile){
     sFile.close();
     emit fileViewerData2Qml(openFileForView);
     openFileForView = "";
+}
+
+//Save the path for saved databases
+void MainController::saveDatabaseSettings(QString _Path){
+    QFile dbSettingsFile("C:/BLAST-NG/settings/dbsettings/dbsettings.txt");
+    if (dbSettingsFile.open(QIODevice::WriteOnly)) {
+        QTextStream stream(&dbSettingsFile);
+        stream << _Path;
+    }
+    dbSettingsFile.close();
+    emit settingsDirPath2Qml("");
+    emit updateCurSavedDbPath(_Path);
+}
+
+void MainController::loadDatabaseSettings(){
+    QFile file("C:/BLAST-NG/settings/dbsettings/dbsettings.txt");
+    if(!file.open(QIODevice::ReadOnly)) {
+        //QMessageBox::information(0, "error", file.errorString());
+    }
+
+    QTextStream in(&file);
+    while(!in.atEnd()) {
+        curSavedDbPath = in.readAll();
+    }
+    file.close();
+
+    if(curSavedDbPath == ""){
+        databasesPath = "C:/BLAST-NG/databases/";
+        emit updateCurSavedDbPath("C:/BLAST-NG/databases/");
+        emit settingsDirPath2Qml("");
+    }
+    else{
+        databasesPath = curSavedDbPath;
+        emit updateCurSavedDbPath(curSavedDbPath);
+        emit settingsDirPath2Qml("");
+    }
+    getSavedDatabases();
 }

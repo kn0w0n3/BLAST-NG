@@ -22,5 +22,7 @@
         <file>images/open_file_btn.png</file>
         <file>images/close_file_btn.png</file>
         <file>images/dataViewerBtn.png</file>
+        <file>images/settings-text.png</file>
+        <file>images/saveBtn.png</file>
     </qresource>
 </RCC>
