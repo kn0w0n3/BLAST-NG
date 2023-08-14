@@ -39,12 +39,14 @@ signals:
     void fileViewerData2Qml(QString fileData);
     void settingsDirPath2Qml(QString updatedCurSavedDbPath);
     void updateCurSavedDbPath(QString curDbPath);
+    void selectedSaveToPath(QString savePath);
 
 public slots:
     void selectAFile();
     void selectAFile2();
     void selectDirectory();
     void settingsSelectDir();
+    void selectDirSaveData();
 
     //Build database functions
     void buildDatabase(QString, QString, QString);
@@ -53,27 +55,27 @@ public slots:
     void dbDoneResultsToQml();
 
     //BLASTp functions
-    void startBlastP(QString, QString, QString, QString, QString, QString);
+    void startBlastP(QString, QString, QString, QString, QString, QString, QString);
     void processBlastPStdOut();
     void saveBlastPDataToFile();
 
     //BLASTn functions
-    void startBlastN(QString, QString, QString, QString, QString, QString);
+    void startBlastN(QString, QString, QString, QString, QString, QString, QString);
     void processBlastNStdOut();
     void saveBlastNDataToFile();
 
     //BLASTx functions
-    void startBlastX(QString, QString, QString, QString, QString, QString);
+    void startBlastX(QString, QString, QString, QString, QString, QString, QString);
     void processBlastXStdOut();
     void saveBlastXDataToFile();
 
     //tBLASTn functions
-    void startTBlastN(QString, QString, QString, QString, QString, QString);
+    void startTBlastN(QString, QString, QString, QString, QString, QString, QString);
     void processtBlastnStdOut();
     void savetBlastnDataToFile();
 
     //tBLASTx functions
-    void startTBlastX(QString, QString, QString, QString, QString, QString);
+    void startTBlastX(QString, QString, QString, QString, QString, QString, QString);
     void processtBlastxStdOut();
     void savetBlastxDataToFile();
 

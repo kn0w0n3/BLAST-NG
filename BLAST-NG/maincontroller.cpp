@@ -36,6 +36,13 @@ void MainController::settingsSelectDir(){
     emit settingsDirPath2Qml(thePath);
 }
 
+void MainController::selectDirSaveData(){
+    QString dir = QFileDialog::getExistingDirectory(Q_NULLPTR, tr("Select Directory"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString thePath = dir.trimmed();
+    emit selectedSaveToPath(thePath);
+
+}
+
 //TODO: allow user to select output directory
 //Run the NCBI makeblastdb program
 void MainController::buildDatabase(QString dbType, QString _dbName, QString _dbStoragePath){
@@ -84,7 +91,7 @@ void MainController::dbDoneResultsToQml(){
 }
 
 //Start the NCBI BLASTp program
-void MainController::startBlastP(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange){
+void MainController::startBlastP(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
     //qDebug() << "In BLAST P Function....";
     selectedDbName = selectedDb.trimmed();
     pastedSequence = iPastedSequence.trimmed();
@@ -153,7 +160,7 @@ void MainController::saveBlastPDataToFile(){
 }
 
 //Start the NCBI BLASTn program
-void MainController::startBlastN(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange){
+void MainController::startBlastN(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
     selectedDbName = selectedDb.trimmed();
     pastedSequence = iPastedSequence.trimmed();
     scanMethod = "BLASTn";
@@ -221,7 +228,7 @@ void MainController::saveBlastNDataToFile(){
 }
 
 //Start the NCBI BLASTx program
-void MainController::startBlastX(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange){
+void MainController::startBlastX(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
     qDebug() << "In BLAST X Function....";
     selectedDbName = selectedDb.trimmed();
     pastedSequence = iPastedSequence.trimmed();
@@ -293,7 +300,7 @@ void MainController::saveBlastXDataToFile(){
 }
 
 //Run the NCBI tBLASTn program
-void MainController::startTBlastN(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange){
+void MainController::startTBlastN(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
     qDebug() << "In tBLASTn function...";
 
     selectedDbName = selectedDb.trimmed();
@@ -366,7 +373,7 @@ void MainController::savetBlastnDataToFile(){
 }
 
 //Run the NCBI tBLASTx program
-void MainController::startTBlastX(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange){
+void MainController::startTBlastX(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
     qDebug() << "In tBLASTx function....";
 
     selectedDbName = selectedDb.trimmed();

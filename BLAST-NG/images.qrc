@@ -24,5 +24,6 @@
         <file>images/dataViewerBtn.png</file>
         <file>images/settings-text.png</file>
         <file>images/saveBtn.png</file>
+        <file>images/bg_1280x720.png</file>
     </qresource>
 </RCC>
