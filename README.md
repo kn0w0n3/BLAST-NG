@@ -32,7 +32,7 @@ Some database files have a size greater than 300GB and could take some time to d
 ![build_DB_1_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/d40a2fa9-334c-4b6d-8c7f-18f19bb17982)
 
 2) Select the database files directory, type of database, name of databse, storage location of database    
-![build_DB_2_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/6ce3a502-a0e5-4b58-88d8-cb62065965d7)  
+![build_DB_2_B](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/773d86a3-9bb0-4027-a4fb-10fef9ccc8f2)    
 
 # **Resources:**  
 ![ncbi-logo](https://user-images.githubusercontent.com/22214754/204448800-2b846e5b-2c68-4c4e-8687-43aac8ac752e.png)      
