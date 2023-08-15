@@ -34,7 +34,7 @@ Some database files have a size greater than 300GB and could take some time to d
 2) Select the database files directory, type of database, name of databse, storage location of database    
 ![build_DB_2_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/b0608642-f002-4891-b052-ff04a4c92da8)
 
-A database build completion message will appear in the output window  
+3) A database build completion message will appear in the output window  
 ![build_DB_3_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/573224e0-872d-4e0c-979d-8ae6ba7cba51)    
 
 # **Resources:**  
