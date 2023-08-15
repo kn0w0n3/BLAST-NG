@@ -35,7 +35,7 @@ Some database files have a size greater than 300GB and could take some time to d
 ![build_DB_2_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/b0608642-f002-4891-b052-ff04a4c92da8)
 
 A database build completion message will appear in the output window  
-![build_DB_3](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/815811cd-8d4a-48b5-9f9a-1f9b0a3d53fb)  
+![build_DB_3_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/573224e0-872d-4e0c-979d-8ae6ba7cba51)    
 
 # **Resources:**  
 ![ncbi-logo](https://user-images.githubusercontent.com/22214754/204448800-2b846e5b-2c68-4c4e-8687-43aac8ac752e.png)      
