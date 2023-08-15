@@ -38,7 +38,7 @@ Some database files have a size greater than 300GB and could take some time to d
 ![build_DB_3_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/573224e0-872d-4e0c-979d-8ae6ba7cba51)
 
 4) The database destination folder should contain files similar to the what is shown in the image below
-![build_DB_4_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/81e9b6b2-b9a6-46ac-b116-8ed8aed93132)  
+![build_DB_4_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/c3a2be1c-1d86-4ebf-ae24-32a54377b0b5)    
 
 # **Resources:**  
 ![ncbi-logo](https://user-images.githubusercontent.com/22214754/204448800-2b846e5b-2c68-4c4e-8687-43aac8ac752e.png)      
