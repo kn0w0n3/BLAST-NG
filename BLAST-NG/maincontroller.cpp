@@ -40,7 +40,23 @@ void MainController::selectDirSaveData(){
     QString dir = QFileDialog::getExistingDirectory(Q_NULLPTR, tr("Select Directory"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     QString thePath = dir.trimmed();
     emit selectedSaveToPath(thePath);
+}
 
+void MainController::selectDatabaseFile(){
+    QString dir = QFileDialog::getExistingDirectory(Q_NULLPTR, tr("Select Directory"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString thePath = dir.trimmed();
+    emit selectedDbFileToQml(thePath);
+}
+
+void MainController::selectFileDataViewer(){
+    selectedDataViewerFile = QFileDialog::getOpenFileName(Q_NULLPTR, tr("Select File"), "/home");
+
+    QFileInfo fileInfo(selectedDataViewerFile);
+    //seqFileName = fileInfo.fileName().trimmed();
+    //emit seqFileNameToQml(seqFileName);
+    //seqFullFilePath = fileInfo.filePath().trimmed();
+    loadDataFile(fileInfo.filePath().trimmed());
+    qDebug() << "The file path to be loaded is: " + fileInfo.filePath().trimmed();
 }
 
 //TODO: allow user to select output directory
@@ -51,9 +67,9 @@ void MainController::buildDatabase(QString dbType, QString _dbName, QString _dbS
     QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
     emit buildDbOutputToQml("Building database: " + dbNameEntered +"\nBuild database process started @: " + dateTimeString);
     buildDBProcess = new QProcess();
-    //uniqueDirForDb = "C:/BLAST-NG/databases/" + dbNameEntered + "/";
     uniqueDirForDb = _dbStoragePath + "/" + dbNameEntered + "/";
     QStringList args;
+
     args << "Set-Location -Path " + ncbiToolsPath + ";"
          << "./makeblastdb -in " + dbFullFilePath + " -out " + uniqueDirForDb + dbNameEntered + " -dbtype " + dbType.trimmed();
     buildDBProcess->connect(buildDBProcess, &QProcess::readyReadStandardOutput, this, &MainController::processBuildDbMessages);
@@ -68,19 +84,16 @@ void MainController::buildDatabase(QString dbType, QString _dbName, QString _dbS
 void MainController::processBuildDbMessages(){
     q_buildDbStdOut += buildDBProcess->readAllStandardOutput().trimmed();
     s_buildDbStdout = QString(q_buildDbStdOut.trimmed());
-    qDebug() << "The build db std out is: " + s_buildDbStdout;
 }
 
 //Read the standard error output from the BLAST build database program
 void MainController::processBuildDbErrMsg(){
     q_buildDbStdErr += buildDBProcess->readAllStandardError().trimmed();
     s_buildDbStdErr = QString(q_buildDbStdErr);
-    qDebug() << "The build db std out error is: " + s_buildDbStdErr;
 }
 
 //Update the QML GUI once the build database process has finished
 void MainController::dbDoneResultsToQml(){
-    //qDebug() << "IN db  done results";
     emit buildDbOutputToQml(s_buildDbStdout + "\n\n");
     QDateTime dateTime = dateTime.currentDateTime();
     QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
@@ -91,10 +104,18 @@ void MainController::dbDoneResultsToQml(){
 }
 
 //Start the NCBI BLASTp program
-void MainController::startBlastP(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
-    //qDebug() << "In BLAST P Function....";
-    selectedDbName = selectedDb.trimmed();
+void MainController::startBlastP(QString dbPath, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
+    //QString splitter = "/";
+    //QStringList pieces = dbPath.split("/");
+
+    //long num = dbPath.lastIndexOf(splitter);
+    //selectedDbName = pieces.at(num);
+    auto parts = dbPath.split(u'/');
+    selectedDbName = parts.last();
+    qDebug() << "The db file name should be: " + selectedDbName;
+
     pastedSequence = iPastedSequence.trimmed();
+    resultsPath = saveLocation.trimmed() + "\\";
     scanMethod = "BLASTp";
     blast_p_Process = new QProcess();
 
@@ -102,7 +123,7 @@ void MainController::startBlastP(QString selectedDb, QString outFormat, QString 
     if(!pastedSequence.isEmpty()){
     QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./blastp -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + pastedSequence;
+         << "./blastp -db " + dbPath + "\\" + selectedDbName + " -query " + pastedSequence;
     blast_p_Process->connect(blast_p_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastPStdOut);
     connect(blast_p_Process, &QProcess::finished, this, &MainController::saveBlastPDataToFile);
     blast_p_Process->start("powershell", args);
@@ -114,10 +135,9 @@ void MainController::startBlastP(QString selectedDb, QString outFormat, QString 
 
     //Use the selected file <-----
     else if(pastedSequence.isEmpty()){
-    //qDebug() << "Pasted sequence was empty......";
     QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./blastp -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath;
+         << "./blastp -db " + dbPath + "\\" + selectedDbName + " -query " + seqFullFilePath;
     blast_p_Process->connect(blast_p_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastPStdOut);
     connect(blast_p_Process, &QProcess::finished, this, &MainController::saveBlastPDataToFile);
     blast_p_Process->start("powershell", args);
@@ -160,19 +180,21 @@ void MainController::saveBlastPDataToFile(){
 }
 
 //Start the NCBI BLASTn program
-void MainController::startBlastN(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
-    selectedDbName = selectedDb.trimmed();
-    pastedSequence = iPastedSequence.trimmed();
-    scanMethod = "BLASTn";
-    qDebug() << "The job title is: " << jobTitle;
+void MainController::startBlastN(QString dbPath, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
+    auto parts = dbPath.split(u'/');
+    selectedDbName = parts.last();
+    qDebug() << "The db file name should be: " + selectedDbName;
 
+    pastedSequence = iPastedSequence.trimmed();
+    resultsPath = saveLocation.trimmed() + "\\";
+    scanMethod = "BLASTn";
     blast_n_Process = new QProcess();
 
     //Use pasted sequence
     if(!pastedSequence.isEmpty()){
     QStringList args;
     args<< "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./blastn -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + pastedSequence;
+         << "./blastn -db " + dbPath + "\\" + selectedDbName + " -query " + pastedSequence;
     blast_n_Process->connect(blast_n_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastNStdOut);
     connect(blast_n_Process, &QProcess::finished, this, &MainController::saveBlastNDataToFile);
     blast_n_Process->start("powershell", args);
@@ -186,7 +208,7 @@ void MainController::startBlastN(QString selectedDb, QString outFormat, QString 
     else if (pastedSequence.isEmpty()){
     QStringList args;
     args<< "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./blastn -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath ;
+         << "./blastn -db " + dbPath + "\\" + selectedDbName + " -query " + seqFullFilePath ;
     blast_n_Process->connect(blast_n_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastNStdOut);
     connect(blast_n_Process, &QProcess::finished, this, &MainController::saveBlastNDataToFile);
     blast_n_Process->start("powershell", args);
@@ -205,7 +227,6 @@ void MainController::processBlastNStdOut(){
 
 //Save BLASTn data to file
 void MainController::saveBlastNDataToFile(){
-    qDebug() << "In save blast N data.....";
     if(!QDir(resultsPath + selectedDbName + "\\").exists()){
     QDir().mkdir(resultsPath + selectedDbName + "\\");
     }
@@ -228,21 +249,19 @@ void MainController::saveBlastNDataToFile(){
 }
 
 //Start the NCBI BLASTx program
-void MainController::startBlastX(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
-    qDebug() << "In BLAST X Function....";
-    selectedDbName = selectedDb.trimmed();
+void MainController::startBlastX(QString dbPath, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
+    auto parts = dbPath.split(u'/');
+    selectedDbName = parts.last();
     pastedSequence = iPastedSequence.trimmed();
+    resultsPath = saveLocation.trimmed() + "\\";
     scanMethod = "BLASTx";
-    qDebug() << "The job title is: " << jobTitle;
-    qDebug() << "The selected db  name is: " + selectedDbName;
-
     blast_x_Process = new QProcess();
 
     //Use pasted sequence<-----
     if(!pastedSequence.isEmpty()){
     QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./blastx -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + pastedSequence;
+         << "./blastx -db " + dbPath + "\\" + selectedDbName + " -query " + pastedSequence;
     blast_x_Process->connect(blast_x_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastXStdOut);
     connect(blast_x_Process, &QProcess::finished, this, &MainController::saveBlastXDataToFile);
     blast_x_Process->start("powershell", args);
@@ -254,10 +273,9 @@ void MainController::startBlastX(QString selectedDb, QString outFormat, QString 
 
     //Use the selected file <-----
     else if(pastedSequence.isEmpty()){
-    qDebug() << "Pasted sequence was empty......";
     QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./blastx -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath;
+         << "./blastx -db " + dbPath + "\\" + selectedDbName + " -query " + seqFullFilePath;
     blast_x_Process->connect(blast_x_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastXStdOut);
     connect(blast_x_Process, &QProcess::finished, this, &MainController::saveBlastXDataToFile);
     blast_x_Process->start("powershell", args);
@@ -276,7 +294,6 @@ void MainController::processBlastXStdOut(){
 
 //Save BLASTx data to file
 void MainController::saveBlastXDataToFile(){
-    qDebug() << "In save BLASTx  data.....";
     if(!QDir(resultsPath + selectedDbName + "\\").exists()){
     QDir().mkdir(resultsPath + selectedDbName + "\\");
     }
@@ -300,22 +317,19 @@ void MainController::saveBlastXDataToFile(){
 }
 
 //Run the NCBI tBLASTn program
-void MainController::startTBlastN(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
-    qDebug() << "In tBLASTn function...";
-
-    selectedDbName = selectedDb.trimmed();
-    pastedSequence = iPastedSequence.trimmed();
+void MainController::startTBlastN(QString dbPath, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
+    auto parts = dbPath.split(u'/');
+    selectedDbName = parts.last();
+    pastedSequence = iPastedSequence.trimmed();    
+    resultsPath = saveLocation.trimmed() + "\\";
     scanMethod = "tBLASTn";
-    qDebug() << "The job title is: " << jobTitle;
-    qDebug() << "The selected db  name is: " + selectedDbName;
-
     t_BLAST_n_Process = new QProcess();
 
     //Use pasted sequence<-----
     if(!pastedSequence.isEmpty()){
     QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./tblastn -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + pastedSequence;
+         << "./tblastn -db " + dbPath + "\\" + selectedDbName + " -query " + pastedSequence;
     t_BLAST_n_Process->connect(t_BLAST_n_Process, &QProcess::readyReadStandardOutput, this, &MainController::processtBlastnStdOut);
     connect(t_BLAST_n_Process, &QProcess::finished, this, &MainController::savetBlastnDataToFile);
     t_BLAST_n_Process->start("powershell", args);
@@ -330,7 +344,7 @@ void MainController::startTBlastN(QString selectedDb, QString outFormat, QString
     qDebug() << "Pasted sequence was empty......";
     QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./tblastn -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath;
+         << "./tblastn -db " + dbPath + "\\" + selectedDbName + " -query " + seqFullFilePath;
     t_BLAST_n_Process->connect(t_BLAST_n_Process, &QProcess::readyReadStandardOutput, this, &MainController::processtBlastnStdOut);
     connect(t_BLAST_n_Process, &QProcess::finished, this, &MainController::savetBlastnDataToFile);
     t_BLAST_n_Process->start("powershell", args);
@@ -349,7 +363,6 @@ void MainController::processtBlastnStdOut(){
 
 //Save tBLASTn data to file
 void MainController::savetBlastnDataToFile(){
-    qDebug() << "In save tBLASTn  data.....";
     if(!QDir(resultsPath + selectedDbName + "\\").exists()){
     QDir().mkdir(resultsPath + selectedDbName + "\\");
     }
@@ -373,22 +386,19 @@ void MainController::savetBlastnDataToFile(){
 }
 
 //Run the NCBI tBLASTx program
-void MainController::startTBlastX(QString selectedDb, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
-    qDebug() << "In tBLASTx function....";
-
-    selectedDbName = selectedDb.trimmed();
+void MainController::startTBlastX(QString dbPath, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
+    auto parts = dbPath.split(u'/');
+    selectedDbName = parts.last();
     pastedSequence = iPastedSequence.trimmed();
-    scanMethod = "tBLASTx";
-    qDebug() << "The job title is: " << jobTitle;
-    qDebug() << "The selected db name is: " + selectedDbName;
-
+    resultsPath = saveLocation.trimmed() + "\\";
+    scanMethod = "tBLASTx";    
     t_BLAST_x_Process = new QProcess();
 
     //Use pasted sequence<-----
     if(!pastedSequence.isEmpty()){
     QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./tblastx -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + pastedSequence;
+         << "./tblastx -db " + dbPath + "\\" + selectedDbName + " -query " + pastedSequence;
     t_BLAST_x_Process->connect(t_BLAST_x_Process, &QProcess::readyReadStandardOutput, this, &MainController::processtBlastxStdOut);
     connect(t_BLAST_x_Process, &QProcess::finished, this, &MainController::savetBlastxDataToFile);
     t_BLAST_x_Process->start("powershell", args);
@@ -403,7 +413,7 @@ void MainController::startTBlastX(QString selectedDb, QString outFormat, QString
     qDebug() << "Pasted sequence was empty......";
     QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./tBLASTx -db " + databasesPath + selectedDbName + "\\" + selectedDbName + " -query " + seqFullFilePath;
+         << "./tBLASTx -db " + dbPath + "\\" + selectedDbName + " -query " + seqFullFilePath;
     t_BLAST_x_Process->connect(t_BLAST_x_Process, &QProcess::readyReadStandardOutput, this, &MainController::processtBlastxStdOut);
     connect(t_BLAST_x_Process, &QProcess::finished, this, &MainController::savetBlastxDataToFile);
     t_BLAST_x_Process->start("powershell", args);
@@ -450,20 +460,8 @@ void MainController::setDirs(){
     //docsFolder = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     ncbiToolsPath = "C:/BLAST-NG/NCBI/";
     //databasesPath = "C:/BLAST-NG/databases/";
-    resultsPath = "C:/BLAST-NG/results/";
+    //resultsPath = "C:/BLAST-NG/results/";
     //getSavedDatabases();
-}
-
-//Get the saved database name and populate the combo box in QML
-void MainController::getSavedDatabases(){
-    QDirIterator it(databasesPath, QDir::AllDirs | QDir::NoDotAndDotDot);
-    while (it.hasNext()) {
-        QString dir = it.next();
-        QFileInfo fileInfo(dir);
-        QString folderName = fileInfo.fileName();
-        qDebug() << folderName;
-        emit dbNameTxtToQml(" " + folderName);
-    }
 }
 
 //Display the main window instructions
@@ -495,38 +493,9 @@ void MainController::getDbInstructions(void){
     emit dbDirectionsTxtToQml(instrctionsText);
 }
 
-//Populate the combobox in QML with the available file names
-void MainController::populateDataFiles(){
-    QString t_FilePath = "";
-    QString t_FileName = "";
-    searchingForFile = true;
-    QDirIterator it("C:/BLAST-NG/results/", QDir::NoDotAndDotDot | QDir::Files, QDirIterator::Subdirectories);
-
-    while (it.hasNext()) {
-        t_FilePath = it.next();
-        t_FileName = it.fileName();
-        emit dataFileName2QML(t_FileName);
-    }
-}
-
 //Load the selected data file
 void MainController::loadDataFile(QString selectedFile){
-    QString t_FilePath = "";
-    QString t_FileName = "";
-    QString f_FileToOpen = "";
-    searchingForFile = true;
-    QDirIterator it("C:/BLAST-NG/results/", QDirIterator::Subdirectories);
-    while (it.hasNext() && searchingForFile == true) {
-        t_FilePath = it.next();
-        t_FileName = it.fileName();
-
-        if(t_FileName == selectedFile){
-            f_FileToOpen = t_FilePath;
-            searchingForFile = false;
-        }
-    }
-
-    QFile sFile(f_FileToOpen);
+    QFile sFile(selectedFile);
     if(!sFile.open(QIODevice::ReadOnly)){
         //error
     }
@@ -539,39 +508,5 @@ void MainController::loadDataFile(QString selectedFile){
     openFileForView = "";
 }
 
-//Save the path for saved databases
-void MainController::saveDatabaseSettings(QString _Path){
-    QFile dbSettingsFile("C:/BLAST-NG/settings/dbsettings/dbsettings.txt");
-    if (dbSettingsFile.open(QIODevice::WriteOnly)) {
-        QTextStream stream(&dbSettingsFile);
-        stream << _Path;
-    }
-    dbSettingsFile.close();
-    emit settingsDirPath2Qml("");
-    emit updateCurSavedDbPath(_Path);
-}
 
-void MainController::loadDatabaseSettings(){
-    QFile file("C:/BLAST-NG/settings/dbsettings/dbsettings.txt");
-    if(!file.open(QIODevice::ReadOnly)) {
-        //QMessageBox::information(0, "error", file.errorString());
-    }
 
-    QTextStream in(&file);
-    while(!in.atEnd()) {
-        curSavedDbPath = in.readAll();
-    }
-    file.close();
-
-    if(curSavedDbPath == ""){
-        databasesPath = "C:/BLAST-NG/databases/";
-        emit updateCurSavedDbPath("C:/BLAST-NG/databases/");
-        emit settingsDirPath2Qml("");
-    }
-    else{
-        databasesPath = curSavedDbPath;
-        emit updateCurSavedDbPath(curSavedDbPath);
-        emit settingsDirPath2Qml("");
-    }
-    getSavedDatabases();
-}

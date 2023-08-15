@@ -40,6 +40,8 @@ signals:
     void settingsDirPath2Qml(QString updatedCurSavedDbPath);
     void updateCurSavedDbPath(QString curDbPath);
     void selectedSaveToPath(QString savePath);
+    void selectedDbFileToQml(QString _dbFilePath);
+
 
 public slots:
     void selectAFile();
@@ -47,6 +49,8 @@ public slots:
     void selectDirectory();
     void settingsSelectDir();
     void selectDirSaveData();
+    void selectDatabaseFile();
+    void selectFileDataViewer();
 
     //Build database functions
     void buildDatabase(QString, QString, QString);
@@ -80,17 +84,12 @@ public slots:
     void savetBlastxDataToFile();
 
     void setDirs();
-    void getSavedDatabases();
-
-
     void getMainInstructions(void);
     void getDbInstructions(void);
 
-    void populateDataFiles();
     void loadDataFile(QString);
 
-    void saveDatabaseSettings(QString);
-    void loadDatabaseSettings();
+
 
 private:  
     //DB file info
@@ -176,5 +175,6 @@ private:
     bool searchingForFile = false;
 
     QString curSavedDbPath = "";
+    QString selectedDataViewerFile = "";
 };
 #endif // MAINCONTROLLER_H

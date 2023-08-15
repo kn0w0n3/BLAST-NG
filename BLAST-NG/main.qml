@@ -68,6 +68,9 @@ Window {
         onSelectedSaveToPath:{
             selectFileResultsLocationTxt.text = savePath
         }
+        onSelectedDbFileToQml:{
+            selectDBTxtEdit.text = _dbFilePath
+        }
     }
 
     Rectangle {
@@ -88,14 +91,12 @@ Window {
             source: "images/bg_1280x720.png"
             fillMode: Image.PreserveAspectFit
         }
-
-
-
         MouseArea {
             x: 310
             y: 518
             width: 77
             height: 24
+            visible: false
             onEntered: {
                 dbSelectDirBtn.width = 79
                 dbSelectDirBtn.height = 26
@@ -116,6 +117,7 @@ Window {
             y: 483
             width: 656
             height: 21
+            visible: false
             color: "#000000"
             border.color: "#ffffff"
         }
@@ -136,6 +138,7 @@ Window {
             y: 425
             width: 656
             height: 21
+            visible: false
             color: "#000000"
             border.color: "#ffffff"
         }
@@ -146,7 +149,7 @@ Window {
             y: 518
             width: 77
             height: 24
-            visible: true
+            visible: false
             source: "images/saveBtn.png"
             fillMode: Image.PreserveAspectFit
         }
@@ -156,6 +159,7 @@ Window {
             y: 384
             width: 188
             height: 21
+            visible: false
             color: "#ffffff"
             text: qsTr("Saved Databases Location:")
             font.bold: true
@@ -168,6 +172,7 @@ Window {
             y: 408
             width: 98
             height: 17
+            visible: false
             color: "#ffffff"
             text: qsTr("Current location:")
             font.pointSize: 10
@@ -179,6 +184,7 @@ Window {
             y: 465
             width: 116
             height: 20
+            visible: false
             color: "#ffffff"
             text: qsTr("Select new location:")
             font.pointSize: 10
@@ -215,7 +221,7 @@ Window {
         }
         Component.onCompleted: {
             //load the current save location
-            mainController.loadDatabaseSettings()
+            //mainController.loadDatabaseSettings()
         }
         Image {
             id: dbSelectDirBtn
@@ -223,7 +229,7 @@ Window {
             y: 518
             width: 77
             height: 24
-            visible: true
+            visible: false
             source: "images/selectDirBtn.png"
             fillMode: Image.PreserveAspectFit
         }
@@ -234,6 +240,7 @@ Window {
             y: 486
             width: 650
             height: 17
+            visible: false
             color: "#ffffff"
             text: qsTr("")
             font.pointSize: 8
@@ -246,6 +253,7 @@ Window {
             y: 428
             width: 650
             height: 17
+            visible: false
             color: "#777474"
             text: qsTr("")
             font.pointSize: 8
@@ -267,12 +275,12 @@ Window {
             }
             onClicked: {
                 var dbText = dbSaveLocationTxt.text
-                console.log("The db save location text is: " + dbText)
+                //console.log("The db save location text is: " + dbText)
                 if(dbText === ""){
-                    settingsTxtArea.text += "Select the location of saved databases /n"
+                   // settingsTxtArea.text += "Select the location of saved databases /n"
                 }
                 else{
-                    mainController.saveDatabaseSettings(dbText)
+                    //mainController.saveDatabaseSettings(dbText)
                 }
             }
             hoverEnabled: true
@@ -304,6 +312,7 @@ Window {
                 y: 26
                 width: 263
                 height: 21
+                visible: false
                 //model: ["Available Logs", "Application", "System", "Security", "Custom"]
                 model: ListModel{
                     id: modelLogView
@@ -400,7 +409,7 @@ Window {
                 }
                 Component.onCompleted: {
                     //populate saved logs
-                    mainController.populateDataFiles()
+                    //mainController.populateDataFiles()
                 }
                 onSelectTextByMouseChanged: {
 
@@ -437,7 +446,7 @@ Window {
                         dvw_OpenBtn.height = 24
                     }
                     onClicked: {
-                        mainController.loadDataFile(controlLogView.currentText)
+                        mainController.selectFileDataViewer()
 
                     }
                     onEntered: {
@@ -535,7 +544,7 @@ Window {
             }
         }
         Component.onCompleted: {
-            mainController.populateDataFiles()
+            //mainController.populateDataFiles()
         }
     }
 
@@ -547,23 +556,6 @@ Window {
         color: "#000000"
         visible: false
 
-        MouseArea {
-            id: buildDbWinMouseArea
-            width: 1000
-            height: 650
-            acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-            onClicked: {
-                if (mouse.button === Qt.RightButton){
-                    //contextMenuDbWin.popup()
-                }
-                else if(mouse.button === Qt.LeftButton){
-                    dbNameTxtEdit.deselect()
-                    buildDbOutputText.deselect()
-                }
-            }
-        }
-
         Image {
             id: image3
             width: 1280
@@ -571,6 +563,28 @@ Window {
             visible: true
             source: "images/bg_1280x720.png"
             fillMode: Image.PreserveAspectFit
+
+            Label {
+                id: label
+                x: 352
+                y: 440
+                width: 51
+                height: 12
+                color: "#ffffff"
+                text: qsTr("Additional")
+                font.pointSize: 8
+            }
+
+            Label {
+                id: label1
+                x: 350
+                y: 451
+                width: 58
+                height: 15
+                color: "#ffffff"
+                text: qsTr("Commands")
+                font.pointSize: 8
+            }
         }
 
         Rectangle {
@@ -616,35 +630,6 @@ Window {
         }
 
 
-        Button {
-            id: ad_selectFileBtn
-            x: 240
-            y: 393
-            width: 125
-            height: 40
-            text: qsTr("Select File")
-            palette.buttonText: "#ffffff"
-            layer.enabled: true
-            visible: false
-            layer.effect: DropShadow {
-                width: 69
-                color: "#ffffff"
-                radius: 8
-                verticalOffset: 2
-                samples: 17
-                horizontalOffset: 2
-                transparentBorder: true
-                spread: 0
-            }
-            background: Rectangle {
-                color: "#000000"
-                radius: 50
-            }
-            onClicked: {
-                mainController.selectAFile()
-            }
-        }
-
         Rectangle {
             id: dbNameRect
             x: 766
@@ -653,6 +638,23 @@ Window {
             height: 21
             color: "#000000"
             border.color: "#ffffff"
+
+            TextEdit {
+                id: dbNameTxtEdit
+                x: 2
+                y: 2
+                width: 164
+                height: 17
+                color: "#ffffff"
+                text: qsTr("")
+                selectedTextColor: "#000000"
+                selectionColor: "#ffffff"
+                cursorVisible: false
+                clip: true
+                font.pixelSize: 13
+                selectByMouse:  true
+                //persistentSelection: true
+            }
         }
 
         Label {
@@ -677,85 +679,14 @@ Window {
             font.pointSize: 11
         }
 
-        Button {
-            id: buildDbBtn
-            x: 465
-            y: 508
-            width: 125
-            height: 40
-            text: qsTr("Build Database")
-            palette.buttonText: "#ffffff"
-            layer.enabled: true
-            visible: false
-            layer.effect: DropShadow {
-                width: 69
-                color: "#ffffff"
-                radius: 8
-                verticalOffset: 2
-                samples: 17
-                horizontalOffset: 2
-                transparentBorder: true
-                spread: 0
-            }
-            background: Rectangle {
-                color: "#000000"
-                radius: 50
-            }
-            onClicked: {
-                var curText = dbNameTxtEdit.getText(0,dbNameTxtEdit.length)
-                if(controlDb.currentText.trim() === ""){
-                    buildDbOutputText.text = "Select a database type before proceeding"
-
-                }else{
-                    if(controlDb.currentText.trim() === "Protein Sequence"){
-                        mainController.buildDatabase("prot", curText)
-
-                    }else{
-                        mainController.buildDatabase("nucl", curText)
-                    }
-                }
-            }
-        }
-
         Image {
-            id: addDbTxtImg
+            id: buildDbTxt
             x: 549
             y: 17
             width: 183
             height: 33
-            source: "images/adddbtext.png"
+            source: "images/build_db_text.png"
             fillMode: Image.PreserveAspectFit
-        }
-
-        Button {
-            id: dbHelpBtn
-            x: 690
-            y: 508
-            width: 125
-            height: 40
-            text: qsTr("Help")
-            palette.buttonText: "#ffffff"
-            layer.enabled: true
-            visible: false
-            layer.effect: DropShadow {
-                width: 69
-                color: "#ffffff"
-                radius: 8
-                verticalOffset: 2
-                samples: 17
-                horizontalOffset: 2
-                transparentBorder: true
-                spread: 0
-            }
-            background: Rectangle {
-                color: "#000000"
-                radius: 50
-            }
-            onClicked: {
-                if(buildDbOutputText.getText(0,1) === ""){
-                    mainController.getDbInstructions()
-                }
-            }
         }
 
         Rectangle {
@@ -778,42 +709,143 @@ Window {
         }
         Image {
             id: db_buildDbBtn
-            x: 419
-            y: 453
+            x: 421
+            y: 480
             width: 77
             height: 24
             source: "images/buildDBBtn.png"
             fillMode: Image.PreserveAspectFit
+
+            MouseArea {
+                id: buildDbMouseArea
+                x: 0
+                y: 0
+                width: 77
+                height: 24
+                hoverEnabled: true
+                onClicked: {
+                    //var curText = dbNameTxtEdit.getText(0,dbNameTxtEdit.length)
+                    var dbStoragePath  = dirPathLabel.text
+                    var selectedFile = filePathLabel.text
+                    var dbName = dbNameTxtEdit.text
+                    console.log("1 The db path text is: " + dbStoragePath)
+                    //console.log("2 The db name text is: " + curText)
+
+                    if(selectedFile === ""){
+                        buildDbOutputText.text = "Select a database file before proceeding"
+                    }
+
+                    else if(controlDb.currentText.trim() === ""){
+                        buildDbOutputText.text = "Select a database type before proceeding"
+                    }
+                    else if(dbName === ""){
+                        buildDbOutputText.text = "Enter a name for the database. The databse name must not contain spaces."
+                    }
+                    else if(dbStoragePath === ""){
+                        buildDbOutputText.text = "Select a location to store the database before proceeding"
+                    }
+                    else{
+                        if(controlDb.currentText.trim() === "Protein Sequence"){
+                            mainController.buildDatabase("prot", dbName, dbStoragePath)
+
+                        }else{
+                            mainController.buildDatabase("nucl", dbName, dbStoragePath)
+                        }
+                    }
+                }
+                onEntered: {
+                    db_buildDbBtn.width = 79
+                    db_buildDbBtn.height = 26
+                }
+                onExited: {
+                    db_buildDbBtn.width = 77
+                    db_buildDbBtn.height = 24
+                }
+            }
         }
         Image {
             id: db_helpBtn
-            x: 861
-            y: 453
+            x: 857
+            y: 480
             width: 77
             height: 24
             source: "images/elpBtn.png"
             fillMode: Image.PreserveAspectFit
+
+            MouseArea {
+                id: helpMouseArea
+                x: 0
+                y: 0
+                width: 77
+                height: 24
+                hoverEnabled: true
+                onEntered: {
+                    db_helpBtn.width = 79
+                    db_helpBtn.height = 26
+                }
+                onExited: {
+                    db_helpBtn.width = 77
+                    db_helpBtn.height = 24
+                }
+                onClicked: {
+                    if(buildDbOutputText.getText(0,1) === ""){
+                        mainController.getDbInstructions()
+                    }
+                }
+            }
         }
 
         Rectangle {
             id: dirPathRect
             x: 421
-            y: 421
+            y: 410
             width: 513
             height: 21
             color: "#000000"
             border.color: "#ffffff"
+
+            Label {
+                id: dirPathLabel
+                x: 2
+                y: 2
+                width: 508
+                height: 17
+                color: "#ffffff"
+                text: qsTr("")
+                clip: true
+                font.pointSize: 8
+            }
         }
 
         Image {
             id: dbSelectDirVtn
             x: 338
-            y: 420
+            y: 410
             width: 77
             height: 24
             visible: true
             fillMode: Image.PreserveAspectFit
             source: "images/selectDirBtn.png"
+
+            MouseArea {
+                id: selectDirMouseArea
+                x: 0
+                y: 0
+                width: 77
+                height: 24
+                hoverEnabled: true
+                onEntered: {
+                    dbSelectDirVtn.width = 79
+                    dbSelectDirVtn.height = 26
+                }
+                onExited: {
+                    dbSelectDirVtn.width = 77
+                    dbSelectDirVtn.height = 24
+                }
+                onClicked: {
+                    mainController.selectDirectory()
+                }
+            }
         }
         ComboBox {
             id: controlDb
@@ -910,23 +942,6 @@ Window {
             }
         }
 
-        TextEdit {
-            id: dbNameTxtEdit
-            x: 768
-            y: 381
-            width: 164
-            height: 17
-            color: "#ffffff"
-            text: qsTr("")
-            selectedTextColor: "#000000"
-            selectionColor: "#ffffff"
-            cursorVisible: false
-            clip: true
-            font.pixelSize: 13
-            selectByMouse:  true
-            //persistentSelection: true
-        }
-
         Label {
             id: filePathLabel
             x: 424
@@ -959,104 +974,28 @@ Window {
             }
         }
 
-        MouseArea {
-            id: buildDbMouseArea
-            x: 419
-            y: 453
-            width: 77
-            height: 24
-            hoverEnabled: true
-            onClicked: {
-                //var curText = dbNameTxtEdit.getText(0,dbNameTxtEdit.length)
-                var dbStoragePath  = dirPathLabel.text
-                var selectedFile = filePathLabel.text
-                var dbName = dbNameTxtEdit.text
-                console.log("1 The db path text is: " + dbStoragePath)
-                //console.log("2 The db name text is: " + curText)
-
-                if(selectedFile === ""){
-                    buildDbOutputText.text = "Select a database file before proceeding"
-                }
-
-                else if(controlDb.currentText.trim() === ""){
-                    buildDbOutputText.text = "Select a database type before proceeding"
-                }
-                else if(dbName === ""){
-                    buildDbOutputText.text = "Enter a name for the database. The databse name must not contain spaces."
-                }
-                else if(dbStoragePath === ""){
-                    buildDbOutputText.text = "Select a location to store the database before proceeding"
-                }
-                else{
-                    if(controlDb.currentText.trim() === "Protein Sequence"){
-                        mainController.buildDatabase("prot", dbName, dbStoragePath)
-
-                    }else{
-                        mainController.buildDatabase("nucl", dbName, dbStoragePath)
-                    }
-                }
-            }
-            onEntered: {
-                db_buildDbBtn.width = 79
-                db_buildDbBtn.height = 26
-            }
-            onExited: {
-                db_buildDbBtn.width = 77
-                db_buildDbBtn.height = 24
-            }
-        }
-
-        MouseArea {
-            id: helpMouseArea
-            x: 861
-            y: 453
-            width: 77
-            height: 24
-            hoverEnabled: true
-            onEntered: {
-                db_helpBtn.width = 79
-                db_helpBtn.height = 26
-            }
-            onExited: {
-                db_helpBtn.width = 77
-                db_helpBtn.height = 24
-            }
-            onClicked: {
-                if(buildDbOutputText.getText(0,1) === ""){
-                    mainController.getDbInstructions()
-                }
-            }
-        }
-
-        Label {
-            id: dirPathLabel
-            x: 424
-            y: 424
-            width: 508
-            height: 17
-            color: "#ffffff"
-            text: qsTr("")
-            clip: true
-            font.pointSize: 8
-        }
-
-        MouseArea {
-            id: selectDirMouseArea
-            x: 338
-            y: 420
-            width: 77
-            height: 24
-            hoverEnabled: true
-            onEntered: {
-                dbSelectDirVtn.width = 79
-                dbSelectDirVtn.height = 26
-            }
-            onExited: {
-                dbSelectDirVtn.width = 77
-                dbSelectDirVtn.height = 24
-            }
-            onClicked: {
-                mainController.selectDirectory()
+        Rectangle {
+            id: additionalCommandTRect
+            x: 421
+            y: 442
+            width: 513
+            height: 21
+            color: "#000000"
+            border.color: "#ffffff"
+            TextEdit {
+                id: additionalCommandTxtEdit
+                x: 2
+                y: 2
+                width: 508
+                height: 17
+                color: "#ffffff"
+                text: qsTr("")
+                font.pixelSize: 13
+                selectionColor: "#ffffff"
+                clip: true
+                cursorVisible: false
+                selectedTextColor: "#000000"
+                selectByMouse: true
             }
         }
     }
@@ -1145,11 +1084,11 @@ Window {
 
         ComboBox {
             id: dbSelectDropDown
-            x: 383
-            y: 419
+            x: 647
+            y: 682
             width: 485
             height: 21
-            visible: true
+            visible: false
             editable: false
             model: ListModel{
                 id: model
@@ -1462,13 +1401,13 @@ Window {
 
         Label {
             id: label14
-            x: 331
-            y: 421
+            x: 647
+            y: 659
             width: 47
             height: 17
             color: "#ffffff"
             text: qsTr("Database")
-            visible: true
+            visible: false
         }
 
         CheckBox {
@@ -1593,8 +1532,8 @@ Window {
 
         Label {
             id: excludeLabel
-            x: 339
-            y: 490
+            x: 338
+            y: 488
             width: 38
             height: 14
             color: "#ffffff"
@@ -1852,7 +1791,7 @@ Window {
         Label {
             id: optionalLabel
             x: 341
-            y: 503
+            y: 502
             width: 34
             height: 13
             color: "#ffffff"
@@ -2147,7 +2086,7 @@ Window {
                 else if(selectedFileText.text === "" ){
                     blastOutputText.text += "Select a sequence file before proceeding\n"
                 }
-                else if(dbSelectDropDown.currentText === ""){
+                else if(selectDBTxtEdit.text === ""){
                     blastOutputText.text += "Select a database before proceeding\n"
                 }
                 else if(selectFileResultsLocationTxt.text === ""){
@@ -2155,7 +2094,7 @@ Window {
                 }
 
                 else if(selectMethodDropDown.currentText.trim() === "BLASTp"){
-                    mainController.startBlastP(dbSelectDropDown.currentText,
+                    mainController.startBlastP(selectDBTxtEdit.text,
                                                selectOutputFormat.currentText,
                                                seqInputText.getText(0, seqInputText.length),
                                                jobTitleText.getText(0, jobTitleText.length),
@@ -2164,7 +2103,7 @@ Window {
                                                selectFileResultsLocationTxt.text)
                 }
                 else if(selectMethodDropDown.currentText.trim() === "BLASTn"){
-                    mainController.startBlastN(dbSelectDropDown.currentText,
+                    mainController.startBlastN(selectDBTxtEdit.text,
                                                selectOutputFormat.currentText,
                                                seqInputText.getText(0, seqInputText.length),
                                                jobTitleText.getText(0, jobTitleText.length),
@@ -2173,7 +2112,7 @@ Window {
                                                selectFileResultsLocationTxt.text)
                 }
                 else if(selectMethodDropDown.currentText.trim() === "BLASTx"){
-                    mainController.startBlastX(dbSelectDropDown.currentText,
+                    mainController.startBlastX(selectDBTxtEdit.text,
                                                selectOutputFormat.currentText,
                                                seqInputText.getText(0, seqInputText.length),
                                                jobTitleText.getText(0, jobTitleText.length),
@@ -2182,7 +2121,7 @@ Window {
                                                selectFileResultsLocationTxt.text)
                 }
                 else if(selectMethodDropDown.currentText.trim() === "tBLASTn"){
-                    mainController.startTBlastN(dbSelectDropDown.currentText,
+                    mainController.startTBlastN(selectDBTxtEdit.text,
                                                 selectOutputFormat.currentText,
                                                 seqInputText.getText(0, seqInputText.length),
                                                 jobTitleText.getText(0, jobTitleText.length),
@@ -2191,7 +2130,7 @@ Window {
                                                 selectFileResultsLocationTxt.text)
                 }
                 else if(selectMethodDropDown.currentText.trim() === "tBLASTx"){
-                    mainController.startTBlastX(dbSelectDropDown.currentText,
+                    mainController.startTBlastX(selectDBTxtEdit.text,
                                                 selectOutputFormat.currentText,
                                                 seqInputText.getText(0, seqInputText.length),
                                                 jobTitleText.getText(0, jobTitleText.length),
@@ -2248,6 +2187,71 @@ Window {
             selectByMouse: true
             selectionColor: "#ffffff"
         }
+
+        Image {
+            id: selectDBBtn
+            x: 301
+            y: 424
+            width: 70
+            height: 20
+            source: "images/select_db.png"
+            MouseArea {
+                id: selectDBMouseArea
+                x: 0
+                y: 0
+                width: 70
+                height: 20
+                onExited: {
+                    selectDBBtn.width = 70
+                    selectDBBtn.height = 20
+                }
+                onPressed: {
+                    selectDBBtn.width = 70
+                    selectDBBtn.height = 20
+                }
+                onReleased: {
+                    selectDBBtn.width = 75
+                    selectDBBtn.height = 25
+                }
+                onClicked: {
+                    //Select a file
+                    //var num = 3;
+                    mainController.selectDatabaseFile()
+
+                }
+                onEntered: {
+                    selectDBBtn.width = 75
+                    selectDBBtn.height = 25
+                }
+                hoverEnabled: true
+            }
+            fillMode: Image.PreserveAspectFit
+        }
+
+        Rectangle {
+            id: selectDBRect
+            x: 383
+            y: 421
+            width: 485
+            height: 21
+            visible: true
+            color: "#000000"
+            border.color: "#ffffff"
+            TextEdit {
+                id: selectDBTxtEdit
+                x: 2
+                y: 2
+                width: 481
+                height: 17
+                color: "#ffffff"
+                text: qsTr("")
+                font.pixelSize: 11
+                selectionColor: "#ffffff"
+                clip: true
+                selectByMouse: true
+                selectedTextColor: "#000000"
+            }
+        }
     }
 
     //Get paths when the program starts
@@ -2265,7 +2269,7 @@ Window {
         width: 65
         height: 720
         color: "#99000000"
-        visible: false
+        visible: true
         border.color: "#000000"
 
         Image {
@@ -2337,6 +2341,7 @@ Window {
             y: 213
             width: 40
             height: 40
+            visible: false
             source: "images/blobalImgBtn.png"
             fillMode: Image.PreserveAspectFit
 
@@ -2344,6 +2349,7 @@ Window {
                 id: mouseArea2
                 width: 40
                 height: 40
+                visible: false
                 hoverEnabled: true
 
                 onEntered: {
@@ -2363,6 +2369,7 @@ Window {
             y: 280
             width: 40
             height: 40
+            visible: false
             source: "images/toolsBtn.png"
             fillMode: Image.PreserveAspectFit
 
@@ -2370,6 +2377,7 @@ Window {
                 id: mouseAreaSettingsBtn
                 width: 40
                 height: 40
+                visible: false
                 hoverEnabled: true
 
                 onEntered: {
@@ -2395,6 +2403,7 @@ Window {
             y: 347
             width: 40
             height: 40
+            visible: false
             source: "images/helpBtn.png"
             fillMode: Image.PreserveAspectFit
 
@@ -2402,6 +2411,7 @@ Window {
                 id: mouseAreaHelpBtn
                 width: 40
                 height: 40
+                visible: false
                 hoverEnabled: true
 
                 onEntered: {
@@ -2432,6 +2442,9 @@ Window {
                 height: 30
                 onClicked: {
                     dotsImg.visible = true
+                    dotsMouseArea.visible = true
+                    hideMenuImg.visible = false
+                    hideMenuMouseArea.visible = false
                     sidePanel.visible = false
                 }
             }
@@ -2487,7 +2500,7 @@ Window {
         y: 689
         width: 40
         height: 21
-        visible: true
+        visible: false
         fillMode: Image.PreserveAspectFit
         source: "images/GopenMenuDots.png"
 
@@ -2495,8 +2508,12 @@ Window {
             id: dotsMouseArea
             width: 40
             height: 21
+            visible: false
             onClicked: {
                 dotsImg.visible = false
+                dotsMouseArea.visible = false
+                hideMenuImg.visible = true
+                hideMenuMouseArea.visible = true
                 sidePanel.visible = true
             }
         }
@@ -2506,6 +2523,6 @@ Window {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.8999999761581421}D{i:176}D{i:177}D{i:178}D{i:180}D{i:181}
+    D{i:0;formeditorZoom:0.8999999761581421}
 }
 ##^##*/

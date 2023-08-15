@@ -17,7 +17,6 @@
         <file>images/selectDirBtn.png</file>
         <file>images/logo_w_dna.png</file>
         <file>images/hometext.png</file>
-        <file>images/adddbtext.png</file>
         <file>images/dataviewertext.png</file>
         <file>images/open_file_btn.png</file>
         <file>images/close_file_btn.png</file>
@@ -25,5 +24,7 @@
         <file>images/settings-text.png</file>
         <file>images/saveBtn.png</file>
         <file>images/bg_1280x720.png</file>
+        <file>images/select_db.png</file>
+        <file>images/build_db_text.png</file>
     </qresource>
 </RCC>
