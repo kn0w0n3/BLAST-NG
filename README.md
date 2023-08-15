@@ -25,7 +25,9 @@ https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/
 
 Some database files have a size greater than 300GB and could take some time to download.    
 ![db](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/8ff73180-e8f6-4f8a-9a43-ba32554f5eae)    
-   
+
+# **Example:**  
+
 # **Resources:**  
 ![ncbi-logo](https://user-images.githubusercontent.com/22214754/204448800-2b846e5b-2c68-4c4e-8687-43aac8ac752e.png)      
 https://www.ncbi.nlm.nih.gov/  
