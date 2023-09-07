@@ -1,23 +1,23 @@
 # BLAST-NG    
 Bioinformatics tool for searching sequence similarities:  
 
-Status: In Progress  
+Windows Installer Download: https://github.com/kn0w0n3/BLAST-NG/releases/tag/v1.2.0    
 
 The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity between sequences. The program compares nucleotide or protein sequences to sequence databases and calculates the statistical significance of matches.    
 
-![blast-ng-gui-8-11-23](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/69e3a32a-3619-4415-b809-9fd69ab8e152)  
+![blast-ng-gui-8-14-23](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/7aed3bfe-cd63-46c5-8c8c-a24a4d36e6a6)  
 
 # **Usage:**    
 
-* **BLASTp:** Compare a protein query to a protein (nr) database.     
+* **BLASTp:** Searches a protein query against a protein database           
 
-* **BLASTn:** Translates the DNA sequence in all possible reading frames and compares it with the non redundant NCBI (nt) protein database.     
+* **BLASTn:** Searches a nucleotide query against a nucleotide database       
 
-* **BLASTx:** A translated nucleotide sequence searched against protein sequences: compares a nucleotide query sequence that is translated in six reading frames (resulting in six protein sequences) against a database of protein sequences.
+* **BLASTx:** Searches a nucleotide query, dynamically translated in all six frames, against a protein database    
   
-* **tBLASTn:** Operates by translating database nucleotide sequences to hypothetical amino acid sequences in all six reading frames and then aligning the hypothetical amino acid sequences to the query. TBLASTN is widely used as associating proteins with chromosomes or with mRNAs is useful in many biological studies.
+* **tBLASTn:** Searches a protein query against a nucleotide database dynamically translated in all six frames    
 
-* **tBLASTx:** Accepts nucleotide query sequence(s) as well as database subject sequences, translates both to 6‐frame amino acid sequences and, finally, compares them at the amino acid level. tBLASTx is a tool for discovering novel genes in the nucleotide sequences, such as single pass expressed sequence tags and draft genome records which are unannotated and riddled with errors (e.g., wrong bases and frame shifts). These errors often make one coding sequence difficult to be detected.  
+* **tBLASTx:** Searches a nucleotide query, dynamically translated in all six frames, against a nucleotide database similarly translated    
 
 Databases are required to perform BLAST queries. Databases can be downloaded from the following link:  
 
@@ -25,7 +25,23 @@ https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/
 
 Some database files have a size greater than 300GB and could take some time to download.    
 ![db](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/8ff73180-e8f6-4f8a-9a43-ba32554f5eae)    
-   
+
+# **Examples:**  
+## **Ex-1 Build a Database**   
+1) Select the build database icon    
+![build_DB_1_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/d40a2fa9-334c-4b6d-8c7f-18f19bb17982)
+
+2) Select the database files directory, type of database, name of databse, storage location of database    
+![build_DB_2_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/b0608642-f002-4891-b052-ff04a4c92da8)
+
+3) A database build completion message will appear in the output window  
+![build_DB_3_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/573224e0-872d-4e0c-979d-8ae6ba7cba51)
+
+4) The database destination folder should contain files similar to what is shown in the image below
+![build_DB_4_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/c3a2be1c-1d86-4ebf-ae24-32a54377b0b5)
+
+   The swissprot database files used in this example were downloaded from the NCBI:  https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/  
+
 # **Resources:**  
 ![ncbi-logo](https://user-images.githubusercontent.com/22214754/204448800-2b846e5b-2c68-4c4e-8687-43aac8ac752e.png)      
 https://www.ncbi.nlm.nih.gov/  
