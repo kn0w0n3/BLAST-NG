@@ -71,6 +71,9 @@ Window {
         onSelectedDbFileToQml:{
             selectDBTxtEdit.text = _dbFilePath
         }
+        onSelectedDPathbForIndex:{
+            selectDbIndexTxtEdit.text = dbPathForIndex
+        }
     }
 
     Rectangle {
@@ -277,7 +280,7 @@ Window {
                 var dbText = dbSaveLocationTxt.text
                 //console.log("The db save location text is: " + dbText)
                 if(dbText === ""){
-                   // settingsTxtArea.text += "Select the location of saved databases /n"
+                    // settingsTxtArea.text += "Select the location of saved databases /n"
                 }
                 else{
                     //mainController.saveDatabaseSettings(dbText)
@@ -548,7 +551,6 @@ Window {
         }
     }
 
-
     Rectangle {
         id: buildDatabaseWin
         width: 1280
@@ -584,6 +586,16 @@ Window {
                 color: "#ffffff"
                 text: qsTr("Commands")
                 font.pointSize: 8
+            }
+
+            Text {
+                id: text1
+                x: 421
+                y: 553
+                color: "#ffffff"
+                text: qsTr("Build index for megaBLAST")
+                font.pixelSize: 12
+                font.underline: false
             }
         }
 
@@ -998,6 +1010,105 @@ Window {
                 selectByMouse: true
             }
         }
+
+        Image {
+            id: selectDBtnIndex
+            x: 338
+            y: 568
+            width: 77
+            height: 24
+            source: "images/select_db.png"
+            MouseArea {
+                id: selectDbIndexMouseArea
+                x: 0
+                y: 0
+                width: 77
+                height: 24
+                hoverEnabled: true
+                onExited: {
+                    selectDBtnIndex.width = 77
+                    selectDBtnIndex.height = 24
+                }
+                onReleased: {
+                    selectDBtnIndex.width = 80
+                    selectDBtnIndex.height = 28
+                }
+                onEntered: {
+                    selectDBtnIndex.width = 80
+                    selectDBtnIndex.height = 28
+                }
+                onPressed: {
+                    selectDBtnIndex.width = 77
+                    selectDBtnIndex.height = 24
+                }
+                onClicked: {
+                    mainController.selectDbDirForCreateIndex()
+                }
+            }
+            fillMode: Image.PreserveAspectFit
+        }
+
+        Rectangle {
+            id: selectDBIndexRect
+            x: 421
+            y: 569
+            width: 513
+            height: 21
+            visible: true
+            color: "#000000"
+            border.color: "#ffffff"
+            TextEdit {
+                id: selectDbIndexTxtEdit
+                x: 2
+                y: 2
+                width: 509
+                height: 17
+                color: "#ffffff"
+                text: qsTr("Test")
+                font.pixelSize: 11
+                clip: true
+                selectionColor: "#ffffff"
+                selectByMouse: true
+                selectedTextColor: "#000000"
+            }
+        }
+
+        Image {
+            id: startBuildIndexBtn
+            x: 416
+            y: 607
+            width: 77
+            height: 24
+            source: "images/startBtn.png"
+            fillMode: Image.PreserveAspectFit
+            MouseArea {
+                id: buildIndexMouseArea
+                x: 0
+                y: 0
+                width: 77
+                height: 24
+                onEntered: {
+                    startBuildIndexBtn.width = 80
+                    startBuildIndexBtn.height = 28
+                }
+                onReleased: {
+                    startBuildIndexBtn.width = 80
+                    startBuildIndexBtn.height = 28
+                }
+                onExited: {
+                    startBuildIndexBtn.width = 77
+                    startBuildIndexBtn.height = 24
+                }
+                hoverEnabled: true
+                onPressed: {
+                    startBuildIndexBtn.width = 77
+                    startBuildIndexBtn.height = 24
+                }
+                onClicked: {
+                    //mainController.buildDbIndex()
+                }
+            }
+        }
     }
 
 
@@ -1358,30 +1469,31 @@ Window {
             height: 67
             color: "#000000"
             border.color: "#ffffff"
+
             ScrollView {
-                id: seqInputScrollView
-                x: 2
-                y: 2
-                width: 565
-                height: 63
-                opacity: 0
-                clip: false
-                ScrollBar.vertical.position: 0
+                id: scrollView2
+                x: 3
+                y: 3
+                width: 564
+                height: 61
+
                 TextArea {
                     id: seqInputText
-                    x: -9
-                    y: -6
-                    width: 562
+                    x: 0
+                    y: 0
+                    width: 563
                     height: 63
                     color: "#ffffff"
                     text: ""
-                    font.pointSize: 10
+                    font.pointSize: 9
                     clip: true
                     selectByMouse: true
                     placeholderText: qsTr("")
                     selectionColor: "#ffffff"
                     wrapMode: Text.Wrap
                     visible: true
+                    background: Rectangle {color: "black"}
+
                 }
             }
             visible: true
@@ -2083,9 +2195,9 @@ Window {
                 if(selectMethodDropDown.currentText.trim() === "Select Method"){
                     blastOutputText.text += "Select a method before proceeding\n"
                 }
-                else if(selectedFileText.text === "" ){
-                    blastOutputText.text += "Select a sequence file before proceeding\n"
-                }
+                //else if(selectedFileText.text === "" ){
+                    //blastOutputText.text += "Select a sequence file before proceeding\n"
+                //}
                 else if(selectDBTxtEdit.text === ""){
                     blastOutputText.text += "Select a database before proceeding\n"
                 }

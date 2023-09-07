@@ -41,7 +41,7 @@ signals:
     void updateCurSavedDbPath(QString curDbPath);
     void selectedSaveToPath(QString savePath);
     void selectedDbFileToQml(QString _dbFilePath);
-
+    void selectedDPathbForIndex(QString dbPathForIndex);
 
 public slots:
     void selectAFile();
@@ -51,6 +51,7 @@ public slots:
     void selectDirSaveData();
     void selectDatabaseFile();
     void selectFileDataViewer();
+    void selectDbDirForCreateIndex();
 
     //Build database functions
     void buildDatabase(QString, QString, QString);
@@ -66,6 +67,7 @@ public slots:
     //BLASTn functions
     void startBlastN(QString, QString, QString, QString, QString, QString, QString);
     void processBlastNStdOut();
+    void processBlastNStdError();
     void saveBlastNDataToFile();
 
     //BLASTx functions
@@ -82,6 +84,8 @@ public slots:
     void startTBlastX(QString, QString, QString, QString, QString, QString, QString);
     void processtBlastxStdOut();
     void savetBlastxDataToFile();
+
+    void buildDbIndex(QString);
 
     void setDirs();
     void getMainInstructions(void);
@@ -142,6 +146,8 @@ private:
     //Variables for BLASTn data
     QByteArray bnData;
     QString blastNOutput;
+    QByteArray bnErrData;
+    QString blastNErrOutput;
 
     //Variables for BLASTx data
     QByteArray bxData;

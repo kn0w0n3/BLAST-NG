@@ -59,6 +59,12 @@ void MainController::selectFileDataViewer(){
     qDebug() << "The file path to be loaded is: " + fileInfo.filePath().trimmed();
 }
 
+void MainController::selectDbDirForCreateIndex(){
+    QString dir = QFileDialog::getExistingDirectory(Q_NULLPTR, tr("Select Directory"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString thePath = dir.trimmed();
+    emit selectedDPathbForIndex(thePath);
+}
+
 //TODO: allow user to select output directory
 //Run the NCBI makeblastdb program
 void MainController::buildDatabase(QString dbType, QString _dbName, QString _dbStoragePath){
@@ -210,6 +216,7 @@ void MainController::startBlastN(QString dbPath, QString outFormat, QString iPas
     args<< "Set-Location -Path " + ncbiToolsPath + ";"
          << "./blastn -db " + dbPath + "\\" + selectedDbName + " -query " + seqFullFilePath ;
     blast_n_Process->connect(blast_n_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastNStdOut);
+    blast_n_Process->connect(blast_n_Process, &QProcess::readyReadStandardError, this, &MainController::processBlastNStdError);
     connect(blast_n_Process, &QProcess::finished, this, &MainController::saveBlastNDataToFile);
     blast_n_Process->start("powershell", args);
 
@@ -223,10 +230,19 @@ void MainController::startBlastN(QString dbPath, QString outFormat, QString iPas
 void MainController::processBlastNStdOut(){
     bnData += blast_n_Process->readAllStandardOutput().trimmed();
     blastNOutput = QString(bnData.trimmed());
+    qDebug() << "The BLASTn STD out  data is: " + blastNOutput;
+}
+
+void MainController::processBlastNStdError(){
+
+    bnErrData += blast_n_Process->readAllStandardError().trimmed();
+    blastNErrOutput = QString(bnData.trimmed());
+    qDebug() << "The BLASTn STD ERROR  data is: " + blastNErrOutput;
 }
 
 //Save BLASTn data to file
 void MainController::saveBlastNDataToFile(){
+    qDebug() << "In SAve BLASTn data to file......";
     if(!QDir(resultsPath + selectedDbName + "\\").exists()){
     QDir().mkdir(resultsPath + selectedDbName + "\\");
     }
@@ -452,6 +468,11 @@ void MainController::savetBlastxDataToFile(){
     QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
     emit blastTimeLogData2Qml("tBLASTx Process completed at: " + dateTimeString + "\n\n");
     t_BLAST_x_Process->terminate();
+}
+
+void MainController::buildDbIndex(QString  databasePath){
+    //TODO: Run makembindex using the path provided
+
 }
 
 //The BLAST-NG, NCBI, databases and results folders are created upon installation of BLAST-NG
