@@ -40,12 +40,7 @@ https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download
 https://www.ncbi.nlm.nih.gov/books/NBK569839/  
 https://blast.ncbi.nlm.nih.gov/Blast.cgi  
 
-NCBI BLAST Executables: https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/  
-
-# **Notes:**  
-A BLAST search against a database requires at least a –query and –db option. The command:  
-
-blastn –db nt –query nt.fsa –out results.out  
+NCBI BLAST Executables: https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/   
 
 # **Work Environment:**       
 ![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
@@ -67,7 +62,12 @@ https://www.qt.io/
 3) A database build completion message will appear in the output window  
 ![build_DB_3_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/573224e0-872d-4e0c-979d-8ae6ba7cba51)
 
-4) The database destination folder should contain files similar to what is shown in the image below
+# **Notes:**  
+A BLAST search against a database requires at least a –query and –db option. The command:  
+
+blastn –db nt –query nt.fsa –out results.out 
+
+5) The database destination folder should contain files similar to what is shown in the image below
 ![build_DB_4_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/c3a2be1c-1d86-4ebf-ae24-32a54377b0b5)
 
    The swissprot database files used in this example were downloaded from the NCBI:  https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/  
