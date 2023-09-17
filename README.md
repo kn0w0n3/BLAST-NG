@@ -23,7 +23,7 @@ The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity 
 
 * Option 1: Build a custom databse using BLAST-NG.      
 
-* Option 2: Download databses manually from the NCBI and use BLAST-NG to build/format the database.  
+* Option 2: Download databases manually from the NCBI and use BLAST-NG to build/format the database.  
 https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/ 
 
 * Option 3: Use Bio Database Manager to download and automatically decompress preformatted databases from the NCBI. 
