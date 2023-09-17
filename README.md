@@ -19,12 +19,21 @@ The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity 
 
 * **tBLASTx:** Searches a nucleotide query, dynamically translated in all six frames, against a nucleotide database similarly translated    
 
-Databases are required to perform BLAST queries. Databases can be downloaded from the following link:  
+Databases are required to perform BLAST queries.
+
+Option 1: Build a custom databse using BLAST-NG.      
+
+Option 2: Download databses manually from the NCBI and use BLAST-NG to build/format the database.  
+
+Option 3: Use Bio Database Manager to download and automatically decompress preformatted databases from the NCBI.  
+
+Databases can be downloaded from the following link:  
 
 https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/  
 
-Some database files have a size greater than 300GB and could take some time to download.    
-![db](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/8ff73180-e8f6-4f8a-9a43-ba32554f5eae)    
+  
+
+Bio Daatabase manager may also be used to download and automatically decompress preformatted databses.
 
 # **Examples:**  
 ## **Ex-1 Build a Database**   
