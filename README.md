@@ -29,18 +29,7 @@ https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/
 * Option 3: Use Bio Database Manager to download and automatically decompress preformatted databases from the NCBI. 
 
 Windows Installer Download: https://github.com/kn0w0n3/Bio-Database-Manager/releases  
-![bio_database_manager_gui_8-19-23](https://github.com/kn0w0n3/Bio-Database-Manager/assets/22214754/77b58dd3-8006-4564-bb65-aa5263c71ed3)     
-   
-# **Resources:**  
-![ncbi-logo](https://user-images.githubusercontent.com/22214754/204448800-2b846e5b-2c68-4c4e-8687-43aac8ac752e.png)      
-https://www.ncbi.nlm.nih.gov/  
-https://ftp.ncbi.nlm.nih.gov/blast/db/  
-https://www.ncbi.nlm.nih.gov/home/develop/  
-https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download  
-https://www.ncbi.nlm.nih.gov/books/NBK569839/  
-https://blast.ncbi.nlm.nih.gov/Blast.cgi  
-
-NCBI BLAST Executables: https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/   
+![bio_database_manager_gui_8-19-23](https://github.com/kn0w0n3/Bio-Database-Manager/assets/22214754/77b58dd3-8006-4564-bb65-aa5263c71ed3)          
 
 # **Examples:**  
 ## **Ex-1 Build a database using FASTA files downloaded from the NCBI (swissprot).**   
@@ -57,6 +46,17 @@ NCBI BLAST Executables: https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LA
 ![build_DB_4_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/c3a2be1c-1d86-4ebf-ae24-32a54377b0b5)
 
    The swissprot database files used in this example were downloaded from the NCBI:  https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/
+
+# **Resources:**  
+![ncbi-logo](https://user-images.githubusercontent.com/22214754/204448800-2b846e5b-2c68-4c4e-8687-43aac8ac752e.png)      
+https://www.ncbi.nlm.nih.gov/  
+https://ftp.ncbi.nlm.nih.gov/blast/db/  
+https://www.ncbi.nlm.nih.gov/home/develop/  
+https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download  
+https://www.ncbi.nlm.nih.gov/books/NBK569839/  
+https://blast.ncbi.nlm.nih.gov/Blast.cgi  
+
+NCBI BLAST Executables: https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/  
    
 # **Work Environment:**       
 ![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
