@@ -42,15 +42,6 @@ https://blast.ncbi.nlm.nih.gov/Blast.cgi
 
 NCBI BLAST Executables: https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/   
 
-# **Work Environment:**       
-![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
-Qt Creator 11.0.2  
-Based on Qt 6.4.3 (MSVC 2019, x86_64)  
-Built on Aug 12 2023 01:19:23  
-From revision 7bb49b58df  
-Kit 6.5.1 MinGW 64-bit      
-https://www.qt.io/  
-
 # **Examples:**  
 ## **Ex-1 Build a database using FASTA files downloaded from the NCBI (swissprot).**   
 1) Select the build database icon    
@@ -66,6 +57,15 @@ https://www.qt.io/
 ![build_DB_4_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/c3a2be1c-1d86-4ebf-ae24-32a54377b0b5)
 
    The swissprot database files used in this example were downloaded from the NCBI:  https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/
+   
+# **Work Environment:**       
+![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
+Qt Creator 11.0.2  
+Based on Qt 6.4.3 (MSVC 2019, x86_64)  
+Built on Aug 12 2023 01:19:23  
+From revision 7bb49b58df  
+Kit 6.5.1 MinGW 64-bit      
+https://www.qt.io/  
 
 # **Notes:**  
 A BLAST search against a database requires at least a –query and –db option. The command:  
