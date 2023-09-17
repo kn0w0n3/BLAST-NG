@@ -29,24 +29,8 @@ https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/
 * Option 3: Use Bio Database Manager to download and automatically decompress preformatted databases from the NCBI. 
 
 Windows Installer Download: https://github.com/kn0w0n3/Bio-Database-Manager/releases  
-![bio_database_manager_gui_8-19-23](https://github.com/kn0w0n3/Bio-Database-Manager/assets/22214754/77b58dd3-8006-4564-bb65-aa5263c71ed3)   
+![bio_database_manager_gui_8-19-23](https://github.com/kn0w0n3/Bio-Database-Manager/assets/22214754/77b58dd3-8006-4564-bb65-aa5263c71ed3)     
    
-# **Examples:**  
-## **Ex-1 Build a database using FASTA files downloaded from the NCBI (swissprot).**   
-1) Select the build database icon    
-![build_DB_1_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/d40a2fa9-334c-4b6d-8c7f-18f19bb17982)
-
-2) Select the database files directory, type of database, name of databse, storage location of database    
-![build_DB_2_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/b0608642-f002-4891-b052-ff04a4c92da8)
-
-3) A database build completion message will appear in the output window  
-![build_DB_3_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/573224e0-872d-4e0c-979d-8ae6ba7cba51)
-
-4) The database destination folder should contain files similar to what is shown in the image below
-![build_DB_4_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/c3a2be1c-1d86-4ebf-ae24-32a54377b0b5)
-
-   The swissprot database files used in this example were downloaded from the NCBI:  https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/  
-
 # **Resources:**  
 ![ncbi-logo](https://user-images.githubusercontent.com/22214754/204448800-2b846e5b-2c68-4c4e-8687-43aac8ac752e.png)      
 https://www.ncbi.nlm.nih.gov/  
@@ -70,4 +54,20 @@ Based on Qt 6.4.3 (MSVC 2019, x86_64)
 Built on Aug 12 2023 01:19:23  
 From revision 7bb49b58df  
 Kit 6.5.1 MinGW 64-bit      
-https://www.qt.io/        
+https://www.qt.io/  
+
+# **Examples:**  
+## **Ex-1 Build a database using FASTA files downloaded from the NCBI (swissprot).**   
+1) Select the build database icon    
+![build_DB_1_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/d40a2fa9-334c-4b6d-8c7f-18f19bb17982)
+
+2) Select the database files directory, type of database, name of databse, storage location of database    
+![build_DB_2_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/b0608642-f002-4891-b052-ff04a4c92da8)
+
+3) A database build completion message will appear in the output window  
+![build_DB_3_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/573224e0-872d-4e0c-979d-8ae6ba7cba51)
+
+4) The database destination folder should contain files similar to what is shown in the image below
+![build_DB_4_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/c3a2be1c-1d86-4ebf-ae24-32a54377b0b5)
+
+   The swissprot database files used in this example were downloaded from the NCBI:  https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/  
