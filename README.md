@@ -28,7 +28,7 @@ https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/
 
 * Option 3: Use Bio Database Manager to download and automatically decompress preformatted databases from the NCBI. 
 
-Windows Installer Download: https://github.com/kn0w0n3/Bio-Database-Manager/releases  
+Bio Database Manager Windows Installer Download: https://github.com/kn0w0n3/Bio-Database-Manager/releases  
 ![bio_database_manager_gui_8-19-23](https://github.com/kn0w0n3/Bio-Database-Manager/assets/22214754/77b58dd3-8006-4564-bb65-aa5263c71ed3)          
 
 # **Examples:**  
