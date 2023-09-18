@@ -33,7 +33,7 @@ Windows Installer Download: https://github.com/kn0w0n3/Bio-Database-Manager/rele
 
 # **Examples:**  
 
-https://youtu.be/EgrcW8B15vs?si=NFAi5856Q7X1uzrX  
+<iframe width="560" height="315" src="https://www.youtube.com/embed/EgrcW8B15vs?si=bcJcquv1FrhqIZWX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>    
 
 ## **Ex-1 Build a database using FASTA files downloaded from the NCBI (swissprot).**   
 1) Select the build database icon    
