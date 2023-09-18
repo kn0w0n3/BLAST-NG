@@ -84,7 +84,7 @@ Indices can capture masking information, thereby enabling search against databas
 
 There are, however, limitations to using indexed search in blast:  
 
-Index files are about four times larger than the blast databases. If an index does not fit into computer operating memory, then the advantage of using it is eliminated.  
-Word size must be set to 16 or more in order to use an indexed search.  
-Discontiguous search is not supported.  
+* Index files are about four times larger than the blast databases. If an index does not fit into computer operating memory, then the advantage of using it is eliminated.  
+* Word size must be set to 16 or more in order to use an indexed search.  
+* Discontiguous search is not supported.  
 Reference: Morgulis A, Coulouris G, Raytselis Y, Madden TL, Agarwala R, Schäffer AA. Database Indexing for Production MegaBLAST Searches. Bioinformatics 2008, 24(16):1757-64. PMID:18567917  
