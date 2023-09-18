@@ -75,7 +75,7 @@ A BLAST search against a database requires at least a –query and –db option.
 
 blastn –db nt –query nt.fsa –out results.out  
 
-### Megablast indexed searches
+## Megablast indexed searches
 Indexing provides an alternative way to search for initial matches in nucleotide-nucleotide searches (blastn and megablast) by pre-indexing the N-mer locations in a special data structure, called a database index.  
 
 Using an index can improve search times significantly under certain conditions. It is most beneficial when the queries are much shorter than the database and works best for queries under 1 Mbases long. The advantage comes from the fact that the whole database does not have to be scanned during the search.  
