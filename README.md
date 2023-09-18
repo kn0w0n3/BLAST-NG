@@ -71,6 +71,20 @@ Kit 6.5.1 MinGW 64-bit
 https://www.qt.io/  
 
 # **Notes:**  
-A BLAST search against a database requires at least a –query and –db option. The command:  
+A BLAST search against a database requires at least a –query and –db option. Ex:    
 
 blastn –db nt –query nt.fsa –out results.out  
+
+### Megablast indexed searches
+Indexing provides an alternative way to search for initial matches in nucleotide-nucleotide searches (blastn and megablast) by pre-indexing the N-mer locations in a special data structure, called a database index.  
+
+Using an index can improve search times significantly under certain conditions. It is most beneficial when the queries are much shorter than the database and works best for queries under 1 Mbases long. The advantage comes from the fact that the whole database does not have to be scanned during the search.  
+
+Indices can capture masking information, thereby enabling search against databases masked for repeats, low complexity, etc.  
+
+There are, however, limitations to using indexed search in blast:  
+
+Index files are about four times larger than the blast databases. If an index does not fit into computer operating memory, then the advantage of using it is eliminated.  
+Word size must be set to 16 or more in order to use an indexed search.  
+Discontiguous search is not supported.  
+Reference: Morgulis A, Coulouris G, Raytselis Y, Madden TL, Agarwala R, Schäffer AA. Database Indexing for Production MegaBLAST Searches. Bioinformatics 2008, 24(16):1757-64. PMID:18567917  
