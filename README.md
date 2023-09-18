@@ -32,6 +32,9 @@ Windows Installer Download: https://github.com/kn0w0n3/Bio-Database-Manager/rele
 ![bio_database_manager_gui_8-19-23](https://github.com/kn0w0n3/Bio-Database-Manager/assets/22214754/77b58dd3-8006-4564-bb65-aa5263c71ed3)          
 
 # **Examples:**  
+
+https://youtu.be/EgrcW8B15vs?si=NFAi5856Q7X1uzrX  
+
 ## **Ex-1 Build a database using FASTA files downloaded from the NCBI (swissprot).**   
 1) Select the build database icon    
 ![build_DB_1_A](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/d40a2fa9-334c-4b6d-8c7f-18f19bb17982)
