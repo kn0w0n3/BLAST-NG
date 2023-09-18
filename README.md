@@ -60,16 +60,7 @@ https://www.ncbi.nlm.nih.gov/books/NBK569839/
 https://blast.ncbi.nlm.nih.gov/Blast.cgi  
 
 NCBI BLAST Executables: https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/  
-   
-# **Work Environment:**       
-![QtLogo](https://user-images.githubusercontent.com/22214754/179895211-d52559ab-35df-4fcc-bf69-7377739330d4.png)    
-Qt Creator 11.0.2  
-Based on Qt 6.4.3 (MSVC 2019, x86_64)  
-Built on Aug 12 2023 01:19:23  
-From revision 7bb49b58df  
-Kit 6.5.1 MinGW 64-bit      
-https://www.qt.io/  
-
+     
 # **Notes:**  
 A BLAST search against a database requires at least a –query and –db option. Ex:    
 
