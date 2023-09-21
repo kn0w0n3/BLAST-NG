@@ -22,7 +22,7 @@ void MainController::selectAFile2(){
     seqFullFilePath = fileInfo.filePath().trimmed();
 }
 
-//Select directory for storage of databases - future implementation
+//Select directory for storage of databases
 void MainController::selectDirectory(){
     QString dir = QFileDialog::getExistingDirectory(Q_NULLPTR, tr("Select Directory"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     s_SelectedDirectory = dir.trimmed();
@@ -60,9 +60,17 @@ void MainController::selectFileDataViewer(){
 }
 
 void MainController::selectDbDirForCreateIndex(){
-    QString dir = QFileDialog::getExistingDirectory(Q_NULLPTR, tr("Select Directory"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-    QString thePath = dir.trimmed();
-    emit selectedDPathbForIndex(thePath);
+    //QString dir = QFileDialog::getExistingDirectory(Q_NULLPTR, tr("Select Directory"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    //QString thePath = dir.trimmed();
+    //emit selectedDPathbForIndex(thePath);
+
+    dbToIndexFile = QFileDialog::getOpenFileName(Q_NULLPTR, tr("Select File"), "/home");
+    QFileInfo fileInfo(dbToIndexFile);
+    fNameForIndex = fileInfo.fileName().trimmed();
+    QString fnameAndPath = fileInfo.filePath().trimmed();
+    dbToIndexPathOnly = fileInfo.path();
+    emit selectedDPathbForIndex(fnameAndPath);
+    qDebug() << "The file path only for makedb index is: " + dbToIndexPathOnly;
 }
 
 //TODO: allow user to select output directory
@@ -111,11 +119,7 @@ void MainController::dbDoneResultsToQml(){
 
 //Start the NCBI BLASTp program
 void MainController::startBlastP(QString dbPath, QString outFormat, QString iPastedSequence, QString jobTitle, QString fSubrange, QString tSubrange, QString saveLocation){
-    //QString splitter = "/";
-    //QStringList pieces = dbPath.split("/");
 
-    //long num = dbPath.lastIndexOf(splitter);
-    //selectedDbName = pieces.at(num);
     auto parts = dbPath.split(u'/');
     selectedDbName = parts.last();
     qDebug() << "The db file name should be: " + selectedDbName;
@@ -127,9 +131,18 @@ void MainController::startBlastP(QString dbPath, QString outFormat, QString iPas
 
     //Use pasted sequence<-----
     if(!pastedSequence.isEmpty()){
+        //Save the data to a temp file first
+        QString tempFile = "C:/BLAST-NG/temp/temp.fasta";
+        QFile file(tempFile);
+        //file.remove();
+        if (file.open((QIODevice::ReadWrite | QIODevice::Truncate | QIODevice::Text))) {
+            QTextStream stream(&file);
+            stream << pastedSequence;
+        }
+
     QStringList args;
     args << "Set-Location -Path " + ncbiToolsPath + ";"
-         << "./blastp -db " + dbPath + "\\" + selectedDbName + " -query " + pastedSequence;
+         << "./blastp -db " + dbPath + "\\" + selectedDbName + " -query " + tempFile;
     blast_p_Process->connect(blast_p_Process, &QProcess::readyReadStandardOutput, this, &MainController::processBlastPStdOut);
     connect(blast_p_Process, &QProcess::finished, this, &MainController::saveBlastPDataToFile);
     blast_p_Process->start("powershell", args);
@@ -470,19 +483,12 @@ void MainController::savetBlastxDataToFile(){
     t_BLAST_x_Process->terminate();
 }
 
-void MainController::buildDbIndex(QString  databasePath){
-    //TODO: Run makembindex using the path provided
 
-}
 
-//The BLAST-NG, NCBI, databases and results folders are created upon installation of BLAST-NG
-//Set Directories. This is being called from a component in QML
+//Set directory
 void MainController::setDirs(){
     //docsFolder = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-    ncbiToolsPath = "C:/BLAST-NG/NCBI/";
-    //databasesPath = "C:/BLAST-NG/databases/";
-    //resultsPath = "C:/BLAST-NG/results/";
-    //getSavedDatabases();
+    //ncbiToolsPath = "C:/BLAST-NG/NCBI/";
 }
 
 //Display the main window instructions
@@ -530,4 +536,34 @@ void MainController::loadDataFile(QString selectedFile){
 }
 
 
+void MainController::buildDbIndex(QString  databasePath){
+    //TODO: Run makembindex using the path provided
+    qDebug() << "The file path for makedb index  from QML is: " + databasePath;
 
+    //move the mbindex file to the db folder for now
+    _builDbIndexProcess = new QProcess();
+    QStringList args;
+    args << "Set-Location -Path " + dbToIndexPathOnly + ";"
+         << "Copy-Item C:/BLAST-NG/NCBI/makembindex.exe -Destination " +  dbToIndexPathOnly + ";"
+         << "./makembindex -input " + databasePath + " -output " + databasePath + "/" + fNameForIndex;
+
+    _builDbIndexProcess->connect(_builDbIndexProcess, &QProcess::readyReadStandardError, this, &MainController::createDbIndexStdOut);
+    connect(_builDbIndexProcess, &QProcess::finished, this, &MainController::createDbIndexStatus);
+    _builDbIndexProcess->start("powershell", args);
+
+    //QDateTime dateTime = dateTime.currentDateTime();
+    //QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
+    //emit createDbIndexStatus("Build database index process started at: " + dateTimeString + "\n\n");
+}
+
+void MainController::createDbIndexStdOut(){
+
+    qDebug() << "Make db index std err out is" + _builDbIndexProcess->readAllStandardError().toStdString();
+}
+
+void MainController::createDbIndexStatus(){
+      //QDateTime dateTime = dateTime.currentDateTime();
+      //QString dateTimeString = dateTime.toString("yyyy-MM-dd h:mm:ss ap");
+      //emit blastTimeLogData2Qml("Build database index process completed at: " + dateTimeString + "\n\n");
+    qDebug() << "Make db index done" ;
+}

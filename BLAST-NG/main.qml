@@ -74,6 +74,9 @@ Window {
         onSelectedDPathbForIndex:{
             selectDbIndexTxtEdit.text = dbPathForIndex
         }
+        onCreateDbIndexStatus:{
+            buildDbOutputText.text += responseData
+        }
     }
 
     Rectangle {
@@ -1064,7 +1067,7 @@ Window {
                 width: 509
                 height: 17
                 color: "#ffffff"
-                text: qsTr("Test")
+                text: qsTr("")
                 font.pixelSize: 11
                 clip: true
                 selectionColor: "#ffffff"
@@ -1105,7 +1108,7 @@ Window {
                     startBuildIndexBtn.height = 24
                 }
                 onClicked: {
-                    //mainController.buildDbIndex()
+                    mainController.buildDbIndex(selectDbIndexTxtEdit.text)
                 }
             }
         }

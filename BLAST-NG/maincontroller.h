@@ -42,6 +42,7 @@ signals:
     void selectedSaveToPath(QString savePath);
     void selectedDbFileToQml(QString _dbFilePath);
     void selectedDPathbForIndex(QString dbPathForIndex);
+    void _createDbIndexStatus(QString responseData);
 
 public slots:
     void selectAFile();
@@ -85,13 +86,17 @@ public slots:
     void processtBlastxStdOut();
     void savetBlastxDataToFile();
 
-    void buildDbIndex(QString);
+
 
     void setDirs();
     void getMainInstructions(void);
     void getDbInstructions(void);
 
     void loadDataFile(QString);
+
+    void buildDbIndex(QString);
+    void createDbIndexStdOut();
+    void createDbIndexStatus();
 
 
 
@@ -114,7 +119,7 @@ private:
     QString seqFullFilePath = "";
 
     QString myDocumentsPath = "";
-    QString ncbiToolsPath = "";
+    QString ncbiToolsPath =  "C:/BLAST-NG/NCBI/";
     QString databasesPath = "";
     QString resultsPath = "";
 
@@ -138,6 +143,7 @@ private:
     QProcess *t_BLAST_n_Process;
     QProcess *t_BLAST_x_Process;
     QProcess *buildDBProcess;
+    QProcess *_builDbIndexProcess;
 
     //Variables for BLASTp data
     QByteArray bpData;
@@ -182,5 +188,8 @@ private:
 
     QString curSavedDbPath = "";
     QString selectedDataViewerFile = "";
+    QString dbToIndexFile = "";
+    QString dbToIndexPathOnly = "";
+    QString fNameForIndex = "";
 };
 #endif // MAINCONTROLLER_H
