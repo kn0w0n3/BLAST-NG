@@ -33,7 +33,7 @@ Bio Database Manager Windows Installer Download: https://github.com/kn0w0n3/Bio-
 
 # **Examples:**  
 
-YouTube Tutorials: https://youtu.be/EgrcW8B15vs?si=T19oF8IMIrzv8d8O  
+YouTube Tutorials: https://youtu.be/qsfZ0KjK7kI?si=B118q-QLYmKFzle0  
 
 ## **Ex-1 Build a database using FASTA files downloaded from the NCBI (swissprot).**   
 1) Select the build database icon    
