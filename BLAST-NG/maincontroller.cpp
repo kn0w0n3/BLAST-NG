@@ -558,7 +558,7 @@ void MainController::buildDbIndex(QString  databasePath){
 
 void MainController::createDbIndexStdOut(){
 
-    qDebug() << "Make db index std err out is" + _builDbIndexProcess->readAllStandardError().toStdString();
+    //qDebug() << "Make db index std err out is" + _builDbIndexProcess->readAllStandardError().toStdString();
 }
 
 void MainController::createDbIndexStatus(){

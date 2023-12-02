@@ -104,12 +104,12 @@ Window {
             height: 24
             visible: false
             onEntered: {
-                dbSelectDirBtn.width = 79
-                dbSelectDirBtn.height = 26
+                //dbSelectDirBtn.width = 79
+                //dbSelectDirBtn.height = 26
             }
             onExited: {
-                dbSelectDirBtn.width = 77
-                dbSelectDirBtn.height = 24
+                //dbSelectDirBtn.width = 77
+                //dbSelectDirBtn.height = 24
             }
             onClicked: {
                 mainController.settingsSelectDir()
@@ -1108,7 +1108,13 @@ Window {
                     startBuildIndexBtn.height = 24
                 }
                 onClicked: {
-                    mainController.buildDbIndex(selectDbIndexTxtEdit.text)
+
+                    if(selectDbIndexTxtEdit.text === ""){
+                        buildDbOutputText.text += "Select a databse to build an index before proceeding"
+                    }else{
+                        buildDbOutputText.clear();
+                        mainController.buildDbIndex(selectDbIndexTxtEdit.text)
+                    }
                 }
             }
         }
