@@ -33,7 +33,7 @@ Bio Database Manager Windows Installer Download: https://github.com/kn0w0n3/Bio-
 
 # **Examples:**  
 
-YouTube Tutorials: https://youtu.be/EgrcW8B15vs?si=T19oF8IMIrzv8d8O  
+YouTube Tutorials: https://youtu.be/qsfZ0KjK7kI?si=B118q-QLYmKFzle0  
 
 ## **Ex-1 Build a database using FASTA files downloaded from the NCBI (swissprot).**   
 1) Select the build database icon    
@@ -78,4 +78,8 @@ There are, however, limitations to using indexed search in blast:
 * Index files are about four times larger than the blast databases. If an index does not fit into computer operating memory, then the advantage of using it is eliminated.  
 * Word size must be set to 16 or more in order to use an indexed search.  
 * Discontiguous search is not supported.  
-Reference: Morgulis A, Coulouris G, Raytselis Y, Madden TL, Agarwala R, Schäffer AA. Database Indexing for Production MegaBLAST Searches. Bioinformatics 2008, 24(16):1757-64. PMID:18567917  
+Reference: Morgulis A, Coulouris G, Raytselis Y, Madden TL, Agarwala R, Schäffer AA. Database Indexing for Production MegaBLAST Searches. Bioinformatics 2008, 24(16):1757-64. PMID:18567917
+
+# **Work Environment:**  
+Last Update: 11-23-23  
+![Qt_Creator_Version](https://github.com/kn0w0n3/BLAST-NG/assets/22214754/56f995e3-a7c6-4a01-9933-8c2e7279a3b3)  
